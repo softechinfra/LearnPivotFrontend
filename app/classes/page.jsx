@@ -11,7 +11,11 @@ import Enquiry from "@/app/Components/Enquiry/Enquiry";
 
 function Events() {
     const [tabValue,setTabValue]= useState(0);
-    const [events] = useState([{eventStatus:"Upcoming Events",id:"upcoming", events:[{month:"February 2024",img:"https://www.ecsforseniors.org/cdn-cgi/image/format=auto/wp-content/uploads/2023/03/1.1_CAN_photo.jpg",timing:"February 21, 2024 @ 10:00AM to 12 Noon",title:"Meet and Greet at the Gateway.",subTitle:"Grand Opening Meet and Greet.",_id:"541564515545451"}]}])
+    const [events] = useState([{eventStatus:"Upcoming Classes",id:"upcoming", events:[{month:"February 2024",
+    img:"https://img.freepik.com/free-vector/flat-design-english-school-background_23-2149485957.jpg?w=900&t=st=1706446104~exp=1706446704~hmac=1793f247f123d53401121af165d35788ac318e724b2ed7485971e8e773ae2044",     timing: "February 21, 2024 @ 10:00AM to 12 Noon",
+    title: "Mastering English Grammar",
+    subTitle: "Join our comprehensive session on mastering English grammar rules and usage.",
+    _id: "541564515545451",_id:"541564515545451"}]}])
     const router = useRouter();
     return (
     <main style={{backgroundColor:"#fff"}}>
@@ -47,7 +51,7 @@ function Events() {
                  <span style={{flexGrow:0.1}}/>
                 <button className="viewBtn">View Details</button>
                 <span style={{flexGrow:0.1}}/>
-                    {e.eventStatus ==="Upcoming Events" && <button className="viewBtn">Register</button>} 
+                     <button className="viewBtn">Register</button>
                  </div>
                  </Grid>
                  </Grid> 
