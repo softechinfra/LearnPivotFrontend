@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Enquiry from "@/app/Components/Enquiry/Enquiry";
 import OneClass from "../Components/PublicPage/Classes/OneClass";
+import FilterComponent from "../Components/PublicPage/Classes/FilterComponent";
 
 function Events() {
   const [tabValue, setTabValue] = useState(0);
@@ -56,24 +57,22 @@ function Events() {
           {events &&
             events.map((e, i) => (
               <Grid item id={e.id} key={i} xs={12}>
-                <Typography
-                  color="#082952"
-                  gutterBottom
-                  sx={{
-                    fontSize: { xs: "24px", md: "32px" },
-                    lineHeight: "60px",
-                    marginTop: "1px",
-                    fontFamily: "AdequateLight,Helvetica Neue,Helvetica,\"sans-serif\"",
-                  }}
-                >
-                  {e.eventStatus}
-                </Typography>
-                {e?.events &&
+           
+                <Grid container spacing={3}>
+      <Grid item xs={2}>
+        <FilterComponent />
+      </Grid>
+      
+      {/* You mentioned you already have the product placement component, so I'm leaving this part empty */}
+      <Grid item xs={10}>
+      {e?.events &&
                   e?.events.map((p, j) => (
-      //  <img src={p.img} className="creativeImg" alt={p.title} />
 
                     <OneClass  key={j} img={p.img} title={p.title} timing={p.timing} subTitle={p.subTitle} />
                   ))}
+      </Grid>
+    </Grid>
+        
               </Grid>
             ))}
         </Grid>
