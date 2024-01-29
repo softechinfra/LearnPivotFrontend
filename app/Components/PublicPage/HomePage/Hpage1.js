@@ -52,7 +52,7 @@ const Hpage1 = () => {
           </ul>
         </Grid>
         <Grid item xs={12}>
-          <Divider sx={{ marginTop: "30px" }} />
+          <Divider sx={{ marginTop: "5px" }} />
         </Grid>
       </Grid>
       <br />
