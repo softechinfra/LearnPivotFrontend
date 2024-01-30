@@ -1,18 +1,23 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import Header from "../Components/Header1/Header";
 import "./classes.css";
 import { Container, Typography, Grid, Breadcrumbs, Divider, Tabs, Tab } from "@mui/material";
-import Footer, { NewFooter } from "../Components/Footer/Footer";
+import Footer from "../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Enquiry from "@/app/Components/Enquiry/Enquiry";
 import OneClass from "../Components/PublicPage/Classes/OneClass";
-import FilterComponent from "../Components/PublicPage/Classes/FilterComponent";
+import FilterComponent from "../Components/PublicPage/Classes/FilterComponent"; 
+import FilterDialog from "../Components/PublicPage/Classes/FilterDialog"; 
+import { Dialog, useMediaQuery, useTheme, Button, DialogActions, DialogContent } from "@mui/material";
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 function Events() {
-  const [tabValue, setTabValue] = useState(0);
-
   const [events] = useState([
     
         {
@@ -25,34 +30,41 @@ function Events() {
         },
      
   ]);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const [open, setOpen] = React.useState(false);
 
-  const router = useRouter();
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  const handleTabChange = (event, value) => {
-    setTabValue(value);
-    const target = value === 0 ? "#upcoming" : "#past";
-    router.push(target);
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
     <main style={{ backgroundColor: "#fff" }}>
       <Header />
-      {/* Consider whether you need the TopAbstract component here */}
+
       <br />
       <Container>
-      <Grid container spacing={3}>
-      <Grid item xs={2}>
+        <Grid container spacing={3}>
+        {fullScreen? (
+       
+        <FilterDialog />
+     
+      ):(
+        <Grid item xs={2}>
         <FilterComponent />
       </Grid>
-      
-      <Grid item xs={10}>
-      {events &&
-                  events.map((p, j) => (
-
-                    <OneClass  key={j} img={p.img} title={p.title} timing={p.timing} subTitle={p.subTitle} />
-                  ))}
-      </Grid>
-    </Grid>
+      )}
+          <Grid item xs={fullScreen ? 12 : 10}>
+            {events &&
+              events.map((p, j) => (
+                <OneClass key={j} img={p.img} title={p.title} timing={p.timing} subTitle={p.subTitle} />
+              ))}
+          </Grid>
+        </Grid>
       </Container>
       <Enquiry />
       <Footer />
