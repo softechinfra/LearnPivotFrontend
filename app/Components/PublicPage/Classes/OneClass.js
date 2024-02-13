@@ -1,30 +1,77 @@
-import { Divider, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
+const OneClass = ({ data }) => {
 
 
-const OneClass = ({key, img,title,timing,subTitle}) => {
-  return (  <Grid container  key={key} spacing={4}>
-    <Grid item xs={12} md={4}>
-       <img src={img} className="creativeImg" alt={title} />
+
+  return (
+    <Grid container key={data._id} spacing={4}>
+      <Grid item xs={12} md={4}>
+        <img
+          src={data.img}
+          className="creativeImg"
+          alt="image"
+        />
+      </Grid>
+      <Grid item xs={12} md={8}>
+        <Typography
+          color="#082952"
+          gutterBottom
+          sx={{
+            fontSize: { xs: "18px", md: "20px" },
+            fontWeight: 600,
+            lineHeight: "20px", // reduced the line height
+            fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
+          }}
+        >
+         {data.title}
+        </Typography>
+        <Typography
+          color="#082952"
+          gutterBottom
+          sx={{
+            fontSize: { xs: "12px", md: "15px" },
+            fontWeight: 200,
+            fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
+          }}
+        >
+          {data.timing}
+        </Typography>
+        <Typography
+          color="#333"
+          sx={{
+            fontFamily: "acumin-pro, sans-serif",
+            fontWeight: 100,
+            fontSize: { xs: "11px", md: "14px" },
+            lineHeight: "1.8rem",
+          }}
+        >
+        {data.description}
+          <div style={{ display: "flex", marginTop: "10px" }}>
+            {data.tags.map((tag, index) => (
+              <Chip
+                key={index}
+                label={`${tag.name}: ${tag.value}`}
+                color="primary"
+                variant="contained"
+                sx={{ marginRight: "8px" }}
+              />
+            ))}
+          </div>
+        </Typography>
+        <br />
+        <div style={{ display: "flex" }}>
+          <button className="viewBtn">Quick Register</button>
+          <span style={{ flexGrow: 0.1 }} />
+          <button className="viewBtn">View Details</button>
+
+        </div>
+      </Grid>
+      <Grid item xs={12}>
+        <Divider sx={{ marginTop: "-20px", marginBottom:"15px" }} />
+      </Grid>
     </Grid>
-    <Grid item xs={12} md={8}>
-  <Typography color="#082952" gutterBottom sx={{fontSize:{xs:"18px",md:"20px"},fontWeight:600, lineHeight:"60px", fontFamily: "Adequate,Helvetica Neue,Helvetica,\"sans-serif\""}}>{title}</Typography>
-  <Typography color="#082952" gutterBottom sx={{fontSize:{xs:"18px",md:"20px"},fontWeight:400, fontFamily: "Adequate,Helvetica Neue,Helvetica,\"sans-serif\""}}>{timing}</Typography>
-    <Typography color="#333" sx={{fontFamily:"acumin-pro,\"sans-serif\"",fontWeight:100,fontSize:"1.3rem",lineHeight:"1.8rem"}}>
-    {subTitle}
-    </Typography>
-    <br/>
-    <div style={{display:"flex"}}>
-    <span style={{flexGrow:0.1}}/>
-   <button className="viewBtn">View Details</button>
-   <span style={{flexGrow:0.1}}/>
-        <button className="viewBtn">Register</button>
-    </div>
-    </Grid>
-    <Divider sx={{ marginTop: "5px" }} />
+  );
+};
 
-    </Grid> )
-
-}
-
-export default OneClass
+export default OneClass;

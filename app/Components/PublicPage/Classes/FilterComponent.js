@@ -33,16 +33,16 @@ const FilterComponent = () => {
       {filterData && 
         filterData.map((e, j) => (
           <>
-            <h3 key={j}><strong>{e.title}</strong></h3>
-            <FormGroup>
-              {e?.tags?.map((i, k) => (
-                <FormControlLabel
-                  key={k}
-                  control={<Checkbox name={i.id} />}
-                  label={i.label}
-                />
-              ))}
-            </FormGroup>
+        <h3 key={j} style={{ color:"#082952", fontFamily: "Adequate,Helvetica Neue,Helvetica,\"sans-serif\"" }}><strong>{e.title}</strong></h3>
+<FormGroup>
+  {e?.tags?.map((i, k) => (
+    <FormControlLabel
+      key={k}
+      control={<Checkbox name={i.id} style={{ color: '#333' }} />}
+      label={<span style={{ color:"#082952" }}>{i.label}</span>}
+    />
+  ))}
+</FormGroup>
           </>
         ))}
     </>

@@ -21,12 +21,28 @@ function Events() {
   const [events] = useState([
     
         {
-          month: "February 2024",
-          img: "https://img.freepik.com/free-vector/flat-design-english-school-background_23-2149485957.jpg?w=900&t=st=1706446104~exp=1706446704~hmac=1793f247f123d53401121af165d35788ac318e724b2ed7485971e8e773ae2044",
-          timing: "February 21, 2024 @ 10:00AM to 12 Noon",
-          title: "Mastering English Grammar",
-          subTitle: "Join our comprehensive session on mastering English grammar rules and usage.",
           _id: "541564515545451",
+          title: "Mastering English Grammar",
+          timing: "February 21, 2024 @ 10:00AM to 12 Noon",
+          description: "Join our comprehensive session on mastering English grammar rules and usage.",
+          img: "https://img.freepik.com/free-vector/flat-design-english-school-background_23-2149485957.jpg?w=900&t=st=1706446104~exp=1706446704~hmac=1793f247f123d53401121af165d35788ac318e724b2ed7485971e8e773ae2044",
+          tags:[
+            { name: "Class", value: "4", type: "class" },
+            { name: "Type", value: "Full Course", type: "type" },
+            { name: "Duration", value: "3 Month", type: "duration" },
+          ]
+        },
+        {
+          _id: "54156453456431",
+          title: "Fundamental Mathmatics",
+          timing: "March 01, 2024 @ 11:00AM to 12 Noon",
+          description: "Join our comprehensive session on mastering English grammar rules and usage.",
+          img: "https://lawshule.co.ke/wp-content/uploads/2022/08/mathematics-word-illustration-stem-science-technology-engineering-education-concept-typography-design-kid-87906806.jpg",
+          tags:[
+            { name: "Class", value: "5", type: "class" },
+            { name: "Type", value: "Full Course", type: "type" },
+            { name: "Duration", value: "1 Year", type: "duration" },
+          ]
         },
      
   ]);
@@ -61,7 +77,7 @@ function Events() {
           <Grid item xs={fullScreen ? 12 : 10}>
             {events &&
               events.map((p, j) => (
-                <OneClass key={j} img={p.img} title={p.title} timing={p.timing} subTitle={p.subTitle} />
+                <OneClass data={p} />
               ))}
           </Grid>
         </Grid>
