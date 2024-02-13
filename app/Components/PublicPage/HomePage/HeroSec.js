@@ -15,7 +15,7 @@ const HeroSec = () => {
                 <Typography color="#073f85" variant="h5">
                   Dive into a world of knowledge with our vast array of learning resources. Whether you're a beginner or an expert, we have something for everyone. Explore new topics, sharpen your skills, and broaden your horizons. Let's embark on this journey of learning together.
                 </Typography>
-                <Box sx={{ display: 'flex', gap: '1rem', marginTop: '2rem',marginBottom: '4rem' }}>
+                <Box sx={{ display: 'flex', gap: '1rem', marginTop: '2rem',marginBottom: '2rem' }}>
                   <Button size="large" variant="contained">Classes</Button>
                   <Button size="large" variant="outlined">Test</Button>
                 </Box>
