@@ -80,7 +80,7 @@ const DrawerData = ({ open, setMobileOpen }) => {
     {
       title: "Filter Tags",
       active: false,
-      link: "/dashboard/master/filtertag",
+      link: "/dashboard/filtertag",
       icon: <FcFlowChart />,
     },
     {
