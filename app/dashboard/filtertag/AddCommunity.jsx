@@ -119,7 +119,7 @@ const handleCommunity = async ()=>{
   return (
     <section>
         <Dialog maxWidth="md" open={comDialog.open}>
-        <DialogTitle>Community Details :-</DialogTitle>
+        <DialogTitle>Filter Names :-</DialogTitle>
         <DialogContent>
         <Grid container spacing={2}>
         <Grid item xs={12} md={4}>

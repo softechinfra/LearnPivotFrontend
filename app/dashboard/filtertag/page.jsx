@@ -204,9 +204,9 @@ function BuildingLayout() {
     </Grid>
     <Grid item xs={12}>
     <Breadcrumbs separator={<FcNext fontSize="small" />} aria-label="breadcrumb">
-    <Typography variant="caption" color="teal" className='headingText'>My Community</Typography>
+    <Typography variant="caption" color="teal" className='headingText'>Filter Names</Typography>
     <Button variant="outlined" onClick={()=>setComDialog({open:true,_id:""})} size="small" startIcon={<FcHome />}>
-            Add New Community
+            Add FILTER NAME
           </Button>
     </Breadcrumbs>
     </Grid>
