@@ -193,7 +193,7 @@ const handleCommunity = async ()=>{
         <DialogActions>
         <Button onClick={()=> handleClear("")}  color="inherit">Clear</Button><span style={{flexGrow:0.4}}/>
         <Button onClick={()=> {handleClear("");setComDialog()}} color="error">Close</Button><span style={{flexGrow:0.4}}/>
-        <Button onClick={()=> handleCommunity()} disabled={loadingCom} variant="contained">{comDialog?._id ? "Update Community" : "Add Community"}</Button>
+        <Button onClick={()=> handleCommunity()} disabled={loadingCom} variant="contained">{comDialog?._id ? "Update Filter Name" : "Add Filter Name"}</Button>
         </DialogActions>
         </Dialog>
         <MySnackbar ref={snackRef} />
