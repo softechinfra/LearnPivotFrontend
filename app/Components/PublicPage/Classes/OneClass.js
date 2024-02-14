@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
+import BuyDialog from "../BuyForm/BuyDialog";
 const OneClass = ({ data }) => {
 
 
@@ -61,10 +62,9 @@ const OneClass = ({ data }) => {
         </Typography>
         <br />
         <div style={{ display: "flex" }}>
-          <button className="viewBtn">Quick Register</button>
+        <BuyDialog />
           <span style={{ flexGrow: 0.1 }} />
           <button className="viewBtn">View Details</button>
-
         </div>
       </Grid>
       <Grid item xs={12}>
