@@ -141,7 +141,7 @@ function BuildingLayout() {
               let y = confirm(`Are you sure to Permanently Delete : ${b.communityName} ?`)
               if(y){
                 try {
-                  let res = await prospectService.deleteLeave(`api/v1/main/community/addCommunity/deleteOne/${b._id}`);
+                  let res = await prospectService.deleteLeave(`api/v1/publicMaster/filterTag/addFilterTag/deleteOne/${b._id}`);
                   if(res.variant ==="success"){
                     snackRef.current.handleSnack(res);
                     getcommunity()

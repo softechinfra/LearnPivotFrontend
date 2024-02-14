@@ -108,7 +108,7 @@ function AddCommunity({comDialog,setComDialog}) {
 const handleCommunity = async ()=>{
     let comData = {communityName,licenseNumber,buildingNumber,communityMobileNumber,communityAddress,communityZipCode,communityCity,communityState,licenseeName,licenseeMobileNumber,licenseeAddress,licenseeZipCode,licenseeCity,licenseeState}
     setLoadingCom(true);
-    let response = await ledgerService.saveLedger(`api/v1/main/community/addCommunity`, comDialog._id, comData);
+    let response = await ledgerService.saveLedger(`/api/v1/publicMaster/filterTag/addFilterTag`, comDialog._id, comData);
     if(response.variant === "success"){
         setLoadingCom(false);
         snackRef.current.handleSnack(response);
