@@ -1,11 +1,11 @@
 'use client'; 
 import React, { useState,useEffect,useRef } from 'react';
 import {Grid,IconButton,TextField,Button,CircularProgress, Dialog,DialogTitle,DialogContent,DialogActions,InputAdornment } from '@mui/material/';
-import {allStates} from "../../../Components/StaticData";
+import {allStates} from "../../Components/StaticData";
 import {FcSearch} from "react-icons/fc";
 import Autocomplete from '@mui/material/Autocomplete';
-import MySnackbar from "../../../Components/MySnackbar/MySnackbar";
-import { ledgerService } from "../../../services";
+import MySnackbar from "../../Components/MySnackbar/MySnackbar";
+import { ledgerService } from "../../services";
 
 import axios from 'axios';
 

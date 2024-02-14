@@ -78,6 +78,12 @@ const DrawerData = ({ open, setMobileOpen }) => {
       icon: <FcConferenceCall />,
     },
     {
+      title: "Filter Tags",
+      active: false,
+      link: "/dashboard/master/filtertag",
+      icon: <FcFlowChart />,
+    },
+    {
       title: "Payment",
       active: false,
       link: "/dashboard/payment",
@@ -149,12 +155,7 @@ const DrawerData = ({ open, setMobileOpen }) => {
       link: "/dashboard/master/prospectsource",
       icon: <FcAdvertising />,
     },
-    {
-      title: "Create Building Layout",
-      active: false,
-      link: "/dashboard/master/buildinglayout",
-      icon: <FcFlowChart />,
-    },
+
   ]);
   const handleLink = (v, n, Ar) => {
     if (Ar === "Ar1") {

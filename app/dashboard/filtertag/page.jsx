@@ -4,8 +4,8 @@ import React, { useState,useEffect,useRef,lazy, Suspense} from 'react'
 import {Grid,Typography,IconButton,TextField,Button,Breadcrumbs,ButtonGroup, Input, List,ListSubheader,ListItemButton,ListItemText, CircularProgress, Dialog,DialogTitle,DialogContent,DialogActions,InputAdornment } from '@mui/material/';
 import { FcCheckmark,FcHome,FcFullTrash,FcNext, FcTemplate } from "react-icons/fc";
 import {MdEditNote} from "react-icons/md";
-import MySnackbar from "../../../Components/MySnackbar/MySnackbar";
-import { prospectService } from "../../../services";
+import MySnackbar from "../../Components/MySnackbar/MySnackbar";
+import { prospectService } from "../../services";
 import clsx from 'clsx';
 
 const AddCommunity = lazy(() => import("./AddCommunity"));
