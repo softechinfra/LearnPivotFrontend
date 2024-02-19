@@ -77,30 +77,42 @@ const DrawerData = ({ open, setMobileOpen }) => {
       link: "/dashboard/prospect",
       icon: <FcConferenceCall />,
     },
-    {
-      title: "Filter Tags",
+    // {
+    //   title: "Filter Tags",
+    //   active: false,
+    //   link: "/dashboard/filtertag",
+    //   icon: <FcFlowChart />,
+    // },
+    // {
+    //   title: "Payment",
+    //   active: false,
+    //   link: "/dashboard/payment",
+    //   icon: <FcRightUp />,
+    //   hide: !canAccess("Payment", "view"),
+    // },
+    // {
+    //   title: "Receipt",
+    //   active: false,
+    //   link: "/dashboard/receipt",
+    //   icon: <FcLeftDown />,
+    // },
+    // {
+    //   title: "All Tasks",
+    //   active: false,
+    //   link: "/dashboard/task",
+    //   icon: <FcTodoList />,
+    // },
+        {
+      title: "All Classes",
       active: false,
-      link: "/dashboard/filtertag",
+      link: "/dashboard/class",
+      icon: <FcPlus />,
+    },
+    {
+      title: "Mock Test",
+      active: false,
+      link: "/dashboard/mockTest",
       icon: <FcFlowChart />,
-    },
-    {
-      title: "Payment",
-      active: false,
-      link: "/dashboard/payment",
-      icon: <FcRightUp />,
-      hide: !canAccess("Payment", "view"),
-    },
-    {
-      title: "Receipt",
-      active: false,
-      link: "/dashboard/receipt",
-      icon: <FcLeftDown />,
-    },
-    {
-      title: "All Tasks",
-      active: false,
-      link: "/dashboard/task",
-      icon: <FcTodoList />,
     },
     {
       title: "All Notes",
@@ -108,12 +120,12 @@ const DrawerData = ({ open, setMobileOpen }) => {
       link: "/dashboard/notes",
       icon: <FcInspection />,
     },
-    {
-      title: "Employee",
-      active: false,
-      link: "/dashboard/employee",
-      icon: <FcBusinessman />,
-    },
+    // {
+    //   title: "Employee",
+    //   active: false,
+    //   link: "/dashboard/employee",
+    //   icon: <FcBusinessman />,
+    // },
 
   ]);
   const [reports, setReports] = useState([
@@ -137,18 +149,18 @@ const DrawerData = ({ open, setMobileOpen }) => {
     },
   ]);
   const [masterList, setMasterList] = useState([
-    {
-      title: "Create Ledger",
-      active: false,
-      link: "/dashboard/master/ledger",
-      icon: <FcPlus />,
-    },
-    {
-      title: "Create Group",
-      active: false,
-      link: "/dashboard/master/group",
-      icon: <FcPlus />,
-    },
+    // {
+    //   title: "Create Ledger",
+    //   active: false,
+    //   link: "/dashboard/master/ledger",
+    //   icon: <FcPlus />,
+    // },
+    // {
+    //   title: "Create Group",
+    //   active: false,
+    //   link: "/dashboard/master/group",
+    //   icon: <FcPlus />,
+    // },
     {
       title: "Create Prospect Source",
       active: false,
@@ -167,18 +179,18 @@ const DrawerData = ({ open, setMobileOpen }) => {
         }
       });
       setDashList(newArr);
-      setReports(
-        reports.map((r) => {
-          return { ...r, active: false };
-        })
-      );
-      setRO(false);
-      setMasterList(
-        masterList.map((m) => {
-          return { ...m, active: false };
-        })
-      );
-      setMas(false);
+      // setReports(
+      //   reports.map((r) => {
+      //     return { ...r, active: false };
+      //   })
+      // );
+      // setRO(false);
+      // setMasterList(
+      //   masterList.map((m) => {
+      //     return { ...m, active: false };
+      //   })
+      // );
+      // setMas(false);
     } else if (Ar === "Ar2") {
       let newArr = reports.map((obj, j) => {
         if (n === j) {
