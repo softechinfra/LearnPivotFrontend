@@ -12,9 +12,10 @@ const EntryArea = forwardRef((props, ref) => {
     const snackRef = useRef();
     const [important, setImp] = useState(false);
     const [startDate, setStartDate] = useState(todayDate());
-    const [startTime, setStartTime] = useState();
-    const [endTime, setEndTime] = useState();
+    const [startTime, setStartTime] = useState("");
+    const [endTime, setEndTime] = useState("");
     const [classTitle, setClassTitle] = useState("");
+    const [classLink, setClassLink] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [courseClass, setCourseClass] = useState(null);
     const [courseType, setCourseType] = useState(null);
@@ -38,7 +39,15 @@ const EntryArea = forwardRef((props, ref) => {
         ];
     
     const [loadingDoc, setLoadingDoc] = useState(false);
-
+    function convertToSlug(text) {
+        return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+      }
+    const onTitleChange = (e) => {
+        setClassTitle(e)
+        let link = convertToSlug(e)
+        setClassLink(link)
+    }
+  
     useEffect(() => {
         async function getOneData() {
             try {
@@ -69,21 +78,37 @@ const EntryArea = forwardRef((props, ref) => {
         props.setId("");
         setImp(false);
         setStartDate(todayDate());
-        setFullDescription("");
+        setStartTime("");
+        setEndTime("");
         setClassTitle("");
-    setDocUrl(d ? d?.url : "");
-
+        setClassLink("");
+        setShortDescription("");
+        setCourseClass(null);
+        setCourseType(null);
+        setDuration(null);
+        setFullDescription("");
+        setDocUrl(d ? d?.url : "");
         setPAccordion(true);
     };
+    
 
     useImperativeHandle(ref, () => ({
         handleSubmit: async () => {
             try {
                 let myClassData = {
                     _id: props.id,
-                    startDate,                  
-                    fullDescription,
+                    startDate,
+                    endDate,
+                    startTime,
+                    endTime,
                     classTitle,
+                    classLink,
+                    shortDescription,
+                    courseClass,
+                    courseType,
+                    duration,
+                    fullDescription,
+                    url,
                     important
                 };
                 let response = await myClassService.add(props.id, myClassData);
@@ -145,7 +170,8 @@ const EntryArea = forwardRef((props, ref) => {
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => setClassTitle(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
+                    <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
+                    <p><bold>Link- </bold> {classLink}</p>
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <TextField focused type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} fullWidth label="Start Date :" variant="standard" />
