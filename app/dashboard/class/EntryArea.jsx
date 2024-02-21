@@ -1,37 +1,55 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
-import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton } from '@mui/material';
+import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton, InputAdornment, CircularProgress } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { FcLikePlaceholder, FcLike, FcExpand } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import MySnackbar from "../../Components/MySnackbar/MySnackbar";
-import { prospectService, invoiceService } from "../../services";
+import { myClassService } from "../../services";
 import { todayDate } from "../../Components/StaticData";
+import { useImgUpload } from "@/app/hooks/auth/useImgUpload";
 
 const EntryArea = forwardRef((props, ref) => {
     const snackRef = useRef();
     const [important, setImp] = useState(false);
-    const [inquiryDate, setInquiryDate] = useState(todayDate());
-    const [prospectStage, setProspectStage] = useState(null);
-    const [prospectSource, setProspectSource] = useState(null);
-    const [message, setMsg] = useState("");
-    const [firstName, setFN] = useState("");
+    const [startDate, setStartDate] = useState(todayDate());
+    const [startTime, setStartTime] = useState();
+    const [endTime, setEndTime] = useState();
+    const [classTitle, setClassTitle] = useState("");
+    const [shortDescription, setShortDescription] = useState("");
+    const [courseClass, setCourseClass] = useState(null);
+    const [courseType, setCourseType] = useState(null);
+    const [duration, setDuration] = useState(null);
+    const [fullDescription, setFullDescription] = useState("");
+    const [url, setDocUrl] = useState("");
+
     const [PAccordion, setPAccordion] = useState(true);
-    const allProspectStage = [{ label: "Casual Inquiry", id: "casualInquiry" }, { label: "Qualified", id: "qualified" }, { label: "Cold", id: "cold" }, { label: "Warm", id: "warm" }, { label: "Hot", id: "hot" }, { label: "Waiting List", id: "waitingList" }, { label: "Lost", id: "lost" }, { label: "Needs Assessment", id: "needsAssessment" }];
-    const [allProspectSource, setAllPSource] = useState([]);
+    const allClass = [
+        { label: "4", id: "4" },
+         { label: "5", id: "5" },
+        ];
+    const allCourseType = [
+        { label: "Full Course", id: "fullCourse" },
+         { label: "Crash Course", id: "crashCourse" },
+        ];
+    const allDuration = [
+        { label: "3 Months", id: "3months" },
+         { label: "6 Months", id: "6months" },
+         { label: "1 Years", id: "1years" },
+        ];
+    
+    const [loadingDoc, setLoadingDoc] = useState(false);
 
     useEffect(() => {
         async function getOneData() {
             try {
-                let res = await prospectService.getOne(props.id);
+                let res = await myClassService.getOne(props.id);
                 if (res.variant === "success") {
-                    const { _id, important, inquiryDate, prospectStage, prospectSource, message, firstName } = res.data;
+                    const { _id, important, startDate, myClassStage, myClassSource, fullDescription, classTitle } = res.data;
                     props.setId(_id);
                     setImp(important);
-                    setInquiryDate(inquiryDate);
-                    setProspectStage(prospectStage);
-                    setProspectSource(prospectSource);
-                    setMsg(message);
-                    setFN(firstName);
+                    setStartDate(startDate);               
+                    setFullDescription(fullDescription);
+                    setClassTitle(classTitle);
                     setPAccordion(true);
                     snackRef.current.handleSnack(res);
                 } else {
@@ -39,7 +57,7 @@ const EntryArea = forwardRef((props, ref) => {
                 }
             } catch (error) {
                 console.error("Error fetching data:", error);
-                snackRef.current.handleSnack({ message: "Failed to fetch data.", variant: "error" });
+                snackRef.current.handleSnack({ fullDescription: "Failed to fetch data.", variant: "error" });
             }
         }
         if (props.id) {
@@ -50,27 +68,25 @@ const EntryArea = forwardRef((props, ref) => {
     const handleClear = () => {
         props.setId("");
         setImp(false);
-        setInquiryDate(todayDate());
-        setProspectStage(null);
-        setProspectSource(null);
-        setMsg("");
-        setFN("");
+        setStartDate(todayDate());
+        setFullDescription("");
+        setClassTitle("");
+    setDocUrl(d ? d?.url : "");
+
         setPAccordion(true);
     };
 
     useImperativeHandle(ref, () => ({
         handleSubmit: async () => {
             try {
-                let prospectData = {
+                let myClassData = {
                     _id: props.id,
-                    inquiryDate,
-                    prospectStage,
-                    prospectSource,
-                    message,
-                    firstName,
+                    startDate,                  
+                    fullDescription,
+                    classTitle,
                     important
                 };
-                let response = await prospectService.add(props.id, prospectData);
+                let response = await myClassService.add(props.id, myClassData);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
@@ -79,34 +95,32 @@ const EntryArea = forwardRef((props, ref) => {
                 }
             } catch (error) {
                 console.error("Error submitting data:", error);
-                snackRef.current.handleSnack({ message: "Failed to submit data.", variant: "error" });
+                snackRef.current.handleSnack({ fullDescription: "Failed to submit data.", variant: "error" });
             }
         },
         handleClear: () => handleClear()
     }));
-
-    useEffect(() => {
-        async function getPSource() {
-            try {
-                let res = await invoiceService.getLedger(`api/v1/enquiry/prospectSource/getProspectSource/dropDown/getAll`);
-                if (res.variant === "success") {
-                    setAllPSource(res.data);
-                } else {
-                    snackRef.current.handleSnack(res);
-                }
-            } catch (error) {
-                console.error("Error fetching prospect sources:", error);
-                snackRef.current.handleSnack({ message: "Failed to fetch prospect sources.", variant: "error" });
-            }
+    const imgUpload  = async (e) => {
+        setLoadingDoc(true);
+        let url = await useImgUpload(e);
+        if (url) {
+          setDocUrl(url);
+          setLoadingDoc(false);
+        } else {
+          snackRef.current.handleSnack({
+            message: "Image Not Selected",
+            info: "warning",
+          });
+          setLoadingDoc(false);
         }
-        getPSource();
-    }, []);
+      };
+
 
     const handleDelete = async () => {
         try {
-            let yes = window.confirm(`Do you really want to permanently delete ${firstName}?`);
+            let yes = window.confirm(`Do you really want to permanently delete ${classTitle}?`);
             if (yes) {
-                let response = await prospectService.deleteLeave(`api/v1/enquiry/prospect/addProspect/deleteOne/${props.id}`);
+                let response = await myClassService.deleteLeave(`api/v1/enquiry/myClass/addProspect/deleteOne/${props.id}`);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
@@ -116,7 +130,7 @@ const EntryArea = forwardRef((props, ref) => {
             }
         } catch (error) {
             console.error("Error deleting data:", error);
-            snackRef.current.handleSnack({ message: "Failed to delete data.", variant: "error" });
+            snackRef.current.handleSnack({ fullDescription: "Failed to delete data.", variant: "error" });
         }
     };
 
@@ -130,16 +144,28 @@ const EntryArea = forwardRef((props, ref) => {
                 </ButtonGroup>
             </Grid>
             <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                    <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => setClassTitle(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
+                </Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField focused type='date' value={inquiryDate} onChange={(e) => setInquiryDate(e.target.value)} fullWidth label="Inquiry Date :" variant="standard" />
+                    <TextField focused type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} fullWidth label="Start Date :" variant="standard" />
+                </Grid>
+                <Grid item xs={12} md={2}>
+                    <TextField focused type='time' value={startTime} onChange={(e) => setStartTime(e.target.value)} fullWidth label="Start Time :" variant="standard" />
+                </Grid>
+                <Grid item xs={12} md={2}>
+                    <TextField focused type='time' value={endTime} onChange={(e) => setEndTime(e.target.value)} fullWidth label="End Time :" variant="standard" />
+                </Grid>
+                <Grid item xs={12} md={12}>
+                    <TextField fullWidth label="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} inputProps={{ minLength: "2", maxLength: "100" }} placeholder='Short Description' variant="standard" />
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Autocomplete
                         isOptionEqualToValue={(option, value) => option?.id === value?.id}
-                        options={allProspectStage}
-                        value={prospectStage}
+                        options={allClass}
+                        value={courseClass}
                         onChange={(e, v) => {
-                            setProspectStage(v);
+                            setCourseClass(v);
                         }}
                         renderOption={(props, option) => {
                             return (
@@ -148,30 +174,64 @@ const EntryArea = forwardRef((props, ref) => {
                                 </li>
                             );
                         }}
-                        renderInput={(params) => <TextField {...params} label="Prospect Stage" variant="standard" />}
+                        renderInput={(params) => <TextField {...params} label="Class" variant="standard" />}
                     />
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Autocomplete
-                        isOptionEqualToValue={(option, value) => option?._id === value?._id}
-                        value={prospectSource}
+                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                        options={allCourseType}
+                        value={courseType}
                         onChange={(e, v) => {
-                            setProspectSource(v);
+                            setCourseType(v);
                         }}
-                        options={allProspectSource}
-                        groupBy={(option) => option?.locationType}
                         renderOption={(props, option) => {
                             return (
-                                <li {...props} key={option._id}>
+                                <li {...props} key={option.id}>
                                     {option.label}
                                 </li>
                             );
                         }}
-                        renderInput={(params) => <TextField {...params} label="Prospect Source" helperText="Master > Create Class Source" variant="standard" />}
+                        renderInput={(params) => <TextField {...params} label="Course Type" variant="standard" />}
                     />
                 </Grid>
-                <Grid item xs={12}>
-                    <TextField label="Story" value={message} inputProps={{ maxLength: "4000" }} onChange={(e) => setMsg(e.target.value)} placeholder="Type something about the prospect. (If you wish)" fullWidth multiline rows={4} variant="outlined" />
+                <Grid item xs={12} md={3}>
+                    <Autocomplete
+                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                        options={allDuration}
+                        value={duration}
+                        onChange={(e, v) => {
+                            setDuration(v);
+                        }}
+                        renderOption={(props, option) => {
+                            return (
+                                <li {...props} key={option.id}>
+                                    {option.label}
+                                </li>
+                            );
+                        }}
+                        renderInput={(params) => <TextField {...params} label="Duration" variant="standard" />}
+                    />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    <TextField
+                        label="Document (If Any)"
+                        size="small"
+                        disabled={loadingDoc}
+                        helperText="Only Image Files are allowed"
+                        inputProps={{ accept: "image/*" }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="start">
+                                    {loadingDoc && <CircularProgress size={25} />}{" "}
+                                </InputAdornment>
+                            ),
+                        }}
+                        onChange={(e) => imgUpload(e.target.files[0])}
+                        type="file"
+                        focused
+                        fullWidth
+                    />
                 </Grid>
             </Grid>
             <Accordion expanded={PAccordion}>
@@ -180,12 +240,12 @@ const EntryArea = forwardRef((props, ref) => {
                     aria-controls="ProspectInformation"
                     id="ProspectInformation"
                 >
-                    <Typography>Prospect Information</Typography>
+                    <Typography>Additional Optional Information</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} md={3}>
-                            <TextField fullWidth label="First Name" value={firstName} onChange={(e) => setFN(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='First Name' variant="standard" />
+                        <Grid item xs={12}>
+                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the classes" fullWidth multiline rows={4} variant="outlined" />
                         </Grid>
                     </Grid>
                 </AccordionDetails>

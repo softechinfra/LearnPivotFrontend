@@ -4,7 +4,7 @@ import React, { lazy, Suspense, useEffect } from 'react'
 import {Typography, Fab,styled,Avatar,CircularProgress,Rating,Badge,ToggleButtonGroup,ToggleButton,Tab, Grid,ButtonGroup,AppBar,Toolbar, Button,Tooltip, Chip, Table,TableRow,TableCell,TableBody, TableHead, IconButton,TablePagination} from '@mui/material/';
 import { useState,useRef} from 'react';
 import {TabContext,TabList } from '@mui/lab/';
-import { prospectService } from "../../services";
+import { myClassService } from "../../services";
 import Link from 'next/link';
 import { FiCheck,FiFileMinus } from "react-icons/fi";
 import {FcLike,FcLikePlaceholder,FcOrgUnit,FcTimeline,FcExpand} from "react-icons/fc";
@@ -67,7 +67,7 @@ export function SearchArea({handleEdit}) {
   useEffect(() => {
     async function fetchAllData() {
       setLoading(true)
-      let response = await prospectService.getAll(`api/v1/enquiry/prospect/getProspect/getDataWithPage/${sortBy}/${rowsPerPage}/${page}/${searchText}`);
+      let response = await myClassService.getAll(`api/v1/enquiry/prospect/getProspect/getDataWithPage/${sortBy}/${rowsPerPage}/${page}/${searchText}`);
       if(response.variant === "success"){
         setLoading(false)
         setRows(response.data)

@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuthorizationHeader } from "../utils/getAuthorizationHeader";
 import qs from "qs";
 
-export class ProspectService {
+export class MyClassService {
   instance;
   constructor(url) {
     this.instance = axios.create({
