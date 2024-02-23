@@ -87,7 +87,7 @@ const EntryArea = forwardRef((props, ref) => {
         setCourseType(null);
         setDuration(null);
         setFullDescription("");
-        setDocUrl(d ? d?.url : "");
+        setDocUrl("");
         setPAccordion(true);
     };
     
@@ -98,7 +98,6 @@ const EntryArea = forwardRef((props, ref) => {
                 let myClassData = {
                     _id: props.id,
                     startDate,
-                    endDate,
                     startTime,
                     endTime,
                     classTitle,
@@ -112,11 +111,13 @@ const EntryArea = forwardRef((props, ref) => {
                     important
                 };
                 let response = await myClassService.add(props.id, myClassData);
+                              
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
-                } else {
-                    snackRef.current.handleSnack(response?.response?.data);
+                } else {              
+
+                    snackRef.current.handleSnack(response);
                 }
             } catch (error) {
                 console.error("Error submitting data:", error);

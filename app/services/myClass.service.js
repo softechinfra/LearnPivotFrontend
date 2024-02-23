@@ -14,7 +14,7 @@ export class MyClassService {
 
   add = async (id, data) => {
     return this.instance
-      .post(`/api/v1/enquiry/prospect/addProspect/${id}`, data, {
+      .post(`/api/v1/publicMaster/myClass/addMyClass${id}`, data, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
