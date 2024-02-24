@@ -7,13 +7,14 @@ import {TabContext,TabList } from '@mui/lab/';
 import { myClassService } from "../../services";
 import Link from 'next/link';
 import { FiCheck,FiFileMinus } from "react-icons/fi";
-import {FcLike,FcLikePlaceholder,FcOrgUnit,FcTimeline,FcExpand} from "react-icons/fc";
+import {FcOk,FcNoIdea,FcOrgUnit,FcTimeline,FcExpand} from "react-icons/fc";
 import {MdModeEdit,MdSend,MdOutlineClose} from "react-icons/md";
 import NoResult from "@/app/Components/NoResult/NoResult";
 import Search from "../../Components/Search";
 import {FaUserPlus } from "react-icons/fa";
 import {BsTable } from "react-icons/bs";
 import Loading from "../../Components/Loading/Loading";
+import LiveAvatar from "@/app/Components/Common/LiveAvatar";
 const EntryArea = lazy(() => import("./EntryArea"));
 
 function   MyClass () {
@@ -122,7 +123,11 @@ export function SearchArea({handleEdit}) {
       </TableHead>
       <TableBody>
       {rows && rows.map((r,i)=>  <TableRow key={r._id}> 
-        <TableCell align="left" padding="none"> <Badge color="primary" variant="dot" invisible={!Boolean(r.important)}><Avatar alt={r.classTitle} src={r.url} /> </Badge> </TableCell>
+        <TableCell align="left" padding="none"> <Badge color="primary" variant="dot" invisible={!Boolean(r.isPublished)}>
+          <LiveAvatar 
+isLive={r.isPublished} alt={r.classTitle} src={r.url} 
+/>
+          </Badge> </TableCell>
         <TableCell align="left">{`${r.classTitle}`} </TableCell>
         <TableCell align="left">{r.startDate}</TableCell>
         <TableCell align="left"><Chip label={r.startTime} variant="outlined" size="small"  /></TableCell>      
@@ -143,14 +148,18 @@ export function SearchArea({handleEdit}) {
       </Table> : <Grid container spacing={2}>
       {rows && rows.map((c,i)=> <Grid item key={i} xs={12} md={4} className="center">
           <div className="prospectCard">
-          <Avatar alt={c.classTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}/>
+    
+<LiveAvatar 
+isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}
+/>
+
           <Typography color="teal" variant="h6" sx={{paddingLeft:"120px"}}>{c.classTitle} </Typography>
           <Grid container sx={{paddingLeft:"120px"}}>
             <Grid item xs={10}> 
             <Typography color="grey" variant="subtitle2" >{c.startDate}</Typography>
             <Typography color="grey" variant="subtitle2" >{c.startTime} to {c.endTime}</Typography>
             </Grid>
-            <Grid item xs={2}>{c.important ? <FcLike /> : <FcLikePlaceholder/>}</Grid>
+            <Grid item xs={2}>{c.isPublished ? <FcOk sx={{ fontSize: 50 }}/> : <FcNoIdea sx={{ fontSize: 50 }}/>} </Grid>
           </Grid>      
           <Table size="small" sx={{minHeight:'180px'}} aria-label="MyClass data Table">
           <TableBody>

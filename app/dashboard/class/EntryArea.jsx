@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton, InputAdornment, CircularProgress, Stack, Checkbox, FormControlLabel } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import { FcLikePlaceholder, FcLike, FcExpand } from "react-icons/fc";
+import { FcNoIdea, FcOk, FcExpand } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import MySnackbar from "../../Components/MySnackbar/MySnackbar";
 import { myClassService } from "../../services";
@@ -10,7 +10,7 @@ import { useImgUpload } from "@/app/hooks/auth/useImgUpload";
 
 const EntryArea = forwardRef((props, ref) => {
     const snackRef = useRef();
-    const [important, setImp] = useState(false);
+    const [isPublished, setIsPublished] = useState(false);
     const [startDate, setStartDate] = useState(todayDate());
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
@@ -56,12 +56,12 @@ const EntryArea = forwardRef((props, ref) => {
             try {
                 let res = await myClassService.getOne(props.id);
                 if (res.variant === "success") {
-                    const { _id, important,startDate,startTime,
+                    const { _id, isPublished,startDate,startTime,
                         endTime,classTitle,classLink,shortDescription,
                         courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
                          } = res.data;
                     props.setId(_id);
-                    setImp(important);
+                    setIsPublished(isPublished);
                     setStartDate(startDate);               
                     setStartTime(startTime);               
                     setEndTime(endTime);   
@@ -93,7 +93,7 @@ const EntryArea = forwardRef((props, ref) => {
 
     const handleClear = () => {
         props.setId("");
-        setImp(false);
+        setIsPublished(false);
         setStartDate(todayDate());
         setStartTime("");
         setEndTime("");
@@ -129,7 +129,7 @@ const EntryArea = forwardRef((props, ref) => {
                     fullDescription,
                     totalSeat,filledSeat,showRemaining,
                     url,
-                    important
+                    isPublished
                 };
                 let response = await myClassService.add(props.id, myClassData);
                               
@@ -197,15 +197,16 @@ const EntryArea = forwardRef((props, ref) => {
             <Grid sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between" }}>
                 <Typography color="secondary" style={{ fontFamily: 'Courgette' }} align='center' variant='h6'>Create Class</Typography>
                 <ButtonGroup variant="text" aria-label="text button group">
-                    <Button startIcon={important ? <FcLike /> : <FcLikePlaceholder />} onClick={() => setImp(!important)}>{important ? "Important" : "General"}</Button>
+                    <Button startIcon={isPublished ? <FcOk /> : <FcNoIdea />} onClick={() => setIsPublished(!isPublished)}>{isPublished ? "Published" : "Un-Publish"}</Button>
                     <Button endIcon={<MdDeleteForever />} onClick={handleDelete} disabled={!props.id} color="error">Delete</Button>
                 </ButtonGroup>
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
-                    <p>                
-                    Link- {classLink}</p>
+                    <Typography variant="subtitle2" gutterBottom>
+                    Link- {classLink}
+      </Typography>                    
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <TextField focused type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} fullWidth label="Start Date :" variant="standard" />
