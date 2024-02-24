@@ -16,7 +16,7 @@ import {BsTable } from "react-icons/bs";
 import Loading from "../../Components/Loading/Loading";
 const EntryArea = lazy(() => import("./EntryArea"));
 
-function   Prospect () {
+function   MyClass () {
   const [viewTabular,toggleView] = useState(true);
   const [id, setId] =useState("");
   const entryRef = useRef();
@@ -30,7 +30,7 @@ function   Prospect () {
             Clear
           </Button> }
         <span style={{flexGrow:0.3}}/>
-        <Tooltip arrow title={viewTabular ? "Add Prospect" : "Show All"}>
+        <Tooltip arrow title={viewTabular ? "Add MyClass" : "Show All"}>
         <ToggleFab onClick={()=>toggleView(!viewTabular)} color="secondary" size="medium">
         {viewTabular ?   <FaUserPlus style={{fontSize:24}}/> : <BsTable style={{fontSize:24}}/>}
         </ToggleFab>
@@ -67,7 +67,7 @@ export function SearchArea({handleEdit}) {
   useEffect(() => {
     async function fetchAllData() {
       setLoading(true)
-      let response = await myClassService.getAll(`api/v1/enquiry/prospect/getProspect/getDataWithPage/${sortBy}/${rowsPerPage}/${page}/${searchText}`);
+      let response = await myClassService.getAll(`${sortBy}/${rowsPerPage}/${page}/${searchText}`);
       if(response.variant === "success"){
         setLoading(false)
         setRows(response.data)
@@ -106,34 +106,35 @@ export function SearchArea({handleEdit}) {
           </Grid> 
         </Grid>
        
-      {loading ? <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading prospect...</Typography>  </div> : rows.length === 0 ? <NoResult label="No Prospect Available"/> : tabular ? <Table size="small" sx={{display:{xs:"none", md:"block"}}} aria-label="Prospect data Table"> 
+      {loading ? <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading MyClass...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> : tabular ? <Table size="small" sx={{display:{xs:"none", md:"block"}}} aria-label="MyClass data Table"> 
       <TableHead>
       <TableRow>
       <TableCell align="left" padding="none" ></TableCell>
-      <TableCell align="left">Full Name </TableCell>
-      <TableCell align="left">Inquiry Date</TableCell>
-      <TableCell align="left">Prospect Stage</TableCell>
-      <TableCell align="left">Conversion Chance</TableCell>
-      <TableCell align="left">Phone No.</TableCell>
-      <TableCell align="left">Email  Id</TableCell>
-      <TableCell align="left">City & State</TableCell>
+      <TableCell align="left">Class Title </TableCell>
+      <TableCell align="left">Start Date</TableCell>
+      <TableCell align="left">Start Time</TableCell>
+      <TableCell align="left">End Time</TableCell>
+      <TableCell align="left">Course Class</TableCell>
+      <TableCell align="left">Course Type</TableCell>
+      <TableCell align="left">Duration</TableCell>
       <TableCell align="center">Action</TableCell>
       </TableRow>
       </TableHead>
       <TableBody>
       {rows && rows.map((r,i)=>  <TableRow key={r._id}> 
-        <TableCell align="left" padding="none"> <Badge color="primary" variant="dot" invisible={!Boolean(r.important)}><Avatar alt={r.firstName} src={r.userImage} /> </Badge> </TableCell>
-        <TableCell align="left">{`${r.firstName} ${r.lastName} `} </TableCell>
-        <TableCell align="left">{r.inquiryDate}</TableCell>
-        <TableCell align="left"><Chip label={r.prospectStage} variant="outlined" size="small"  /></TableCell>      
-        <TableCell align="left"><Rating value={r.prospectScore} readOnly /></TableCell>
-        <TableCell align="left">{r.phone}</TableCell>
-        <TableCell align="left">{r.email}</TableCell>
-        <TableCell align="left">{`${r.city}, ${r.state}`}</TableCell>
+        <TableCell align="left" padding="none"> <Badge color="primary" variant="dot" invisible={!Boolean(r.important)}><Avatar alt={r.classTitle} src={r.url} /> </Badge> </TableCell>
+        <TableCell align="left">{`${r.classTitle}`} </TableCell>
+        <TableCell align="left">{r.startDate}</TableCell>
+        <TableCell align="left"><Chip label={r.startTime} variant="outlined" size="small"  /></TableCell>      
+        <TableCell align="left"><Chip label={r.endTime} variant="outlined" size="small"  /></TableCell>      
+        <TableCell align="left">{r.courseClass?.label}</TableCell>
+        <TableCell align="left">{r.courseType?.label}</TableCell>
+        <TableCell align="left"><Chip label={r.duration?.label} variant="outlined" size="small"  /></TableCell>      
+    
         <TableCell align="center">
         <ButtonGroup variant="text" aria-label="">
       <Button onClick={()=>handleEdit(r._id)} variant="text" startIcon={<MdModeEdit />}>Edit</Button>
-       <Link href={`/dashboard/prospect/${r._id}`}><Button variant="text" endIcon={<MdSend />}>View</Button></Link> 
+       {/* <Link href={`/dashboard/prospect/${r._id}`}><Button variant="text" endIcon={<MdSend />}>View</Button></Link>  */}
        <Button  variant="text"></Button>
     </ButtonGroup>
         </TableCell>
@@ -142,32 +143,32 @@ export function SearchArea({handleEdit}) {
       </Table> : <Grid container spacing={2}>
       {rows && rows.map((c,i)=> <Grid item key={i} xs={12} md={4} className="center">
           <div className="prospectCard">
-          <Avatar alt={c.firstName} src={c.userImage} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}/>
-          <Typography color="teal" variant="h6" sx={{paddingLeft:"120px"}}>{c.firstName} {`${c.lastName}`}</Typography>
+          <Avatar alt={c.classTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}/>
+          <Typography color="teal" variant="h6" sx={{paddingLeft:"120px"}}>{c.classTitle} </Typography>
           <Grid container sx={{paddingLeft:"120px"}}>
             <Grid item xs={10}> 
-            <Typography color="grey" variant="subtitle2" >{c.prospectStage}</Typography>
-            <Rating value={c.prospectScore} readOnly />
+            <Typography color="grey" variant="subtitle2" >{c.startDate}</Typography>
+            <Typography color="grey" variant="subtitle2" >{c.startTime} to {c.endTime}</Typography>
             </Grid>
             <Grid item xs={2}>{c.important ? <FcLike /> : <FcLikePlaceholder/>}</Grid>
           </Grid>      
-          <Table size="small" sx={{minHeight:'180px'}} aria-label="Prospect data Table">
+          <Table size="small" sx={{minHeight:'180px'}} aria-label="MyClass data Table">
           <TableBody>
           <TableRow>
-          <TableCell align="left" sx={{width:"100px"}}>Inquiry Date </TableCell>
-          <TableCell align="right" sx={{width:"120px"}}>{c.inquiryDate}</TableCell>
+          <TableCell align="left" sx={{width:"100px"}}>Course Class </TableCell>
+          <TableCell align="right" sx={{width:"120px"}}>{c.courseClass?.label}</TableCell>
           </TableRow>
           <TableRow>
-          <TableCell align="left">Phone </TableCell>
-          <TableCell align="right">{c.phone}</TableCell>
+          <TableCell align="left">Course Type </TableCell>
+          <TableCell align="right">{c.courseType?.label}</TableCell>
           </TableRow>
           <TableRow>
-          <TableCell align="left">Email </TableCell>
-          <TableCell align="right"><Typography variant="caption">{c.email}</Typography></TableCell>
+          <TableCell align="left">Duration </TableCell>
+          <TableCell align="right"><Typography variant="caption">{c.duration?.label}</Typography></TableCell>
           </TableRow>
           <TableRow>
-          <TableCell align="left">Address </TableCell>
-          <TableCell align="right"><Typography variant="caption">{c.streetAddress}</Typography><Typography variant="caption">{`${c.city}, ${c.state}`}</Typography> </TableCell>
+          <TableCell align="left">Short Description </TableCell>
+          <TableCell align="right"><Typography variant="caption">{c.shortDescription}</Typography> </TableCell>
           </TableRow>
           </TableBody>
           </Table>
@@ -205,4 +206,4 @@ export function SearchArea({handleEdit}) {
 
 
 
-export default Prospect;
+export default MyClass;

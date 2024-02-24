@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
-import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton, InputAdornment, CircularProgress } from '@mui/material';
+import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton, InputAdornment, CircularProgress, Stack, Checkbox, FormControlLabel } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { FcLikePlaceholder, FcLike, FcExpand } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
@@ -21,9 +21,12 @@ const EntryArea = forwardRef((props, ref) => {
     const [courseType, setCourseType] = useState(null);
     const [duration, setDuration] = useState(null);
     const [fullDescription, setFullDescription] = useState("");
-    const [url, setDocUrl] = useState("");
+    const [totalSeat, setTotalSeat] = useState("");
+    const [filledSeat, setFilledSeats] = useState("");
+    const [showRemaining, setShowRemaining] = useState(false);
+    const [url, setUrl] = useState("");
 
-    const [PAccordion, setPAccordion] = useState(true);
+    const [PAccordion, setPAccordion] = useState(false);
     const allClass = [
         { label: "4", id: "4" },
          { label: "5", id: "5" },
@@ -53,12 +56,26 @@ const EntryArea = forwardRef((props, ref) => {
             try {
                 let res = await myClassService.getOne(props.id);
                 if (res.variant === "success") {
-                    const { _id, important, startDate, myClassStage, myClassSource, fullDescription, classTitle } = res.data;
+                    const { _id, important,startDate,startTime,
+                        endTime,classTitle,classLink,shortDescription,
+                        courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
+                         } = res.data;
                     props.setId(_id);
                     setImp(important);
                     setStartDate(startDate);               
-                    setFullDescription(fullDescription);
+                    setStartTime(startTime);               
+                    setEndTime(endTime);   
                     setClassTitle(classTitle);
+                    setClassLink(classLink);
+                    setShortDescription(shortDescription);
+                    setCourseClass(courseClass);
+                    setCourseType(courseType);
+                    setDuration(duration);
+                    setUrl(url);
+                    setFullDescription(fullDescription);
+                    setTotalSeat(totalSeat);
+                    setFilledSeats(filledSeat);
+                    setShowRemaining(showRemaining);
                     setPAccordion(true);
                     snackRef.current.handleSnack(res);
                 } else {
@@ -87,7 +104,10 @@ const EntryArea = forwardRef((props, ref) => {
         setCourseType(null);
         setDuration(null);
         setFullDescription("");
-        setDocUrl("");
+        setTotalSeat("");
+        setFilledSeats("");
+        setShowRemaining(false);
+        setUrl("");
         setPAccordion(true);
     };
     
@@ -107,6 +127,7 @@ const EntryArea = forwardRef((props, ref) => {
                     courseType,
                     duration,
                     fullDescription,
+                    totalSeat,filledSeat,showRemaining,
                     url,
                     important
                 };
@@ -130,7 +151,7 @@ const EntryArea = forwardRef((props, ref) => {
         setLoadingDoc(true);
         let url = await useImgUpload(e);
         if (url) {
-          setDocUrl(url);
+          setUrl(url);
           setLoadingDoc(false);
         } else {
           snackRef.current.handleSnack({
@@ -146,7 +167,7 @@ const EntryArea = forwardRef((props, ref) => {
         try {
             let yes = window.confirm(`Do you really want to permanently delete ${classTitle}?`);
             if (yes) {
-                let response = await myClassService.deleteLeave(`api/v1/enquiry/myClass/addProspect/deleteOne/${props.id}`);
+                let response = await myClassService.deleteClass(`api/v1/publicMaster/myClass/addMyClass/deleteOne/${props.id}`);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
@@ -157,6 +178,17 @@ const EntryArea = forwardRef((props, ref) => {
         } catch (error) {
             console.error("Error deleting data:", error);
             snackRef.current.handleSnack({ fullDescription: "Failed to delete data.", variant: "error" });
+        }
+    };
+
+    const deleteImage = () => {
+        // Your delete image logic here
+        setUrl(""); // Clear the URL to remove the image from display
+    };
+
+    const showImage = () => {
+        if (url) {
+            window.open(url, '_blank'); // Open the image URL in a new tab
         }
     };
 
@@ -172,7 +204,8 @@ const EntryArea = forwardRef((props, ref) => {
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
                     <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
-                    <p><bold>Link- </bold> {classLink}</p>
+                    <p>                
+                    Link- {classLink}</p>
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <TextField focused type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} fullWidth label="Start Date :" variant="standard" />
@@ -241,25 +274,34 @@ const EntryArea = forwardRef((props, ref) => {
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextField
-                        label="Document (If Any)"
-                        size="small"
-                        disabled={loadingDoc}
-                        helperText="Only Image Files are allowed"
-                        inputProps={{ accept: "image/*" }}
-                        InputProps={{
-                            endAdornment: (
-                                <InputAdornment position="start">
-                                    {loadingDoc && <CircularProgress size={25} />}{" "}
-                                </InputAdornment>
-                            ),
-                        }}
-                        onChange={(e) => imgUpload(e.target.files[0])}
-                        type="file"
-                        focused
-                        fullWidth
-                    />
-                </Grid>
+                {  !url?   (<TextField
+                label="Document (If Any)"
+                size="small"
+                disabled={loadingDoc}
+                helperText="Only Image Files are allowed"
+                inputProps={{ accept: "image/*" }}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="start">
+                            {loadingDoc && <CircularProgress size={25} />}{" "}
+                        </InputAdornment>
+                    ),
+                }}
+                onChange={(e) => imgUpload(e.target.files[0])}
+                type="file"
+                focused
+                fullWidth
+            />):
+             (
+                <Stack direction="row" spacing={2}>
+                <Button variant="contained" color="success"onClick={showImage}>Show Image
+                </Button>
+                <Button variant="outlined" color="error"onClick={deleteImage}>Delete Image
+                </Button>
+              </Stack>
+               
+            )}
+        </Grid>
             </Grid>
             <Accordion expanded={PAccordion}>
                 <AccordionSummary
@@ -274,6 +316,34 @@ const EntryArea = forwardRef((props, ref) => {
                         <Grid item xs={12}>
                             <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the classes" fullWidth multiline rows={4} variant="outlined" />
                         </Grid>
+                     <Grid item xs={12} md={4}>
+                    <TextField 
+                    label="Total Seat" variant="filled"
+                     color="success" focused 
+                     type="Number"
+                     value={totalSeat}
+                     onChange={(e) => setTotalSeat(e.target.value)}
+                     />                   
+                </Grid>
+                     <Grid item xs={12} md={4}>
+                    <TextField 
+                    label="Filled Seats" variant="filled"
+                     color="success" focused 
+                     type="Number"
+                     value={filledSeat}
+                     onChange={(e) => setFilledSeats(e.target.value)}
+                     />                   
+                </Grid>
+                     <Grid item xs={12} md={4}>
+                     <FormControlLabel control={
+                           <Checkbox
+                           checked={showRemaining}
+                           onChange={() => setShowRemaining(!showRemaining)}
+                           inputProps={{ 'aria-label': 'controlled' }}
+                         />               
+                     } label={`Show Remaining:  ${totalSeat-filledSeat}   Seats`} />
+                  
+                </Grid>
                     </Grid>
                 </AccordionDetails>
             </Accordion>

@@ -14,7 +14,7 @@ export class MyClassService {
 
   add = async (id, data) => {
     return this.instance
-      .post(`/api/v1/publicMaster/myClass/addMyClass${id}`, data, {
+      .post(`/api/v1/publicMaster/myClass/addMyClass/${id}`, data, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
@@ -22,7 +22,7 @@ export class MyClassService {
 
   getAll = async (searchUrl) => {
     return this.instance
-      .get(`/${searchUrl}`, {
+      .get(`/api/v1/publicMaster/myClass/getMyClass/getDataWithPage/${searchUrl}`, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
@@ -30,11 +30,27 @@ export class MyClassService {
 
   getOne = async (id) => {
     return this.instance
-      .get(`/api/v1/enquiry/prospect/getProspect/getOne/${id}`, {
+      .get(`/api/v1/publicMaster/myClass/getMyClass/getOne/${id}`, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
   };
+  deleteClass = async (baseUrl) => {
+    return this.instance
+      .delete(`/${baseUrl}`, {
+        headers: getAuthorizationHeader(),
+      })
+      .then((res) => res.data)
+      .catch((err) => err);
+  };
+
+
+
+
+
+
+
+
   saveHealth = async (id, data) => {
     return this.instance
       .post(`/api/v1/enquiry/health/addHealth/${id}`, data, {
@@ -159,6 +175,7 @@ export class MyClassService {
       .then((res) => res.data)
       .catch((err) => err);
   };
+
   deleteLeave = async (baseUrl) => {
     return this.instance
       .delete(`/${baseUrl}`, {
@@ -167,6 +184,7 @@ export class MyClassService {
       .then((res) => res.data)
       .catch((err) => err);
   };
+
   delete = async (id) => {
     return this.instance
       .delete(`/api/v1/customer/addCustomer/deleteOne/${id}`, {
