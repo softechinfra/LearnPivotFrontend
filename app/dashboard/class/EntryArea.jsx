@@ -304,9 +304,9 @@ const EntryArea = forwardRef((props, ref) => {
             )}
         </Grid>
             </Grid>
-            <Accordion expanded={PAccordion}>
+            <Accordion expanded={PAccordion} onClick={() => setPAccordion(!PAccordion)}>
                 <AccordionSummary
-                    expandIcon={<IconButton onClick={() => setPAccordion(!PAccordion)}> <FcExpand /> </IconButton>}
+                    expandIcon={<IconButton > <FcExpand /> </IconButton>}
                     aria-controls="ProspectInformation"
                     id="ProspectInformation"
                 >
