@@ -59,19 +59,22 @@ export function SearchArea({handleEdit}) {
   const [loading, setLoading] = useState(false);
   const [rows, setRows] = useState([]);
   const [tabular, setView] = useState(false);
-  const sortOptions = [{label:"New First",value:"newToOld"},{label:"Rating",value:"rating"},{label:"Important",value:"important"},{label:"Old First",value:"oldToNew"}];
+  const sortOptions = [{label:"New First",value:"newToOld"},{label:"Published",value:"isPublished"},{label:"Old First",value:"oldToNew"}];
   const [sortBy, setSort]= useState("newToOld");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [searchText, setSearchText] = useState("");
+  const [totalCount,setTotalCount] = useState(0)
 
   useEffect(() => {
     async function fetchAllData() {
       setLoading(true)
       let response = await myClassService.getAll(`${sortBy}/${rowsPerPage}/${page}/${searchText}`);
+     console.log(response)
       if(response.variant === "success"){
         setLoading(false)
         setRows(response.data)
+        setTotalCount(response.totalCount)
       }else {console.log(response); setLoading(false)}
     }
     fetchAllData()
@@ -122,7 +125,7 @@ export function SearchArea({handleEdit}) {
       </TableRow>
       </TableHead>
       <TableBody>
-      {rows && rows.map((r,i)=>  <TableRow key={r._id}> 
+      {rows && rows.map((r,i)=>  <TableRow key={r._id} > 
         <TableCell align="left" padding="none"> <Badge color="primary" variant="dot" invisible={!Boolean(r.isPublished)}>
           <LiveAvatar 
 isLive={r.isPublished} alt={r.classTitle} src={r.url} 
@@ -146,9 +149,9 @@ isLive={r.isPublished} alt={r.classTitle} src={r.url}
       </TableRow> )}
       </TableBody>
       </Table> : <Grid container spacing={2}>
-      {rows && rows.map((c,i)=> <Grid item key={i} xs={12} md={4} className="center">
-          <div className="prospectCard">
-    
+      {rows && rows.map((c,i)=> 
+      <Grid item key={i} xs={12} md={4} className="center">
+          <div className="prospectCard" style={c.isPublished ? {backgroundColor:"#e3ffea"} : {backgroundColor:"#ffffe6"}}>    
 <LiveAvatar 
 isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}
 />
@@ -189,11 +192,14 @@ isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", heigh
           </div>
           </div>
         </Grid>)}
-        <Grid item xs={12}>
-        <TablePagination
-                rowsPerPageOptions={[10,20,50,100]}
+        <Grid item xs={12}>   
+        </Grid>
+    </Grid> }
+   <br/>
+   <TablePagination
+                rowsPerPageOptions={[5,10,15,100]}
                 component="div"
-                count={rows.length}
+                count={totalCount}
                 sx={{overflowX:"hidden"}}
                 rowsPerPage={rowsPerPage}
                 page={page}
@@ -203,16 +209,9 @@ isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", heigh
                   setPage(0)
                 }}
               />
-        </Grid>
-    </Grid> }
-   <br/>
-    
     <br/> <br/> <br/>
     </main>
   )
 }
-
-
-
 
 export default MyClass;
