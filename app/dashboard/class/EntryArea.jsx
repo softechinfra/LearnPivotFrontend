@@ -274,6 +274,7 @@ const EntryArea = forwardRef((props, ref) => {
                         renderInput={(params) => <TextField {...params} label="Duration" variant="standard" />}
                     />
                 </Grid>
+                <br/>
                 <Grid item xs={12} md={4}>
                 {  !url?   (<TextField
                 label="Document (If Any)"
@@ -304,6 +305,7 @@ const EntryArea = forwardRef((props, ref) => {
             )}
         </Grid>
             </Grid>
+            <br/> <br/>
             <Accordion expanded={PAccordion} onClick={() => setPAccordion(!PAccordion)}>
                 <AccordionSummary
                     expandIcon={<IconButton > <FcExpand /> </IconButton>}

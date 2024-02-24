@@ -43,7 +43,7 @@ const LiveAvatar = ({ src, alt,sx, isLive }) => {
       invisible={!isLive}
     >
  
-<Avatar alt={alt} src={src} sx={sx}/>
+<Avatar alt={alt} src={src} sx={sx} variant="square"/>
 
     </StyledBadge>
   );
