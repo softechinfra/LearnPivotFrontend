@@ -3,15 +3,13 @@ import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
 import BuyDialog from "../BuyForm/BuyDialog";
 const OneClass = ({ data }) => {
 
-
-
   return (
     <Grid container key={data._id} spacing={4}>
       <Grid item xs={12} md={4}>
         <img
-          src={data.img}
+          src={data.url}
           className="creativeImg"
-          alt="image"
+          alt={data.classTitle}
         />
       </Grid>
       <Grid item xs={12} md={8}>
@@ -25,7 +23,7 @@ const OneClass = ({ data }) => {
             fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
           }}
         >
-         {data.title}
+         {data.classTitle}
         </Typography>
         <Typography
           color="#082952"
@@ -36,7 +34,7 @@ const OneClass = ({ data }) => {
             fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
           }}
         >
-          {data.timing}
+          from {data.date} @ {data.startTime} to {data.endTime}
         </Typography>
         <Typography
           color="#333"
@@ -47,17 +45,26 @@ const OneClass = ({ data }) => {
             lineHeight: "1.8rem",
           }}
         >
-        {data.description}
+        {data.shortDescription}
           <div style={{ display: "flex", marginTop: "10px" }}>
-            {data.tags.map((tag, index) => (
-              <Chip
-                key={index}
-                label={`${tag.name}: ${tag.value}`}
+          <Chip
+                label={`Class: ${data.courseClass?.label}`}
                 color="primary"
                 variant="contained"
                 sx={{ marginRight: "8px" }}
               />
-            ))}
+                <Chip
+                label={`Type: ${data.courseType?.label}`}
+                color="primary"
+                variant="contained"
+                sx={{ marginRight: "8px" }}
+              />
+                <Chip
+                label={`Duration: ${data.duration?.label}`}
+                color="primary"
+                variant="contained"
+                sx={{ marginRight: "8px" }}
+              />
           </div>
         </Typography>
         <br />

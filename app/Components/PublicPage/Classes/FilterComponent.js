@@ -32,7 +32,7 @@ const FilterComponent = () => {
     <>  
       {filterData && 
         filterData.map((e, j) => (
-          <>
+          <div key={j}>
         <h3 key={j} style={{ color:"#082952", fontFamily: "Adequate,Helvetica Neue,Helvetica,\"sans-serif\"" }}><strong>{e.title}</strong></h3>
 <FormGroup>
   {e?.tags?.map((i, k) => (
@@ -43,7 +43,7 @@ const FilterComponent = () => {
     />
   ))}
 </FormGroup>
-          </>
+          </div>
         ))}
     </>
   );

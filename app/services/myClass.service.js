@@ -12,6 +12,13 @@ export class MyClassService {
     });
   }
 
+  publicGetAll = async ( data) => {
+    return this.instance
+      .post(`/api/v1/publicMaster/myClass/getMyClass/forPublicPage`, data, {
+        headers: getAuthorizationHeader(),
+      })
+      .then((res) => res.data);
+  };
   add = async (id, data) => {
     return this.instance
       .post(`/api/v1/publicMaster/myClass/addMyClass/${id}`, data, {
