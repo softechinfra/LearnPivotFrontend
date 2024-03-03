@@ -4,7 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { FcNoIdea, FcOk, FcExpand } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import MySnackbar from "../../Components/MySnackbar/MySnackbar";
-import { myClassService } from "../../services";
+import { mockTestService } from "../../services";
 import { todayDate } from "../../Components/StaticData";
 import { useImgUpload } from "@/app/hooks/auth/useImgUpload";
 
@@ -14,10 +14,10 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     const [startDate, setStartDate] = useState(todayDate());
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
-    const [mockTestTitle, setMockTestTitle] = useState("");
-    const [mockTestLink, setMockTestLink] = useState("");
+    const [classTitle, setClassTitle] = useState("");
+    const [classLink, setClassLink] = useState("");
     const [shortDescription, setShortDescription] = useState("");
-    const [courseMockTest, setCourseMockTest] = useState(null);
+    const [courseClass, setCourseClass] = useState(null);
     const [courseType, setCourseType] = useState(null);
     const [duration, setDuration] = useState(null);
     const [fullDescription, setFullDescription] = useState("");
@@ -27,7 +27,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     const [url, setUrl] = useState("");
 
     const [PAccordion, setPAccordion] = useState(false);
-    const allMockTest = [
+    const allClass = [
         { label: "4", id: "4" },
          { label: "5", id: "5" },
         ];
@@ -46,29 +46,29 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
       }
     const onTitleChange = (e) => {
-        setMockTestTitle(e)
+        setClassTitle(e)
         let link = convertToSlug(e)
-        setMockTestLink(link)
+        setClassLink(link)
     }
   
     useEffect(() => {
         async function getOneData() {
             try {
-                let res = await myMockTestService.getOne(props.id);
+                let res = await mockTestService.getOne(props.id);
                 if (res.variant === "success") {
                     const { _id, isPublished,startDate,startTime,
-                        endTime,mockTestTitle,mockTestLink,shortDescription,
-                        courseMockTest,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
+                        endTime,classTitle,classLink,shortDescription,
+                        courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
                          } = res.data;
                     props.setId(_id);
                     setIsPublished(isPublished);
                     setStartDate(startDate);               
                     setStartTime(startTime);               
                     setEndTime(endTime);   
-                    setMockTestTitle(mockTestTitle);
-                    setMockTestLink(mockTestLink);
+                    setClassTitle(classTitle);
+                    setClassLink(classLink);
                     setShortDescription(shortDescription);
-                    setCourseMockTest(courseMockTest);
+                    setCourseClass(courseClass);
                     setCourseType(courseType);
                     setDuration(duration);
                     setUrl(url);
@@ -97,10 +97,10 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         setStartDate(todayDate());
         setStartTime("");
         setEndTime("");
-        setMockTestTitle("");
-        setMockTestLink("");
+        setClassTitle("");
+        setClassLink("");
         setShortDescription("");
-        setCourseMockTest(null);
+        setCourseClass(null);
         setCourseType(null);
         setDuration(null);
         setFullDescription("");
@@ -115,15 +115,15 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         handleSubmit: async () => {
             try {
-                let myMockTestData = {
+                let myClassData = {
                     _id: props.id,
                     startDate,
                     startTime,
                     endTime,
-                    mockTestTitle,
-                    mockTestLink,
+                    classTitle,
+                    classLink,
                     shortDescription,
-                    courseMockTest,
+                    courseClass,
                     courseType,
                     duration,
                     fullDescription,
@@ -131,7 +131,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                     url,
                     isPublished
                 };
-                let response = await myMockTestService.add(props.id, myMockTestData);
+                let response = await mockTestService.add(props.id, myClassData);
                               
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
@@ -165,9 +165,9 @@ const AddMockEntryArea = forwardRef((props, ref) => {
 
     const handleDelete = async () => {
         try {
-            let yes = window.confirm(`Do you really want to permanently delete ${mockTestTitle}?`);
+            let yes = window.confirm(`Do you really want to permanently delete ${classTitle}?`);
             if (yes) {
-                let response = await myMockTestService.deleteMockTest(`api/v1/publicMaster/myMockTest/addMyMockTest/deleteOne/${props.id}`);
+                let response = await mockTestService.deleteClass(`api/v1/publicMaster/myClass/addMyClass/deleteOne/${props.id}`);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
@@ -195,7 +195,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     return (
         <main style={{ background: "#fff", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px", borderRadius: "10px", padding: 20 }}>
             <Grid sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between" }}>
-                <Typography color="secondary" style={{ fontFamily: 'Courgette' }} align='center' variant='h6'>Create MockTest</Typography>
+                <Typography color="secondary" style={{ fontFamily: 'Courgette' }} align='center' variant='h6'>Create Class</Typography>
                 <ButtonGroup variant="text" aria-label="text button group">
                     <Button startIcon={isPublished ? <FcOk /> : <FcNoIdea />} onClick={() => setIsPublished(!isPublished)}>{isPublished ? "Published" : "Un-Publish"}</Button>
                     <Button endIcon={<MdDeleteForever />} onClick={handleDelete} disabled={!props.id} color="error">Delete</Button>
@@ -203,9 +203,9 @@ const AddMockEntryArea = forwardRef((props, ref) => {
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth label="MockTest Title" value={mockTestTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='MockTest Title' variant="standard" />
+                    <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
                     <Typography variant="subtitle2" gutterBottom>
-                    Link- {mockTestLink}
+                    Link- {classLink}
       </Typography>                    
                 </Grid>
                 <Grid item xs={12} md={2}>
@@ -223,10 +223,10 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 <Grid item xs={12} md={3}>
                     <Autocomplete
                         isOptionEqualToValue={(option, value) => option?.id === value?.id}
-                        options={allMockTest}
-                        value={courseMockTest}
+                        options={allClass}
+                        value={courseClass}
                         onChange={(e, v) => {
-                            setCourseMockTest(v);
+                            setCourseClass(v);
                         }}
                         renderOption={(props, option) => {
                             return (
@@ -235,7 +235,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                                 </li>
                             );
                         }}
-                        renderInput={(params) => <TextField {...params} label="MockTest" variant="standard" />}
+                        renderInput={(params) => <TextField {...params} label="Class" variant="standard" />}
                     />
                 </Grid>
                 <Grid item xs={12} md={3}>
@@ -317,7 +317,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 <AccordionDetails>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the mockTestes" fullWidth multiline rows={4} variant="outlined" />
+                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the classes" fullWidth multiline rows={4} variant="outlined" />
                         </Grid>
                      <Grid item xs={12} md={4}>
                     <TextField 

@@ -12,11 +12,13 @@ import { InvoiceService } from "./invoice.service";
 import { AccessService } from "./access.service";
 
 import { API_ENDPOINT } from "../utils/index";
+import { MockTestService } from "./mockTest.service";
 
 export const authService = new AuthService(API_ENDPOINT);
 export const dashboardService = new DashboardService(API_ENDPOINT);
 export const customerService = new CustomerService(API_ENDPOINT);
 export const myClassService = new MyClassService(API_ENDPOINT);
+export const mockTestService = new MockTestService(API_ENDPOINT);
 export const employeeService = new EmployeeService(API_ENDPOINT);
 export const residentService = new ResidentService(API_ENDPOINT);
 export const medicationService = new MedicationService(API_ENDPOINT);
