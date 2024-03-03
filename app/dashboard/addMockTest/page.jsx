@@ -17,7 +17,7 @@ import Loading from "../../Components/Loading/Loading";
 import LiveAvatar from "@/app/Components/Common/LiveAvatar";
 const AddMockEntryArea = lazy(() => import("./AddMockEntryArea"));
 
-function   MyClass () {
+function   MyMockTest () {
   const [viewTabular,toggleView] = useState(true);
   const [id, setId] =useState("");
   const entryRef = useRef();
@@ -31,7 +31,7 @@ function   MyClass () {
             Clear
           </Button> }
         <span style={{flexGrow:0.3}}/>
-        <Tooltip arrow title={viewTabular ? "Add MyClass" : "Show All"}>
+        <Tooltip arrow title={viewTabular ? "Add MyMockTest" : "Show All"}>
         <ToggleFab onClick={()=>toggleView(!viewTabular)} color="secondary" size="medium">
         {viewTabular ?   <FaUserPlus style={{fontSize:24}}/> : <BsTable style={{fontSize:24}}/>}
         </ToggleFab>
@@ -110,7 +110,7 @@ export function SearchArea({handleEdit}) {
           </Grid> 
         </Grid>
        
-      {loading ? <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading MyClass...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> : tabular ? <Table size="small" sx={{display:{xs:"none", md:"block"}}} aria-label="MyClass data Table"> 
+      {loading ? <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading MyMockTest...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyMockTest Available"/> : tabular ? <Table size="small" sx={{display:{xs:"none", md:"block"}}} aria-label="MyMockTest data Table"> 
       <TableHead>
       <TableRow>
       <TableCell align="left" padding="none" ></TableCell>
@@ -164,7 +164,7 @@ isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", heigh
             </Grid>
             <Grid item xs={2}>{c.isPublished ? <FcOk sx={{ fontSize: 50 }}/> : <FcNoIdea sx={{ fontSize: 50 }}/>} </Grid>
           </Grid>      
-          <Table size="small" sx={{minHeight:'180px'}} aria-label="MyClass data Table">
+          <Table size="small" sx={{minHeight:'180px'}} aria-label="MyMockTest data Table">
           <TableBody>
           <TableRow>
           <TableCell align="left" sx={{width:"100px"}}>Course Class </TableCell>
@@ -214,4 +214,4 @@ isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", heigh
   )
 }
 
-export default MyClass;
+export default MyMockTest;
