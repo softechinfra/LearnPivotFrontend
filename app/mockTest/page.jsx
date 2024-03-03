@@ -1,7 +1,7 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
 import Header from "../Components/Header1/Header";
-import "./classes.css";
+import "./mockTest.css";
 import { Container, Typography, Grid, Breadcrumbs, Divider, Tabs, Tab, TablePagination, CircularProgress } from "@mui/material";
 import Footer from "../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,7 @@ import { myClassService } from "../services";
 import Loading from "../Components/Loading/Loading";
 import NoResult from "../Components/NoResult/NoResult";
 
-function Events() {
+function MockTest() {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -91,4 +91,4 @@ function Events() {
   );
 }
 
-export default Events;
+export default MockTest;

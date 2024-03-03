@@ -105,13 +105,13 @@ const DrawerData = ({ open, setMobileOpen }) => {
         {
       title: "All Classes",
       active: false,
-      link: "/dashboard/class",
+      link: "/dashboard/addClass",
       icon: <FcPlus />,
     },
     {
       title: "Mock Test",
       active: false,
-      link: "/dashboard/mockTest",
+      link: "/dashboard/addMockTest",
       icon: <FcFlowChart />,
     },
     {
