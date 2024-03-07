@@ -16,8 +16,8 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     const [mockTestTitle, setMockTestTitle] = useState("");
     const [mockTestLink, setMockTestLink] = useState("");
     const [shortDescription, setShortDescription] = useState("");
-    const [courseClass, setCourseClass] = useState(null);
-    const [courseType, setCourseType] = useState(null);
+    const [testClass, setTestClass] = useState(null);
+    const [testType, setTestType] = useState(null);
     const [duration, setDuration] = useState(null);
     const [fullDescription, setFullDescription] = useState("");
     const [totalSeat, setTotalSeat] = useState("");
@@ -30,14 +30,15 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         { label: "4", id: "4" },
          { label: "5", id: "5" },
         ];
-    const allCourseType = [
-        { label: "Full Course", id: "fullCourse" },
-         { label: "Crash Course", id: "crashCourse" },
+    const allTestType = [
+        { label: "Initial Test", id: "initialTest" },
+         { label: "After Course", id: "afterCourseTest" },
         ];
     const allDuration = [
-        { label: "3 Months", id: "3months" },
-         { label: "6 Months", id: "6months" },
-         { label: "1 Years", id: "1years" },
+        { label: "30 Minutes", id: "30minutes" },
+         { label: "1 Hours", id: "1hours" },
+         { label: "2 Hours", id: "2hours" },
+         { label: "3 Hours", id: "3hours" },
         ];
     
     const [loadingDoc, setLoadingDoc] = useState(false);
@@ -57,7 +58,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 if (res.variant === "success") {
                     const { _id, isPublished,startDate,endDate,
                         mockTestTitle,mockTestLink,shortDescription,
-                        courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
+                        testClass,testType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
                          } = res.data;
                     props.setId(_id);
                     setIsPublished(isPublished);
@@ -66,8 +67,8 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                     setMockTestTitle(mockTestTitle);
                     setMockTestLink(mockTestLink);
                     setShortDescription(shortDescription);
-                    setCourseClass(courseClass);
-                    setCourseType(courseType);
+                    setTestClass(testClass);
+                    setTestType(testType);
                     setDuration(duration);
                     setUrl(url);
                     setFullDescription(fullDescription);
@@ -97,8 +98,8 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         setMockTestTitle("");
         setMockTestLink("");
         setShortDescription("");
-        setCourseClass(null);
-        setCourseType(null);
+        setTestClass(null);
+        setTestType(null);
         setDuration(null);
         setFullDescription("");
         setTotalSeat("");
@@ -119,8 +120,8 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                     mockTestTitle,
                     mockTestLink,
                     shortDescription,
-                    courseClass,
-                    courseType,
+                    testClass,
+                    testType,
                     duration,
                     fullDescription,
                     totalSeat,filledSeat,showRemaining,
@@ -219,9 +220,9 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                     <Autocomplete
                         isOptionEqualToValue={(option, value) => option?.id === value?.id}
                         options={allClass}
-                        value={courseClass}
+                        value={testClass}
                         onChange={(e, v) => {
-                            setCourseClass(v);
+                            setTestClass(v);
                         }}
                         renderOption={(props, option) => {
                             return (
@@ -236,10 +237,10 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 <Grid item xs={12} md={3}>
                     <Autocomplete
                         isOptionEqualToValue={(option, value) => option?.id === value?.id}
-                        options={allCourseType}
-                        value={courseType}
+                        options={allTestType}
+                        value={testType}
                         onChange={(e, v) => {
-                            setCourseType(v);
+                            setTestType(v);
                         }}
                         renderOption={(props, option) => {
                             return (
@@ -248,7 +249,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                                 </li>
                             );
                         }}
-                        renderInput={(params) => <TextField {...params} label="Course Type" variant="standard" />}
+                        renderInput={(params) => <TextField {...params} label="Test Type" variant="standard" />}
                     />
                 </Grid>
                 <Grid item xs={12} md={3}>

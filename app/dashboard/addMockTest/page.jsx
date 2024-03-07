@@ -117,8 +117,8 @@ export function SearchArea({handleEdit}) {
       <TableCell align="left">Mock Test Title </TableCell>
       <TableCell align="left">Start Date</TableCell>
       <TableCell align="left">End Date</TableCell>
-      <TableCell align="left">Course Class</TableCell>
-      <TableCell align="left">Course Type</TableCell>
+      <TableCell align="left">Test Class</TableCell>
+      <TableCell align="left">Test Type</TableCell>
       <TableCell align="left">Duration</TableCell>
       <TableCell align="center">Action</TableCell>
       </TableRow>
@@ -133,8 +133,8 @@ isLive={r.isPublished} alt={r.mockTestTitle} src={r.url}
         <TableCell align="left">{`${r.mockTestTitle}`} </TableCell>
         <TableCell align="left">{r.startDate}</TableCell>
         <TableCell align="left"><Chip label={r.endDate} variant="outlined" size="small"  /></TableCell>      
-        <TableCell align="left">{r.courseClass?.label}</TableCell>
-        <TableCell align="left">{r.courseType?.label}</TableCell>
+        <TableCell align="left">{r.testClass?.label}</TableCell>
+        <TableCell align="left">{r.testType?.label}</TableCell>
         <TableCell align="left"><Chip label={r.duration?.label} variant="outlined" size="small"  /></TableCell>      
     
         <TableCell align="center">
@@ -165,12 +165,12 @@ isLive={c.isPublished} alt={c.mockTestTitle} src={c.url} sx={{width: "100px", he
           <Table size="small" sx={{minHeight:'180px'}} aria-label="MyMockTest data Table">
           <TableBody>
           <TableRow>
-          <TableCell align="left" sx={{width:"100px"}}>Course Class </TableCell>
-          <TableCell align="right" sx={{width:"120px"}}>{c.courseClass?.label}</TableCell>
+          <TableCell align="left" sx={{width:"100px"}}>Test Class </TableCell>
+          <TableCell align="right" sx={{width:"120px"}}>{c.testClass?.label}</TableCell>
           </TableRow>
           <TableRow>
-          <TableCell align="left">Course Type </TableCell>
-          <TableCell align="right">{c.courseType?.label}</TableCell>
+          <TableCell align="left">Test Type </TableCell>
+          <TableCell align="right">{c.testType?.label}</TableCell>
           </TableRow>
           <TableRow>
           <TableCell align="left">Duration </TableCell>

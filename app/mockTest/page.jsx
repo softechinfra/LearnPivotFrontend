@@ -6,14 +6,14 @@ import { Container, Typography, Grid, Breadcrumbs, Divider, Tabs, Tab, TablePagi
 import Footer from "../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import Enquiry from "@/app/Components/Enquiry/Enquiry";
-import OneClass from "../Components/PublicPage/Classes/OneClass";
-import FilterComponent from "../Components/PublicPage/Classes/FilterComponent"; 
-import FilterDialog from "../Components/PublicPage/Classes/FilterDialog"; 
 import { Dialog, useMediaQuery, useTheme, Button, DialogActions, DialogContent } from "@mui/material";
 import Slide from '@mui/material/Slide';
-import { myClassService } from "../services";
+import { mockTestService, myClassService } from "../services";
 import Loading from "../Components/Loading/Loading";
 import NoResult from "../Components/NoResult/NoResult";
+import MtFilterComponent from "../Components/PublicPage/MockTest/MtFilterComponent"
+import MtFilterDialog from "../Components/PublicPage/MockTest/MtFilterDialog"
+import OneMockTest from "../Components/PublicPage/MockTest/OneMockTest"
 
 function MockTest() {
 
@@ -30,7 +30,7 @@ function MockTest() {
   useEffect(() => {
     async function fetchAllData() {
       setLoading(true)
-      let response = await myClassService.publicGetAll(
+      let response = await mockTestService.publicGetAll(
         {sortBy,page,rowsPerPage,searchText,totalCount}
         );
      console.log(response)
@@ -53,11 +53,11 @@ function MockTest() {
         <Grid container spacing={3}>
         {fullScreen? (
        
-        <FilterDialog />
+        <MtFilterDialog />
      
       ):(
         <Grid item xs={2}>
-        <FilterComponent />
+        <MtFilterComponent />
       </Grid>
       )}
           <Grid item xs={fullScreen ? 12 : 10}>
@@ -66,7 +66,7 @@ function MockTest() {
         <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading Classes...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> :  
             rows &&
               rows.map((p, j) => (
-                <OneClass data={p} key={p._id} />
+                <OneMockTest data={p} key={p._id} />
               ))
           }
 </Grid>
