@@ -12,10 +12,9 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     const snackRef = useRef();
     const [isPublished, setIsPublished] = useState(false);
     const [startDate, setStartDate] = useState(todayDate());
-    const [startTime, setStartTime] = useState("");
-    const [endTime, setEndTime] = useState("");
-    const [classTitle, setClassTitle] = useState("");
-    const [classLink, setClassLink] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [mockTestTitle, setMockTestTitle] = useState("");
+    const [mockTestLink, setMockTestLink] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [courseClass, setCourseClass] = useState(null);
     const [courseType, setCourseType] = useState(null);
@@ -46,9 +45,9 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
       }
     const onTitleChange = (e) => {
-        setClassTitle(e)
+        setMockTestTitle(e)
         let link = convertToSlug(e)
-        setClassLink(link)
+        setMockTestLink(link)
     }
   
     useEffect(() => {
@@ -56,17 +55,16 @@ const AddMockEntryArea = forwardRef((props, ref) => {
             try {
                 let res = await mockTestService.getOne(props.id);
                 if (res.variant === "success") {
-                    const { _id, isPublished,startDate,startTime,
-                        endTime,classTitle,classLink,shortDescription,
+                    const { _id, isPublished,startDate,endDate,
+                        mockTestTitle,mockTestLink,shortDescription,
                         courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
                          } = res.data;
                     props.setId(_id);
                     setIsPublished(isPublished);
                     setStartDate(startDate);               
-                    setStartTime(startTime);               
-                    setEndTime(endTime);   
-                    setClassTitle(classTitle);
-                    setClassLink(classLink);
+                    setEndDate(endDate);               
+                    setMockTestTitle(mockTestTitle);
+                    setMockTestLink(mockTestLink);
                     setShortDescription(shortDescription);
                     setCourseClass(courseClass);
                     setCourseType(courseType);
@@ -95,10 +93,9 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         props.setId("");
         setIsPublished(false);
         setStartDate(todayDate());
-        setStartTime("");
-        setEndTime("");
-        setClassTitle("");
-        setClassLink("");
+        setEndDate("");
+        setMockTestTitle("");
+        setMockTestLink("");
         setShortDescription("");
         setCourseClass(null);
         setCourseType(null);
@@ -118,12 +115,11 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 let myClassData = {
                     _id: props.id,
                     startDate,
-                    startTime,
-                    endTime,
-                    classTitle,
-                    classLink,
+                    endDate,
+                    mockTestTitle,
+                    mockTestLink,
                     shortDescription,
-                    courseClass,
+                    courseMockTest,
                     courseType,
                     duration,
                     fullDescription,
@@ -131,7 +127,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                     url,
                     isPublished
                 };
-                let response = await mockTestService.add(props.id, myClassData);
+                let response = await mockTestService.add(props.id, myMockTestData);
                               
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
@@ -165,9 +161,9 @@ const AddMockEntryArea = forwardRef((props, ref) => {
 
     const handleDelete = async () => {
         try {
-            let yes = window.confirm(`Do you really want to permanently delete ${classTitle}?`);
+            let yes = window.confirm(`Do you really want to permanently delete ${mockTestTitle}?`);
             if (yes) {
-                let response = await mockTestService.deleteClass(`api/v1/publicMaster/myClass/addMyClass/deleteOne/${props.id}`);
+                let response = await mockTestService.deleteMockTest(`api/v1/publicMaster/myMockTest/addMyMockTest/deleteOne/${props.id}`);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
@@ -195,7 +191,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     return (
         <main style={{ background: "#fff", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px", borderRadius: "10px", padding: 20 }}>
             <Grid sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between" }}>
-                <Typography color="secondary" style={{ fontFamily: 'Courgette' }} align='center' variant='h6'>Create Class</Typography>
+                <Typography color="secondary" style={{ fontFamily: 'Courgette' }} align='center' variant='h6'>Create MockTest</Typography>
                 <ButtonGroup variant="text" aria-label="text button group">
                     <Button startIcon={isPublished ? <FcOk /> : <FcNoIdea />} onClick={() => setIsPublished(!isPublished)}>{isPublished ? "Published" : "Un-Publish"}</Button>
                     <Button endIcon={<MdDeleteForever />} onClick={handleDelete} disabled={!props.id} color="error">Delete</Button>
@@ -203,20 +199,18 @@ const AddMockEntryArea = forwardRef((props, ref) => {
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
+                    <TextField fullWidth label="MockTest Title" value={mockTestTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='MockTest Title' variant="standard" />
                     <Typography variant="subtitle2" gutterBottom>
-                    Link- {classLink}
+                    Link- {mockTestLink}
       </Typography>                    
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <TextField focused type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} fullWidth label="Start Date :" variant="standard" />
                 </Grid>
                 <Grid item xs={12} md={2}>
-                    <TextField focused type='time' value={startTime} onChange={(e) => setStartTime(e.target.value)} fullWidth label="Start Time :" variant="standard" />
+                    <TextField focused type='date' value={endDate} onChange={(e) => setEndDate(e.target.value)} fullWidth label="End Date :" variant="standard" />
                 </Grid>
-                <Grid item xs={12} md={2}>
-                    <TextField focused type='time' value={endTime} onChange={(e) => setEndTime(e.target.value)} fullWidth label="End Time :" variant="standard" />
-                </Grid>
+          
                 <Grid item xs={12} md={12}>
                     <TextField fullWidth label="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} inputProps={{ minLength: "2", maxLength: "100" }} placeholder='Short Description' variant="standard" />
                 </Grid>
@@ -317,7 +311,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 <AccordionDetails>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the classes" fullWidth multiline rows={4} variant="outlined" />
+                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the MockTest" fullWidth multiline rows={4} variant="outlined" />
                         </Grid>
                      <Grid item xs={12} md={4}>
                     <TextField 

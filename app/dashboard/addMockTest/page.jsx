@@ -4,7 +4,7 @@ import React, { lazy, Suspense, useEffect } from 'react'
 import {Typography, Fab,styled,Avatar,CircularProgress,Rating,Badge,ToggleButtonGroup,ToggleButton,Tab, Grid,ButtonGroup,AppBar,Toolbar, Button,Tooltip, Chip, Table,TableRow,TableCell,TableBody, TableHead, IconButton,TablePagination} from '@mui/material/';
 import { useState,useRef} from 'react';
 import {TabContext,TabList } from '@mui/lab/';
-import { myClassService } from "../../services";
+import { mockTestService } from "../../services";
 import Link from 'next/link';
 import { FiCheck,FiFileMinus } from "react-icons/fi";
 import {FcOk,FcNoIdea,FcOrgUnit,FcTimeline,FcExpand} from "react-icons/fc";
@@ -69,7 +69,7 @@ export function SearchArea({handleEdit}) {
   useEffect(() => {
     async function fetchAllData() {
       setLoading(true)
-      let response = await myClassService.getAll(`${sortBy}/${rowsPerPage}/${page}/${searchText}`);
+      let response = await mockTestService.getAll(`${sortBy}/${rowsPerPage}/${page}/${searchText}`);
      console.log(response)
       if(response.variant === "success"){
         setLoading(false)
