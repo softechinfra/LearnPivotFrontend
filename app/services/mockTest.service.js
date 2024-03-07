@@ -42,7 +42,7 @@ export class MockTestService {
       })
       .then((res) => res.data);
   };
-  deleteClass = async (baseUrl) => {
+  delete = async (baseUrl) => {
     return this.instance
       .delete(`/${baseUrl}`, {
         headers: getAuthorizationHeader(),

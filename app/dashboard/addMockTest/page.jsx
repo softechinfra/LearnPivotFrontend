@@ -84,7 +84,7 @@ export function SearchArea({handleEdit}) {
         <Grid container>
           <Grid item xs={0} md={5}/>
           <Grid item xs={12} md={2}>
-          <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>All Class</Typography>
+          <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>All Mock Test</Typography>
           </Grid>
           <Grid item xs={12} md={5} sx={{display:"flex", justifyContent:"end", marginBottom:"20px"}}>
           <Search onChange={e=>setSearchText(e.target.value)} value={searchText} fullWidth endAdornment={<IconButton size="small" sx={{display: searchText ? "block": "none"}} onClick={()=>setSearchText("")}> <MdOutlineClose /></IconButton> } />
@@ -114,10 +114,9 @@ export function SearchArea({handleEdit}) {
       <TableHead>
       <TableRow>
       <TableCell align="left" padding="none" ></TableCell>
-      <TableCell align="left">Class Title </TableCell>
+      <TableCell align="left">Mock Test Title </TableCell>
       <TableCell align="left">Start Date</TableCell>
-      <TableCell align="left">Start Time</TableCell>
-      <TableCell align="left">End Time</TableCell>
+      <TableCell align="left">End Date</TableCell>
       <TableCell align="left">Course Class</TableCell>
       <TableCell align="left">Course Type</TableCell>
       <TableCell align="left">Duration</TableCell>
@@ -128,13 +127,12 @@ export function SearchArea({handleEdit}) {
       {rows && rows.map((r,i)=>  <TableRow key={r._id} > 
         <TableCell align="left" padding="none"> <Badge color="primary" variant="dot" invisible={!Boolean(r.isPublished)}>
           <LiveAvatar 
-isLive={r.isPublished} alt={r.classTitle} src={r.url} 
+isLive={r.isPublished} alt={r.mockTestTitle} src={r.url} 
 />
           </Badge> </TableCell>
-        <TableCell align="left">{`${r.classTitle}`} </TableCell>
+        <TableCell align="left">{`${r.mockTestTitle}`} </TableCell>
         <TableCell align="left">{r.startDate}</TableCell>
-        <TableCell align="left"><Chip label={r.startTime} variant="outlined" size="small"  /></TableCell>      
-        <TableCell align="left"><Chip label={r.endTime} variant="outlined" size="small"  /></TableCell>      
+        <TableCell align="left"><Chip label={r.endDate} variant="outlined" size="small"  /></TableCell>      
         <TableCell align="left">{r.courseClass?.label}</TableCell>
         <TableCell align="left">{r.courseType?.label}</TableCell>
         <TableCell align="left"><Chip label={r.duration?.label} variant="outlined" size="small"  /></TableCell>      
@@ -153,14 +151,14 @@ isLive={r.isPublished} alt={r.classTitle} src={r.url}
       <Grid item key={i} xs={12} md={4} className="center">
           <div className="prospectCard" style={c.isPublished ? {backgroundColor:"#e3ffea"} : {backgroundColor:"#ffffe6"}}>    
 <LiveAvatar 
-isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}
+isLive={c.isPublished} alt={c.mockTestTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}
 />
 
-          <Typography color="teal" variant="h6" sx={{paddingLeft:"120px"}}>{c.classTitle} </Typography>
+          <Typography color="teal" variant="h6" sx={{paddingLeft:"120px"}}>{c.mockTestTitle} </Typography>
           <Grid container sx={{paddingLeft:"120px"}}>
             <Grid item xs={10}> 
             <Typography color="grey" variant="subtitle2" >{c.startDate}</Typography>
-            <Typography color="grey" variant="subtitle2" >{c.startTime} to {c.endTime}</Typography>
+            <Typography color="grey" variant="subtitle2" >{c.startDate} to {c.endDate}</Typography>
             </Grid>
             <Grid item xs={2}>{c.isPublished ? <FcOk sx={{ fontSize: 50 }}/> : <FcNoIdea sx={{ fontSize: 50 }}/>} </Grid>
           </Grid>      

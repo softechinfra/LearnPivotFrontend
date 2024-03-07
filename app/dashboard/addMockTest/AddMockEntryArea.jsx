@@ -112,14 +112,14 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         handleSubmit: async () => {
             try {
-                let myClassData = {
+                let myMockTestData = {
                     _id: props.id,
                     startDate,
                     endDate,
                     mockTestTitle,
                     mockTestLink,
                     shortDescription,
-                    courseMockTest,
+                    courseClass,
                     courseType,
                     duration,
                     fullDescription,
@@ -163,7 +163,8 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         try {
             let yes = window.confirm(`Do you really want to permanently delete ${mockTestTitle}?`);
             if (yes) {
-                let response = await mockTestService.deleteMockTest(`api/v1/publicMaster/myMockTest/addMyMockTest/deleteOne/${props.id}`);
+                let response = await mockTestService.delete(`api/v1/publicMaster/mockTest/addMockTest/deleteOne/${props.id}`);
+             console.log(response)
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
