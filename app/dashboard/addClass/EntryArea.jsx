@@ -7,11 +7,12 @@ import MySnackbar from "../../Components/MySnackbar/MySnackbar";
 import { myClassService } from "../../services";
 import { todayDate } from "../../Components/StaticData";
 import { useImgUpload } from "@/app/hooks/auth/useImgUpload";
+import DateSelector from './dateSelector';
 
 const EntryArea = forwardRef((props, ref) => {
     const snackRef = useRef();
     const [isPublished, setIsPublished] = useState(false);
-    const [startDate, setStartDate] = useState(todayDate());
+    const [dates, setDates] = useState([['']]);
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [classTitle, setClassTitle] = useState("");
@@ -56,13 +57,13 @@ const EntryArea = forwardRef((props, ref) => {
             try {
                 let res = await myClassService.getOne(props.id);
                 if (res.variant === "success") {
-                    const { _id, isPublished,startDate,startTime,
+                    const { _id, isPublished,dates,startTime,
                         endTime,classTitle,classLink,shortDescription,
                         courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
                          } = res.data;
                     props.setId(_id);
                     setIsPublished(isPublished);
-                    setStartDate(startDate);               
+                    setDates(dates);               
                     setStartTime(startTime);               
                     setEndTime(endTime);   
                     setClassTitle(classTitle);
@@ -94,7 +95,7 @@ const EntryArea = forwardRef((props, ref) => {
     const handleClear = () => {
         props.setId("");
         setIsPublished(false);
-        setStartDate(todayDate());
+        setDates([['']]);
         setStartTime("");
         setEndTime("");
         setClassTitle("");
@@ -117,7 +118,7 @@ const EntryArea = forwardRef((props, ref) => {
             try {
                 let myClassData = {
                     _id: props.id,
-                    startDate,
+                    dates,
                     startTime,
                     endTime,
                     classTitle,
@@ -201,17 +202,45 @@ const EntryArea = forwardRef((props, ref) => {
                     <Button endIcon={<MdDeleteForever />} onClick={handleDelete} disabled={!props.id} color="error">Delete</Button>
                 </ButtonGroup>
             </Grid>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+            <Grid container spacing={2} style={{marginBottom:"20px"}}>
+                <Grid item xs={12} md={4}>
                     <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
                     <Typography variant="subtitle2" gutterBottom>
                     Link- {classLink}
       </Typography>                    
                 </Grid>
-                <Grid item xs={12} md={2}>
-                    <TextField focused type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} fullWidth label="Start Date :" variant="standard" />
-                </Grid>
-                <Grid item xs={12} md={2}>
+      
+                <Grid item xs={12} md={4} >
+                
+                {  !url?   (<TextField
+                label="Thumbnail Image"
+                size="small"
+                disabled={loadingDoc}
+                helperText="Only Image Files are allowed"
+                inputProps={{ accept: "image/*" }}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="start">
+                            {loadingDoc && <CircularProgress size={25} />}{" "}
+                        </InputAdornment>
+                    ),
+                }}
+                onChange={(e) => imgUpload(e.target.files[0])}
+                type="file"
+                focused
+                fullWidth
+            />):
+             (
+                <Stack direction="row" spacing={2}>
+                <Button variant="contained" color="success"onClick={showImage}>Show Thumbnail Image
+                </Button>
+                <Button variant="outlined" color="error"onClick={deleteImage}>Delete Thumbnail Image
+                </Button>
+              </Stack>
+               
+            )}
+        </Grid>
+        <Grid item xs={12} md={2}>
                     <TextField focused type='time' value={startTime} onChange={(e) => setStartTime(e.target.value)} fullWidth label="Start Time :" variant="standard" />
                 </Grid>
                 <Grid item xs={12} md={2}>
@@ -275,42 +304,17 @@ const EntryArea = forwardRef((props, ref) => {
                     />
                 </Grid>
                 <br/>
-                <Grid item xs={12} md={4}>
-                {  !url?   (<TextField
-                label="Document (If Any)"
-                size="small"
-                disabled={loadingDoc}
-                helperText="Only Image Files are allowed"
-                inputProps={{ accept: "image/*" }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="start">
-                            {loadingDoc && <CircularProgress size={25} />}{" "}
-                        </InputAdornment>
-                    ),
-                }}
-                onChange={(e) => imgUpload(e.target.files[0])}
-                type="file"
-                focused
-                fullWidth
-            />):
-             (
-                <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="success"onClick={showImage}>Show Image
-                </Button>
-                <Button variant="outlined" color="error"onClick={deleteImage}>Delete Image
-                </Button>
-              </Stack>
-               
-            )}
-        </Grid>
+                
+         
             </Grid>
+            <DateSelector dates={dates} setDates={setDates} />
             <br/> <br/>
-            <Accordion expanded={PAccordion} onClick={() => setPAccordion(!PAccordion)}>
+            <Accordion expanded={PAccordion} style={{marginBottom:"30px"}}>
                 <AccordionSummary
                     expandIcon={<IconButton > <FcExpand /> </IconButton>}
                     aria-controls="ProspectInformation"
                     id="ProspectInformation"
+                    onClick={() => setPAccordion(!PAccordion)}
                 >
                     <Typography>Additional Optional Information</Typography>
                 </AccordionSummary>
