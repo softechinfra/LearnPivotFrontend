@@ -1,7 +1,7 @@
 import { AuthService } from "./auth.service";
 import { DashboardService } from "./dashboard.service";
 import { CustomerService } from "./customer.service";
-import { MyClassService } from "./myClass.service";
+import { MyCourseService } from "./myCourse.service";
 import { EmployeeService } from "./employee.service";
 import { ResidentService } from "./resident.service";
 import { MedicationService } from "./medication.service";
@@ -17,7 +17,7 @@ import { MockTestService } from "./mockTest.service";
 export const authService = new AuthService(API_ENDPOINT);
 export const dashboardService = new DashboardService(API_ENDPOINT);
 export const customerService = new CustomerService(API_ENDPOINT);
-export const myClassService = new MyClassService(API_ENDPOINT);
+export const myCourseService = new MyCourseService(API_ENDPOINT);
 export const mockTestService = new MockTestService(API_ENDPOINT);
 export const employeeService = new EmployeeService(API_ENDPOINT);
 export const residentService = new ResidentService(API_ENDPOINT);

@@ -105,7 +105,7 @@ const DrawerData = ({ open, setMobileOpen }) => {
         {
       title: "All Classes",
       active: false,
-      link: "/dashboard/addClass",
+      link: "/dashboard/addCourse",
       icon: <FcPlus />,
     },
     {

@@ -11,7 +11,7 @@ import FilterComponent from "../Components/PublicPage/Classes/FilterComponent";
 import FilterDialog from "../Components/PublicPage/Classes/FilterDialog"; 
 import { Dialog, useMediaQuery, useTheme, Button, DialogActions, DialogContent } from "@mui/material";
 import Slide from '@mui/material/Slide';
-import { myClassService } from "../services";
+import { myCourseService } from "../services";
 import Loading from "../Components/Loading/Loading";
 import NoResult from "../Components/NoResult/NoResult";
 
@@ -30,7 +30,7 @@ function Events() {
   useEffect(() => {
     async function fetchAllData() {
       setLoading(true)
-      let response = await myClassService.publicGetAll(
+      let response = await myCourseService.publicGetAll(
         {sortBy,page,rowsPerPage,searchText,totalCount}
         );
      console.log(response)

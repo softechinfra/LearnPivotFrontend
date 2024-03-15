@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAuthorizationHeader } from "../utils/getAuthorizationHeader";
 import qs from "qs";
 
-export class MyClassService {
+export class MyCourseService {
   instance;
   constructor(url) {
     this.instance = axios.create({
@@ -14,14 +14,14 @@ export class MyClassService {
 
   publicGetAll = async ( data) => {
     return this.instance
-      .post(`/api/v1/publicMaster/myClass/getMyClass/forPublicPage`, data, {
+      .post(`/api/v1/publicMaster/course/getCourse/forPublicPage`, data, {
         
       })
       .then((res) => res.data);
   };
   add = async (id, data) => {
     return this.instance
-      .post(`/api/v1/publicMaster/myClass/addMyClass/${id}`, data, {
+      .post(`/api/v1/publicMaster/course/addCourse/${id}`, data, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
@@ -29,7 +29,7 @@ export class MyClassService {
 
   getAll = async (searchUrl) => {
     return this.instance
-      .get(`/api/v1/publicMaster/myClass/getMyClass/getDataWithPage/${searchUrl}`, {
+      .get(`/api/v1/publicMaster/course/getCourse/getDataWithPage/${searchUrl}`, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
@@ -37,7 +37,7 @@ export class MyClassService {
 
   getOne = async (id) => {
     return this.instance
-      .get(`/api/v1/publicMaster/myClass/getMyClass/getOne/${id}`, {
+      .get(`/api/v1/publicMaster/course/getCourse/getOne/${id}`, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);

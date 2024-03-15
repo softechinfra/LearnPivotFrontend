@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Enquiry from "@/app/Components/Enquiry/Enquiry";
 import { Dialog, useMediaQuery, useTheme, Button, DialogActions, DialogContent } from "@mui/material";
 import Slide from '@mui/material/Slide';
-import { mockTestService, myClassService } from "../services";
+import { mockTestService, myCourseService } from "../services";
 import Loading from "../Components/Loading/Loading";
 import NoResult from "../Components/NoResult/NoResult";
 import MtFilterComponent from "../Components/PublicPage/MockTest/MtFilterComponent"

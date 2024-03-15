@@ -4,7 +4,7 @@ import React, { lazy, Suspense, useEffect } from 'react'
 import {Typography, Fab,styled,Avatar,CircularProgress,Rating,Badge,ToggleButtonGroup,ToggleButton,Tab, Grid,ButtonGroup,AppBar,Toolbar, Button,Tooltip, Chip, Table,TableRow,TableCell,TableBody, TableHead, IconButton,TablePagination} from '@mui/material/';
 import { useState,useRef} from 'react';
 import {TabContext,TabList } from '@mui/lab/';
-import { myClassService } from "../../services";
+import { myCourseService } from "../../services";
 import Link from 'next/link';
 import { FiCheck,FiFileMinus } from "react-icons/fi";
 import {FcOk,FcNoIdea,FcOrgUnit,FcTimeline,FcExpand} from "react-icons/fc";
@@ -17,7 +17,7 @@ import Loading from "../../Components/Loading/Loading";
 import LiveAvatar from "@/app/Components/Common/LiveAvatar";
 const EntryArea = lazy(() => import("./EntryArea"));
 
-function   MyClass () {
+function   MyCourse () {
   const [viewTabular,toggleView] = useState(true);
   const [id, setId] =useState("");
   const entryRef = useRef();
@@ -31,7 +31,7 @@ function   MyClass () {
             Clear
           </Button> }
         <span style={{flexGrow:0.3}}/>
-        <Tooltip arrow title={viewTabular ? "Add MyClass" : "Show All"}>
+        <Tooltip arrow title={viewTabular ? "Add MyCourse" : "Show All"}>
         <ToggleFab onClick={()=>toggleView(!viewTabular)} color="secondary" size="medium">
         {viewTabular ?   <FaUserPlus style={{fontSize:24}}/> : <BsTable style={{fontSize:24}}/>}
         </ToggleFab>
@@ -69,7 +69,7 @@ export function SearchArea({handleEdit}) {
   useEffect(() => {
     async function fetchAllData() {
       setLoading(true)
-      let response = await myClassService.getAll(`${sortBy}/${rowsPerPage}/${page}/${searchText}`);
+      let response = await myCourseService.getAll(`${sortBy}/${rowsPerPage}/${page}/${searchText}`);
      console.log(response)
       if(response.variant === "success"){
         setLoading(false)
@@ -84,7 +84,7 @@ export function SearchArea({handleEdit}) {
         <Grid container>
           <Grid item xs={0} md={5}/>
           <Grid item xs={12} md={2}>
-          <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>All Class</Typography>
+          <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>All Course</Typography>
           </Grid>
           <Grid item xs={12} md={5} sx={{display:"flex", justifyContent:"end", marginBottom:"20px"}}>
           <Search onChange={e=>setSearchText(e.target.value)} value={searchText} fullWidth endAdornment={<IconButton size="small" sx={{display: searchText ? "block": "none"}} onClick={()=>setSearchText("")}> <MdOutlineClose /></IconButton> } />
@@ -110,15 +110,15 @@ export function SearchArea({handleEdit}) {
           </Grid> 
         </Grid>
        
-      {loading ? <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading MyClass...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> : tabular ? <Table size="small" sx={{display:{xs:"none", md:"block"}}} aria-label="MyClass data Table"> 
+      {loading ? <div courseName="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading MyCourse...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyCourse Available"/> : tabular ? <Table size="small" sx={{display:{xs:"none", md:"block"}}} aria-label="MyCourse data Table"> 
       <TableHead>
       <TableRow>
       <TableCell align="left" padding="none" ></TableCell>
-      <TableCell align="left">Class Title </TableCell>
+      <TableCell align="left">Course Title </TableCell>
       <TableCell align="left">Start Date</TableCell>
       <TableCell align="left">Start Time</TableCell>
       <TableCell align="left">End Time</TableCell>
-      <TableCell align="left">Course Class</TableCell>
+      <TableCell align="left">Course Course</TableCell>
       <TableCell align="left">Course Type</TableCell>
       <TableCell align="left">Duration</TableCell>
       <TableCell align="center">Action</TableCell>
@@ -128,14 +128,14 @@ export function SearchArea({handleEdit}) {
       {rows && rows.map((r,i)=>  <TableRow key={r._id} > 
         <TableCell align="left" padding="none"> <Badge color="primary" variant="dot" invisible={!Boolean(r.isPublished)}>
           <LiveAvatar 
-isLive={r.isPublished} alt={r.classTitle} src={r.url} 
+isLive={r.isPublished} alt={r.courseTitle} src={r.url} 
 />
           </Badge> </TableCell>
-        <TableCell align="left">{`${r.classTitle}`} </TableCell>
+        <TableCell align="left">{`${r.courseTitle}`} </TableCell>
         <TableCell align="left">{r.startDate}</TableCell>
         <TableCell align="left"><Chip label={r.startTime} variant="outlined" size="small"  /></TableCell>      
         <TableCell align="left"><Chip label={r.endTime} variant="outlined" size="small"  /></TableCell>      
-        <TableCell align="left">{r.courseClass?.label}</TableCell>
+        <TableCell align="left">{r.courseCourse?.label}</TableCell>
         <TableCell align="left">{r.courseType?.label}</TableCell>
         <TableCell align="left"><Chip label={r.duration?.label} variant="outlined" size="small"  /></TableCell>      
     
@@ -150,13 +150,13 @@ isLive={r.isPublished} alt={r.classTitle} src={r.url}
       </TableBody>
       </Table> : <Grid container spacing={2}>
       {rows && rows.map((c,i)=> 
-      <Grid item key={i} xs={12} md={4} className="center">
-          <div className="prospectCard" style={c.isPublished ? {backgroundColor:"#e3ffea"} : {backgroundColor:"#ffffe6"}}>    
+      <Grid item key={i} xs={12} md={4} courseName="center">
+          <div courseName="prospectCard" style={c.isPublished ? {backgroundColor:"#e3ffea"} : {backgroundColor:"#ffffe6"}}>    
 <LiveAvatar 
-isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}
+isLive={c.isPublished} alt={c.courseTitle} src={c.url} sx={{width: "100px", height: "100px", position: "absolute", boxShadow: "rgba(0, 0, 0, 0.3) 0px 4px 12px", marginTop: "-20px"}}
 />
 
-          <Typography color="teal" variant="h6" sx={{paddingLeft:"120px"}}>{c.classTitle} </Typography>
+          <Typography color="teal" variant="h6" sx={{paddingLeft:"120px"}}>{c.courseTitle} </Typography>
           <Grid container sx={{paddingLeft:"120px"}}>
             <Grid item xs={10}> 
             <Typography color="grey" variant="subtitle2" >{c.startDate}</Typography>
@@ -164,11 +164,11 @@ isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", heigh
             </Grid>
             <Grid item xs={2}>{c.isPublished ? <FcOk sx={{ fontSize: 50 }}/> : <FcNoIdea sx={{ fontSize: 50 }}/>} </Grid>
           </Grid>      
-          <Table size="small" sx={{minHeight:'180px'}} aria-label="MyClass data Table">
+          <Table size="small" sx={{minHeight:'180px'}} aria-label="MyCourse data Table">
           <TableBody>
           <TableRow>
-          <TableCell align="left" sx={{width:"100px"}}>Course Class </TableCell>
-          <TableCell align="right" sx={{width:"120px"}}>{c.courseClass?.label}</TableCell>
+          <TableCell align="left" sx={{width:"100px"}}>Course Course </TableCell>
+          <TableCell align="right" sx={{width:"120px"}}>{c.courseCourse?.label}</TableCell>
           </TableRow>
           <TableRow>
           <TableCell align="left">Course Type </TableCell>
@@ -214,4 +214,4 @@ isLive={c.isPublished} alt={c.classTitle} src={c.url} sx={{width: "100px", heigh
   )
 }
 
-export default MyClass;
+export default MyCourse;

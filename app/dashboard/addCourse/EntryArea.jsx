@@ -4,8 +4,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { FcNoIdea, FcOk, FcExpand } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
 import MySnackbar from "../../Components/MySnackbar/MySnackbar";
-import { myClassService } from "../../services";
-import { todayDate } from "../../Components/StaticData";
+import { myCourseService } from "../../services";
 import { useImgUpload } from "@/app/hooks/auth/useImgUpload";
 import DateSelector from './dateSelector';
 
@@ -15,8 +14,8 @@ const EntryArea = forwardRef((props, ref) => {
     const [dates, setDates] = useState([['']]);
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
-    const [classTitle, setClassTitle] = useState("");
-    const [classLink, setClassLink] = useState("");
+    const [courseTitle, setCourseTitle] = useState("");
+    const [courseLink, setCourseLink] = useState("");
     const [shortDescription, setShortDescription] = useState("");
     const [courseClass, setCourseClass] = useState(null);
     const [courseType, setCourseType] = useState(null);
@@ -47,18 +46,18 @@ const EntryArea = forwardRef((props, ref) => {
         return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
       }
     const onTitleChange = (e) => {
-        setClassTitle(e)
+        setCourseTitle(e)
         let link = convertToSlug(e)
-        setClassLink(link)
+        setCourseLink(link)
     }
   
     useEffect(() => {
         async function getOneData() {
             try {
-                let res = await myClassService.getOne(props.id);
+                let res = await myCourseService.getOne(props.id);
                 if (res.variant === "success") {
                     const { _id, isPublished,dates,startTime,
-                        endTime,classTitle,classLink,shortDescription,
+                        endTime,courseTitle,courseLink,shortDescription,
                         courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
                          } = res.data;
                     props.setId(_id);
@@ -66,8 +65,8 @@ const EntryArea = forwardRef((props, ref) => {
                     setDates(dates);               
                     setStartTime(startTime);               
                     setEndTime(endTime);   
-                    setClassTitle(classTitle);
-                    setClassLink(classLink);
+                    setCourseTitle(courseTitle);
+                    setCourseLink(courseLink);
                     setShortDescription(shortDescription);
                     setCourseClass(courseClass);
                     setCourseType(courseType);
@@ -98,8 +97,8 @@ const EntryArea = forwardRef((props, ref) => {
         setDates([['']]);
         setStartTime("");
         setEndTime("");
-        setClassTitle("");
-        setClassLink("");
+        setCourseTitle("");
+        setCourseLink("");
         setShortDescription("");
         setCourseClass(null);
         setCourseType(null);
@@ -116,13 +115,13 @@ const EntryArea = forwardRef((props, ref) => {
     useImperativeHandle(ref, () => ({
         handleSubmit: async () => {
             try {
-                let myClassData = {
+                let myCourseData = {
                     _id: props.id,
                     dates,
                     startTime,
                     endTime,
-                    classTitle,
-                    classLink,
+                    courseTitle,
+                    courseLink,
                     shortDescription,
                     courseClass,
                     courseType,
@@ -132,7 +131,7 @@ const EntryArea = forwardRef((props, ref) => {
                     url,
                     isPublished
                 };
-                let response = await myClassService.add(props.id, myClassData);
+                let response = await myCourseService.add(props.id, myCourseData);
                               
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
@@ -166,9 +165,9 @@ const EntryArea = forwardRef((props, ref) => {
 
     const handleDelete = async () => {
         try {
-            let yes = window.confirm(`Do you really want to permanently delete ${classTitle}?`);
+            let yes = window.confirm(`Do you really want to permanently delete ${courseTitle}?`);
             if (yes) {
-                let response = await myClassService.deleteClass(`api/v1/publicMaster/myClass/addMyClass/deleteOne/${props.id}`);
+                let response = await myCourseService.deleteCourse(`api/v1/publicMaster/myCourse/addMyCourse/deleteOne/${props.id}`);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
@@ -196,7 +195,7 @@ const EntryArea = forwardRef((props, ref) => {
     return (
         <main style={{ background: "#fff", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px", borderRadius: "10px", padding: 20 }}>
             <Grid sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between" }}>
-                <Typography color="secondary" style={{ fontFamily: 'Courgette' }} align='center' variant='h6'>Create Class</Typography>
+                <Typography color="secondary" style={{ fontFamily: 'Courgette' }} align='center' variant='h6'>Create Course</Typography>
                 <ButtonGroup variant="text" aria-label="text button group">
                     <Button startIcon={isPublished ? <FcOk /> : <FcNoIdea />} onClick={() => setIsPublished(!isPublished)}>{isPublished ? "Published" : "Un-Publish"}</Button>
                     <Button endIcon={<MdDeleteForever />} onClick={handleDelete} disabled={!props.id} color="error">Delete</Button>
@@ -204,9 +203,9 @@ const EntryArea = forwardRef((props, ref) => {
             </Grid>
             <Grid container spacing={2} style={{marginBottom:"20px"}}>
                 <Grid item xs={12} md={4}>
-                    <TextField fullWidth label="Class Title" value={classTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Class Title' variant="standard" />
+                    <TextField fullWidth label="Course Title" value={courseTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='Course Title' variant="standard" />
                     <Typography variant="subtitle2" gutterBottom>
-                    Link- {classLink}
+                    Link- {courseLink}
       </Typography>                    
                 </Grid>
       
@@ -264,7 +263,7 @@ const EntryArea = forwardRef((props, ref) => {
                                 </li>
                             );
                         }}
-                        renderInput={(params) => <TextField {...params} label="Class" variant="standard" />}
+                        renderInput={(params) => <TextField {...params} label="Course" variant="standard" />}
                     />
                 </Grid>
                 <Grid item xs={12} md={3}>
@@ -321,7 +320,7 @@ const EntryArea = forwardRef((props, ref) => {
                 <AccordionDetails>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the classes" fullWidth multiline rows={4} variant="outlined" />
+                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the coursees" fullWidth multiline rows={4} variant="outlined" />
                         </Grid>
                      <Grid item xs={12} md={4}>
                     <TextField 
