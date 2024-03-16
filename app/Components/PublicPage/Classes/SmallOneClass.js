@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
 import BuyDialog from "../BuyForm/BuyDialog";
-const OneClass = ({ data }) => {
+import DateSelector from "./DateSelector";
+const SmallOneClass = ({ data }) => {
 
   return (
     <Grid container key={data._id} spacing={4}>
@@ -68,17 +69,16 @@ const OneClass = ({ data }) => {
           </div>
         </Typography>
         <br />
-        <div style={{ display: "flex" }}>
-        <BuyDialog data={data} />
-          <span style={{ flexGrow: 0.1 }} />
-          <button className="viewBtn">View Details</button>
-        </div>
+       
       </Grid>
       <Grid item xs={12}>
         <Divider sx={{ marginTop: "-20px", marginBottom:"15px" }} />
+      </Grid>
+      <Grid item xs={12}>
+        <DateSelector data={data}/>
       </Grid>
     </Grid>
   );
 };
 
-export default OneClass;
+export default SmallOneClass;

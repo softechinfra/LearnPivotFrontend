@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function BuyDialog() {
+export default function BuyDialog({data}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -55,8 +55,8 @@ export default function BuyDialog() {
           </Toolbar>
         </AppBar>
         <DialogContent style={{ padding: '16px' }}> {/* Add padding here */}
-         <BuyComponent />
-            </DialogContent>
+         <BuyComponent data ={data} />
+          </DialogContent>
         <DialogActions>
               <Button variant="outlined" color="secondary" onClick={handleClose}>
                 Cancel

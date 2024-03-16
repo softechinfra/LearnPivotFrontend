@@ -85,7 +85,6 @@ function Events() {
                 }}
               />
       </Container>
-      <Enquiry />
       <Footer />
     </main>
   );

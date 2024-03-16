@@ -3,8 +3,9 @@ import { Container, Grid, Typography, TextField, RadioGroup, FormControlLabel, R
 import { FcFeedback, FcApproval } from "react-icons/fc";
 import Link from 'next/link';
 import axios from "axios";
+import SmallOneClass from "../Classes/SmallOneClass";
 
-const BuyComponent = () => {
+const BuyComponent = ({data}) => {
   const [enquiryFor, setEnquiryFor] = useState("self");
   const [firstName, setFName] = useState("");
   const [lastName, setLName] = useState("");
@@ -80,13 +81,7 @@ const BuyComponent = () => {
       <Container maxWidth="xl">
         <Grid container>
           <Grid item xs={12} lg={6}>
-            <Typography color="#082952" gutterBottom sx={{ fontSize: { xs: "24px", md: "30px" }, paddingTop: "100px", lineHeight: "1.2", fontWeight: 300, fontFamily: "Adequate, Helvetica, sans-serif" }}>Fill out the Form to Proceed</Typography>
-            <br /> <br /> <br />
-            <p style={{ fontFamily: "acumin-pro, sans-serif", fontWeight: 200, fontSize: "20px", lineHeight: "2.5rem", color: "black" }}>
-              To Register to your Selected Class,
-              <br /> please fill out the form below or reach us at <Link href="tel:984-617-3905"><strong>9846173905</strong></Link>
-            </p>
-            <br /><br/>
+          <SmallOneClass data ={data}/>
           </Grid>
           <Grid item xs={12} lg={6}>
             <form onSubmit={handleEnquiry} id="enquiryForm">
