@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
 import BuyDialog from "../BuyForm/BuyDialog";
 import DateSelector from "./DateSelector";
-const SmallOneClass = ({ data }) => {
+const SmallOneClass = ({ data,selectedDates,setSelectedDates }) => {
 
   return (
     <Grid container key={data._id} spacing={4}>
@@ -27,16 +27,16 @@ const SmallOneClass = ({ data }) => {
          {data.courseTitle}
         </Typography>
         <Typography
-          color="#082952"
-          gutterBottom
-          sx={{
-            fontSize: { xs: "12px", md: "15px" },
-            fontWeight: 200,
-            fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
-          }}
-        >
-          from {data.firstDate} @ {data.startTime} to {data.endTime}
-        </Typography>
+  color="#082952"
+  gutterBottom
+  sx={{
+    fontSize: { xs: "12px", md: "15px" },
+    fontWeight: 200,
+    fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
+  }}
+>
+  Selected Date: {selectedDates.join(", ")}
+</Typography>
         <Typography
           color="#333"
           sx={{
@@ -71,11 +71,12 @@ const SmallOneClass = ({ data }) => {
         <br />
        
       </Grid>
+     
       <Grid item xs={12}>
-        <Divider sx={{ marginTop: "-20px", marginBottom:"15px" }} />
+        <Divider sx={{ marginTop: "-20px", marginBottom:"5px" }} />
       </Grid>
       <Grid item xs={12}>
-        <DateSelector data={data}/>
+        <DateSelector data={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
       </Grid>
     </Grid>
   );

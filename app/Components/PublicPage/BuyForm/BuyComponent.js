@@ -22,6 +22,7 @@ const BuyComponent = ({data}) => {
   const [marketing, setMarketing] = useState("");
   const [message, setMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [selectedDates, setSelectedDates] = useState([]);
 
   useEffect(() => {
     async function getZIPData() {
@@ -81,7 +82,7 @@ const BuyComponent = ({data}) => {
       <Container maxWidth="xl">
         <Grid container>
           <Grid item xs={12} lg={6}>
-          <SmallOneClass data ={data}/>
+          <SmallOneClass data ={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
           </Grid>
           <Grid item xs={12} lg={6}>
             <form onSubmit={handleEnquiry} id="enquiryForm">
