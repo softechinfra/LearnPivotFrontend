@@ -9,7 +9,7 @@ const OneClass = ({ data }) => {
         <img
           src={data.url}
           className="creativeImg"
-          alt={data.classTitle}
+          alt={data.courseTitle}
         />
       </Grid>
       <Grid item xs={12} md={8}>
@@ -23,7 +23,7 @@ const OneClass = ({ data }) => {
             fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
           }}
         >
-         {data.classTitle}
+         {data.courseTitle}
         </Typography>
         <Typography
           color="#082952"
@@ -34,7 +34,7 @@ const OneClass = ({ data }) => {
             fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
           }}
         >
-          from {data.date} @ {data.startTime} to {data.endTime}
+          from {data.firstDate} @ {data.startTime} to {data.endTime}
         </Typography>
         <Typography
           color="#333"
