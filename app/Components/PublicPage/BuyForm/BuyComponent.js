@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 import { Container, Grid, Typography, TextField, RadioGroup, FormControlLabel, Radio, MenuItem, Fab, Alert, FormControl, InputLabel, Select } from '@mui/material/';
 import { FcFeedback, FcApproval } from "react-icons/fc";

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
-import BuyDialog from "../BuyForm/BuyDialog";
 import DateSelector from "./DateSelector";
 const SmallOneClass = ({ data,selectedDates,setSelectedDates }) => {
 

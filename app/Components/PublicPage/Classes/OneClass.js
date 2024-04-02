@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
-import BuyDialog from "../BuyForm/BuyDialog";
+import Link from "next/link";
 const OneClass = ({ data }) => {
 
   return (
@@ -69,7 +69,8 @@ const OneClass = ({ data }) => {
         </Typography>
         <br />
         <div style={{ display: "flex" }}>
-        <BuyDialog data={data} />
+        <Link href={"/course/buy/" + data._id}>
+        <button className="viewBtn">Quick Buy</button></Link>
           <span style={{ flexGrow: 0.1 }} />
           <button className="viewBtn">View Details</button>
         </div>

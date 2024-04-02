@@ -19,9 +19,16 @@ export class MyCourseService {
       })
       .then((res) => res.data);
   };
+  publicGetOne = async (id ) => {
+    return this.instance
+      .get(`/api/v1/publicMaster/course/getCourse/forPublicPage/${id}`, {        
+      })
+      .then((res) => res.data);
+  };
+
   add = async (id, data) => {
     return this.instance
-      .post(`/api/v1/publicMaster/course/addCourse/${id}`, data, {
+      .post(`/api/v1/publicMaster/course/addCourse/${id}`, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
@@ -31,6 +38,13 @@ export class MyCourseService {
     return this.instance
       .get(`/api/v1/publicMaster/course/getCourse/getDataWithPage/${searchUrl}`, {
         headers: getAuthorizationHeader(),
+      })
+      .then((res) => res.data);
+  };
+  paymentIntent = async ( data) => {
+    return this.instance
+      .post(`/api/v1/publicMaster/stripePayment/stripePay`, data, {
+        
       })
       .then((res) => res.data);
   };

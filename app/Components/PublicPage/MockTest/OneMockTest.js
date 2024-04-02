@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
-import BuyDialog from "../BuyForm/BuyDialog";
+import BuyDialog from "../../../course/buy/[oneCourseId]/BuyDialog";
 const OneMockTest = ({ data }) => {
 
   return (
