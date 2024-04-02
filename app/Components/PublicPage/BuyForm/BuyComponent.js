@@ -1,11 +1,15 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { Container, Grid, Typography, TextField, RadioGroup, FormControlLabel, Radio, MenuItem, Fab, Alert, FormControl, InputLabel, Select } from '@mui/material/';
 import { FcFeedback, FcApproval } from "react-icons/fc";
 import SmallOneClass from "../Classes/SmallOneClass";
 import StripePay from "../../stripePay/StripePay";
+import { myCourseService } from "@/app/services";
+import MySnackbar from "../../MySnackbar/MySnackbar";
 
 const BuyComponent = ({data}) => {
+  const snackRef = useRef();
+
   const [enquiryFor, setEnquiryFor] = useState("self");
   const [firstName, setFName] = useState("");
   const [lastName, setLName] = useState("");
@@ -19,33 +23,23 @@ const BuyComponent = ({data}) => {
   const [submitted, setSubmitted] = useState(false);
   const [selectedDates, setSelectedDates] = useState([]);
  
-  const handleEnquiry = (e) => {
+  const handleEnquiry = async(e) => {
     e.preventDefault();
-    const user = { enquiryFor, firstName, lastName, email, mobile, address, zip, city: city?.city, state, marketing, message };
+    const buyData = { courseId:data._id,enquiryFor, firstName, lastName, email, mobile, address, marketing, message };
     try {
-      // Assuming this should be replaced with actual API call
-      const res = { variant: "success" };
-      if (res.variant === "success") {
+      let response = await myCourseService.buyStepOne(buyData);
+      if (response.variant === "success") {
         setSubmitted(true);
-        setEnquiryFor("self");
-        setFName("");
-        setLName("");
-        setEmail("");
-        setMobile("");
-        setAddress("");
-        setZip("");
-        setCity(null);
-        setAllCity([]);
-        setStateName(null);
-        setMarketing("");
-        setMsg("");
-      } else {
-        alert(res.message);
-      }
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong. Please try again.");
+        snackRef.current.handleSnack(response);
+    } else {              
+
+        snackRef.current.handleSnack(response);
     }
+     
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      snackRef.current.handleSnack({ fullDescription: "Failed to submit data.", variant: "error" });
+  }
   };
 
   const allMarketing = ["Web Search / Google", "Friend or colleague Recommendation", "Social Media", "Direct Mailer", "Family Member", "Email", "Blog or Publication"];
@@ -58,8 +52,8 @@ const BuyComponent = ({data}) => {
           <SmallOneClass data ={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
           </Grid>
           <Grid item xs={12} lg={6}>
-       {!submitted? (<StripePay/>):
-       ( <form onSubmit={handleEnquiry} id="enquiryForm">
+       {submitted? (<StripePay/>):
+       ( <form onSubmit={handleEnquiry} id="enquiryForm" style={{marginLeft:"40px"}}>
               <Grid container spacing={2}>             
               
                 
@@ -117,6 +111,8 @@ const BuyComponent = ({data}) => {
           </Grid>
         </Grid>
       </Container>
+      <MySnackbar ref={snackRef} />
+
     </section>
   );
 }

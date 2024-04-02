@@ -31,7 +31,6 @@ export default function StripePay() {
           setLoading(false)
           setClientSecret(response.clientSecret);
 console.log({clientSecret})
-console.log({new: clientSresponse.clientSecretecret})
         }else {
             console.log(response); setLoading(false)
         }
