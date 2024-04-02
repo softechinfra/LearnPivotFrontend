@@ -10,6 +10,7 @@ const SmallOneClass = ({ data,selectedDates,setSelectedDates }) => {
           src={data.url}
           className="creativeImg"
           alt={data.courseTitle}
+          style={{ width: '100%', height: '100%' }} 
         />
       </Grid>
       <Grid item xs={12} md={8}>
@@ -44,8 +45,7 @@ const SmallOneClass = ({ data,selectedDates,setSelectedDates }) => {
             fontSize: { xs: "11px", md: "14px" },
             lineHeight: "1.8rem",
           }}
-        >
-        {data.shortDescription}
+        >      
           <div style={{ display: "flex", marginTop: "10px" }}>
           <Chip
                 label={`Class: ${data.courseClass?.label}`}

@@ -72,7 +72,7 @@ const OneClass = ({ data }) => {
         <Link href={"/course/buy/" + data._id}>
         <button className="viewBtn">Quick Buy</button></Link>
           <span style={{ flexGrow: 0.1 }} />
-          <button className="viewBtn">View Details</button>
+          
         </div>
       </Grid>
       <Grid item xs={12}>

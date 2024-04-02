@@ -48,7 +48,7 @@ console.log({new: clientSresponse.clientSecretecret})
   };
 
   return (
-    <div className="App">
+    <div className="App" style={{marginLeft:"40px"}}>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm />
