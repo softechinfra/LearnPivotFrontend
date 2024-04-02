@@ -5,6 +5,7 @@ import { CircularProgress, Container } from '@mui/material';
 import NoResult from '@/app/Components/NoResult/NoResult';
 import { myCourseService } from "../../../services";
 import Header from '@/app/Components/Header1/Header';
+import Footer from '@/app/Components/Footer/Footer';
 
 export default function OneClassBuy({ params }) {
   const [loading, setLoading] = useState(true);
@@ -56,6 +57,8 @@ export default function OneClassBuy({ params }) {
               ) : <NoResult label="No Result Available" />}
     
     </Container>
+    <Footer />
+
     </main>
   );
 }

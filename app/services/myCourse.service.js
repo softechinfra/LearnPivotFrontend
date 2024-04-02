@@ -28,7 +28,7 @@ export class MyCourseService {
 
   add = async (id, data) => {
     return this.instance
-      .post(`/api/v1/publicMaster/course/addCourse/${id}`, {
+      .post(`/api/v1/publicMaster/course/addCourse/${id}`,data, {
         headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
