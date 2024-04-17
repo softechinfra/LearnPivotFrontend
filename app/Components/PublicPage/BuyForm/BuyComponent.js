@@ -47,15 +47,17 @@ const BuyComponent = ({data}) => {
   const allMarketing = ["Web Search / Google", "Friend or colleague Recommendation", "Social Media", "Direct Mailer", "Family Member", "Email", "Blog or Publication"];
 
   return (
-    <section className="enquiryBg" id="enquiry">
+    <section style={{ backgroundColor: "#fff", marginBottom:"10px" }}
+     id="enquiry">
       <Container maxWidth="xl">
         <Grid container>
           <Grid item xs={12} lg={6}>
           <SmallOneClass data ={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
           </Grid>
           <Grid item xs={12} lg={6}>
-       {submitted? (<StripePay submittedId={submittedId}/>):
-       ( <form onSubmit={handleEnquiry} id="enquiryForm" style={{marginLeft:"40px"}}>
+       {!submitted? (<StripePay submittedId={submittedId}/>):
+       (
+         <form onSubmit={handleEnquiry} id="enquiryForm" style={{marginLeft:"40px"}}>
               <Grid container spacing={2}>             
               
                 

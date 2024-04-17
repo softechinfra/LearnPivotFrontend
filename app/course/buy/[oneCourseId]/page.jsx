@@ -47,7 +47,7 @@ export default function OneClassBuy({ params }) {
 
     <br />
   
-    <Container>
+    <Container >
        {loading ? (
                 <div className="center">
                   <CircularProgress size={30} />{" "}
@@ -57,6 +57,7 @@ export default function OneClassBuy({ params }) {
               ) : <NoResult label="No Result Available" />}
     
     </Container>
+  
     <Footer />
 
     </main>
