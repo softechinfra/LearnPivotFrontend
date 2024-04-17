@@ -103,7 +103,7 @@ const DrawerData = ({ open, setMobileOpen }) => {
     //   icon: <FcTodoList />,
     // },
         {
-      title: "All Classes",
+      title: "All Course",
       active: false,
       link: "/dashboard/addCourse",
       icon: <FcPlus />,

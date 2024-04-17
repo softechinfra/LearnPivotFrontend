@@ -15,7 +15,7 @@ import { myCourseService } from "../../services";
 // Sign in to see your own test API key embedded in code samples.
 const stripePromise = loadStripe("pk_test_qblFNYngBkEdjEZ16jxxoWSM");
 
-export default function StripePay() {
+export default function StripePay({submittedId}) {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +23,7 @@ export default function StripePay() {
     async function fetchAllData() {
         setLoading(true)
         let response = await myCourseService.paymentIntent(
-            { items: [{ id: "xl-tshirt" }] }
+            { items: [{ id: submittedId }] }
           );
       
         console.log(response)

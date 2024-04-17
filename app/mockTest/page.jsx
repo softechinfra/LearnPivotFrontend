@@ -63,7 +63,7 @@ function MockTest() {
           <Grid item xs={fullScreen ? 12 : 10}>
 
         {loading ? 
-        <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading Classes...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> :  
+        <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading Courses...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> :  
             rows &&
               rows.map((p, j) => (
                 <OneMockTest data={p} key={p._id} />

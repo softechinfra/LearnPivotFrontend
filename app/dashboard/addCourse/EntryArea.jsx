@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
-import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton, InputAdornment, CircularProgress, Stack, Checkbox, FormControlLabel } from '@mui/material';
+import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton, InputAdornment, CircularProgress, Stack, Checkbox, FormControlLabel, FormControl, InputLabel, OutlinedInput, FilledInput } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { FcNoIdea, FcOk, FcExpand } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
@@ -17,6 +17,8 @@ const EntryArea = forwardRef((props, ref) => {
     const [courseTitle, setCourseTitle] = useState("");
     const [courseLink, setCourseLink] = useState("");
     const [shortDescription, setShortDescription] = useState("");
+    const [oneClassPrice, setOneClassPrice] = useState("");
+    const [discountOnFullClass, setDiscountOnFullClass] = useState("0");
     const [courseClass, setCourseClass] = useState(null);
     const [courseType, setCourseType] = useState(null);
     const [duration, setDuration] = useState(null);
@@ -57,7 +59,7 @@ const EntryArea = forwardRef((props, ref) => {
                 let res = await myCourseService.getOne(props.id);
                 if (res.variant === "success") {
                     const { _id, isPublished,dates,startTime,
-                        endTime,courseTitle,courseLink,shortDescription,
+                        endTime,courseTitle,courseLink,shortDescription,oneClassPrice,discountOnFullClass,
                         courseClass,courseType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
                          } = res.data;
                     props.setId(_id);
@@ -68,6 +70,8 @@ const EntryArea = forwardRef((props, ref) => {
                     setCourseTitle(courseTitle);
                     setCourseLink(courseLink);
                     setShortDescription(shortDescription);
+                    setOneClassPrice(oneClassPrice);
+                    setDiscountOnFullClass(discountOnFullClass);
                     setCourseClass(courseClass);
                     setCourseType(courseType);
                     setDuration(duration);
@@ -100,6 +104,8 @@ const EntryArea = forwardRef((props, ref) => {
         setCourseTitle("");
         setCourseLink("");
         setShortDescription("");
+        setOneClassPrice("");
+        setDiscountOnFullClass("0");
         setCourseClass(null);
         setCourseType(null);
         setDuration(null);
@@ -123,6 +129,8 @@ const EntryArea = forwardRef((props, ref) => {
                     courseTitle,
                     courseLink,
                     shortDescription,
+                    oneClassPrice,
+                    discountOnFullClass,
                     courseClass,
                     courseType,
                     duration,
@@ -245,8 +253,38 @@ const EntryArea = forwardRef((props, ref) => {
                 <Grid item xs={12} md={2}>
                     <TextField focused type='time' value={endTime} onChange={(e) => setEndTime(e.target.value)} fullWidth label="End Time :" variant="standard" />
                 </Grid>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={6}>
                     <TextField fullWidth label="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} inputProps={{ minLength: "2", maxLength: "100" }} placeholder='Short Description' variant="standard" />
+                </Grid>
+                <Grid item xs={12} md={3}>
+                <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel htmlFor="outlined-adornment-amount">One Class Price</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-amount"
+            startAdornment={<InputAdornment position="start">€</InputAdornment>}
+            label="oneClassPrice"
+            type='number'
+            value={oneClassPrice} 
+                    onChange={(e) => setOneClassPrice(e.target.value)} 
+                    inputProps={{ minLength: "1", maxLength: "5" }} 
+                    placeholder='Enter one class price' 
+          />
+        </FormControl>
+            
+                </Grid>
+                <Grid item xs={12} md={3}>
+                <FormControl fullWidth sx={{ m: 1 }} variant="filled">
+          <InputLabel htmlFor="filled-adornment-amount">Discount On Full Course</InputLabel>
+          <FilledInput
+            id="filled-adornment-amount"
+            startAdornment={<InputAdornment position="start">€</InputAdornment>}
+            type='number'
+            value={discountOnFullClass} 
+                    onChange={(e) => setDiscountOnFullClass(e.target.value)} 
+                    inputProps={{ minLength: "1", maxLength: "5" }} 
+                    placeholder='Enter Discount Price' 
+          />
+        </FormControl>
                 </Grid>
                 <Grid item xs={12} md={3}>
                     <Autocomplete
@@ -302,6 +340,7 @@ const EntryArea = forwardRef((props, ref) => {
                         renderInput={(params) => <TextField {...params} label="Duration" variant="standard" />}
                     />
                 </Grid>
+                
                 <br/>
                 
          
