@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
 import DateSelector from "./DateSelector";
-const SmallOneClass = ({ data,selectedDates,setSelectedDates }) => {
-
+const SmallOneClass = ({ data,totalAmount, selectedDates,setSelectedDates }) => {
+console.log({ data,totalAmount, selectedDates,setSelectedDates })
   return (
     <Grid container key={data._id} spacing={4}>
       <Grid item xs={12} md={4}>
@@ -75,7 +75,11 @@ const SmallOneClass = ({ data,selectedDates,setSelectedDates }) => {
         <Divider sx={{ marginTop: "-20px", marginBottom:"5px" }} />
       </Grid>
       <Grid item xs={12}>
-        <DateSelector data={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
+       {totalAmount? (
+           <Typography variant="h4" gutterBottom>
+           Proceed to pay Amount: € {totalAmount}
+         </Typography>
+       ): ( <DateSelector data={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>)}
       </Grid>
     </Grid>
   );

@@ -23,6 +23,7 @@ const BuyComponent = ({data}) => {
   const [submitted, setSubmitted] = useState(false);
   const [selectedDates, setSelectedDates] = useState([]);
   const [submittedId, setSubmittedId] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
  
   const handleEnquiry = async(e) => {
     e.preventDefault();
@@ -32,6 +33,7 @@ const BuyComponent = ({data}) => {
       if (response.variant === "success") {
         setSubmitted(true);
         setSubmittedId(response._id)
+        setTotalAmount(response.totalAmount)
         snackRef.current.handleSnack(response);
     } else {              
 
@@ -52,10 +54,10 @@ const BuyComponent = ({data}) => {
       <Container maxWidth="xl">
         <Grid container>
           <Grid item xs={12} lg={6}>
-          <SmallOneClass data ={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
+          <SmallOneClass data ={data} totalAmount={totalAmount} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
           </Grid>
           <Grid item xs={12} lg={6}>
-       {!submitted? (<StripePay submittedId={submittedId}/>):
+       {submitted? (<StripePay submittedId={submittedId}/>):
        (
          <form onSubmit={handleEnquiry} id="enquiryForm" style={{marginLeft:"40px"}}>
               <Grid container spacing={2}>             
