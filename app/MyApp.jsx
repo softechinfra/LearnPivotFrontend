@@ -14,6 +14,7 @@ import {authService} from "./services/index"
 import Loading from "./Components/Loading/Loading";
 import Hpage1 from './Components/PublicPage/HomePage/Hpage1';
 import HeroSec from './Components/PublicPage/HomePage/HeroSec';
+import Banner from "./Components/ITStartup/Banner";
 
 
 function MyApp() {  
@@ -42,7 +43,8 @@ function MyApp() {
       <Header />
       <Suspense fallback={<Loading />}>
         <TopAbstract />
-   <HeroSec />
+        <Banner />
+   {/* <HeroSec /> */}
         <Hpage1 />
         <Box >
           <Suspense fallback={<Loading />}>
