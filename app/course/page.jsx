@@ -1,6 +1,5 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import Header from "../Components/Header1/Header";
 import "./classes.css";
 import { Container, Typography, Grid, Breadcrumbs, Divider, Tabs, Tab, TablePagination, CircularProgress } from "@mui/material";
 import Footer from "../Components/Footer/Footer";
@@ -14,6 +13,7 @@ import Slide from '@mui/material/Slide';
 import { myCourseService } from "../services";
 import Loading from "../Components/Loading/Loading";
 import NoResult from "../Components/NoResult/NoResult";
+import Navbar from "../Components/ITStartup/Common/Navbar/Navbar";
 
 function Events() {
 
@@ -45,7 +45,7 @@ function Events() {
 
   return (
     <main style={{ backgroundColor: "#fff" }}>
-      <Header />
+      <Navbar />
 
       <br />
     

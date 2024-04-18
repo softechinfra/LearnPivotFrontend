@@ -4,7 +4,6 @@ import React, { Fragment, useEffect } from 'react'
 import "./pageStyle.css";
 import { useState,Suspense  } from "react";
 // import {DARKMODE} from "./Components/Context/types"
-import Header from "./Components/Header1/Header";
 import Enquiry from "./Components/Enquiry/Enquiry";
 import Footer, {NewFooter} from "./Components/Footer/Footer";
 import {Grid, TextField, Typography,Box,Button,IconButton,InputAdornment, Container,Tabs,Tab} from '@mui/material';
@@ -15,6 +14,7 @@ import Loading from "./Components/Loading/Loading";
 import Hpage1 from './Components/PublicPage/HomePage/Hpage1';
 import HeroSec from './Components/PublicPage/HomePage/HeroSec';
 import Banner from "./Components/ITStartup/Banner";
+import Navbar from './Components/ITStartup/Common/Navbar/Navbar';
 
 
 function MyApp() {  
@@ -40,9 +40,9 @@ function MyApp() {
 
   return (
     <Fragment>
-      <Header />
+      <Navbar />
       <Suspense fallback={<Loading />}>
-        <TopAbstract />
+        {/* <TopAbstract /> */}
         <Banner />
    {/* <HeroSec /> */}
         <Hpage1 />

@@ -1,6 +1,5 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import Header from "../Components/Header1/Header";
 import "./mockTest.css";
 import { Container, Typography, Grid, Breadcrumbs, Divider, Tabs, Tab, TablePagination, CircularProgress } from "@mui/material";
 import Footer from "../Components/Footer/Footer";
@@ -14,6 +13,7 @@ import NoResult from "../Components/NoResult/NoResult";
 import MtFilterComponent from "../Components/PublicPage/MockTest/MtFilterComponent"
 import MtFilterDialog from "../Components/PublicPage/MockTest/MtFilterDialog"
 import OneMockTest from "../Components/PublicPage/MockTest/OneMockTest"
+import Navbar from "../Components/ITStartup/Common/Navbar/Navbar";
 
 function MockTest() {
 
@@ -45,7 +45,7 @@ function MockTest() {
 
   return (
     <main style={{ backgroundColor: "#fff" }}>
-      <Header />
+      <Navbar />
 
       <br />
     

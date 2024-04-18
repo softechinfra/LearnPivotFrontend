@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "../Components/Header1/Header";
 import { TopAbstract } from "../MyApp";
 import Enquiry from "../Components/Enquiry/Enquiry";
 import { NewFooter } from "../Components/Footer/Footer";
@@ -7,11 +6,12 @@ import { Container, Typography, Grid, Divider, Breadcrumbs } from "@mui/material
 import Link from "next/link";
 
 import "./aboutStyle.css";
+import Navbar from "../Components/ITStartup/Common/Navbar/Navbar";
 
 function About() {
   return (
     <main style={{ backgroundColor: "#fff" }}>
-      <Header />
+      <Navbar />
       <TopAbstract />
     
       <Container className="sectionMargin">
