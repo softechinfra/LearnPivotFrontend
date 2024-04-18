@@ -1,24 +1,29 @@
-"use client"
-
-import React, { useState } from "react"
-import FsLightbox from "fslightbox-react"
-import Link from "next/link"
-import { Swiper, SwiperSlide } from "swiper/react"
-import { Autoplay, Navigation } from "swiper/modules"
-import Image from "next/image"
+import React, { useState, useEffect } from "react";
+import FsLightbox from "fslightbox-react";
+import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import Image from "next/image";
+import TypeWriterCom from "./TypeWriterCom";
+// import Particles from "react-particles-js"; // Import the particles component
+import ParticleCom from "./ParticleCom";
 
 const Banner = () => {
   // To open the lightbox change the value of the "toggler" prop.
-  const [toggler, setToggler] = useState(false)
+  const [toggler, setToggler] = useState(false);
+
+  useEffect(() => {
+    setToggler(true); // Open the lightbox when the component mounts
+  }, []);
 
   return (
     <>
-      <FsLightbox
-        toggler={toggler}
-        sources={["https://www.youtube.com/watch?v=bk7McNUjWgw"]}
-      />
+
 
       <div className="it-banner">
+        {/* Render the particles effect */}
+        {/* <Particles params={ParticleCom} className="particles" /> */}
+
         <div className="d-table">
           <div className="d-table-cell">
             <div className="container mt-50">
@@ -30,7 +35,7 @@ const Banner = () => {
                       data-aos-duration="800"
                       data-aos-delay="100"
                     >
-                      Secure IT Solutions for a More Secure Environment!
+                      Empowering Minds: Cultivating Future <TypeWriterCom />
                     </h1>
 
                     <p
@@ -38,9 +43,11 @@ const Banner = () => {
                       data-aos-duration="800"
                       data-aos-delay="200"
                     >
-                      We work hand-in-hand with industry-leading brands to help
-                      redefine the possibilities and potential of digital
-                      engagements.
+                      Join our platform where I, as an experienced educator,
+                      guide and inspire students on their
+                      journey of discovery. Together, we'll delve into the
+                      wonders of learning, nurturing a secure environment for
+                      growth and exploration.
                     </p>
 
                     <div
@@ -49,16 +56,15 @@ const Banner = () => {
                       data-aos-duration="800"
                       data-aos-delay="300"
                     >
-                      <Link href="/contact" className="default-btn mr-3">
-                        Get Started <span></span>
+                      <Link href="/course" className="default-btn-course mr-3">
+                        Course <span></span>
                       </Link>
-
-                      <div
-                        className="video-btn"
-                        onClick={() => setToggler(!toggler)}
+                      <Link
+                        href="/mockTest"
+                        className="default-btn-mocktest mr-3"
                       >
-                        <i className="flaticon-play-button"></i> Play Video
-                      </div>
+                        Mock Test <span></span>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -70,7 +76,7 @@ const Banner = () => {
                     autoplay={{
                       delay: 6500,
                       disableOnInteraction: true,
-                      pauseOnMouseEnter: true
+                      pauseOnMouseEnter: true,
                     }}
                     className="it-banner-image"
                   >
@@ -193,7 +199,7 @@ const Banner = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Banner
+export default Banner;

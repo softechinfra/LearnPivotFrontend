@@ -13,8 +13,11 @@ import {authService} from "./services/index"
 import Loading from "./Components/Loading/Loading";
 import Hpage1 from './Components/PublicPage/HomePage/Hpage1';
 import HeroSec from './Components/PublicPage/HomePage/HeroSec';
-import Banner from "./Components/ITStartup/Banner";
+
 import Navbar from './Components/ITStartup/Common/Navbar/Navbar';
+import Banner from './Components/ITStartup/BannerCom/Banner';
+import ServiceCom from './Components/ITStartup/ServiceOverview/ServiceCom';
+import FeedBackCom from './Components/ITStartup/Feedback/FeedBackCom';
 
 
 function MyApp() {  
@@ -42,16 +45,19 @@ function MyApp() {
     <Fragment>
       <Navbar />
       <Suspense fallback={<Loading />}>
-        {/* <TopAbstract /> */}
         <Banner />
-   {/* <HeroSec /> */}
-        <Hpage1 />
+        <ServiceCom />
         <Box >
           <Suspense fallback={<Loading />}>
+            
+            <FeedBackCom />
+          <Suspense fallback={<Loading />}>
+
             <Enquiry />
             <Suspense fallback={<Loading />}>
               <Footer />
             </Suspense>
+          </Suspense>
           </Suspense>
         </Box>
       </Suspense>

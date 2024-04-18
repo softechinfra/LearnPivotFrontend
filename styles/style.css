@@ -175,6 +175,44 @@ p:last-child {
   padding-top: 17px;
   padding-bottom: 13px;
 }
+.default-btn-course {
+  border: none;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+  color: #ffffff;
+  text-transform: uppercase;
+  background-color: #0606a8;
+  transition: 0.5s;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 20px;
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-top: 17px;
+  padding-bottom: 13px;
+}
+.default-btn-mocktest {
+  border: none;
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  overflow: hidden;
+  z-index: 1;
+  color: #ffffff;
+  text-transform: uppercase;
+  background-color: #5208fed2;
+  transition: 0.5s;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 20px;
+  padding-left: 35px;
+  padding-right: 35px;
+  padding-top: 17px;
+  padding-bottom: 13px;
+}
 .default-btn span {
   position: absolute;
   display: block;

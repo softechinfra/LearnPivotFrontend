@@ -4,8 +4,8 @@ import BuyComponent from '../../../Components/PublicPage/BuyForm/BuyComponent';
 import { CircularProgress, Container } from '@mui/material';
 import NoResult from '@/app/Components/NoResult/NoResult';
 import { myCourseService } from "../../../services";
-import Header from '@/app/Components/Header1/Header';
 import Footer from '@/app/Components/Footer/Footer';
+import Navbar from '@/app/Components/ITStartup/Common/Navbar/Navbar';
 
 export default function OneClassBuy({ params }) {
   const [loading, setLoading] = useState(true);
@@ -43,7 +43,7 @@ export default function OneClassBuy({ params }) {
 
   return (
     <main style={{ backgroundColor: "#fff" }}>
-    <Header />
+    <Navbar />
 
     <br />
   
