@@ -5,7 +5,7 @@ import { CircularProgress, Container } from '@mui/material';
 import NoResult from '@/app/Components/NoResult/NoResult';
 import { myCourseService } from "../../../services";
 import Footer from '@/app/Components/Footer/Footer';
-import Navbar from '@/app/Components/ITStartup/Common/Navbar/Navbar';
+import Navbar from "../../../Components/ITStartup/Common/Navbar/Navbar";
 
 export default function OneClassBuy({ params }) {
   const [loading, setLoading] = useState(true);
@@ -43,11 +43,11 @@ export default function OneClassBuy({ params }) {
 
   return (
     <main style={{ backgroundColor: "#fff" }}>
-    <Navbar />
+      <Navbar />
 
     <br />
   
-    <Container >
+    <Container style={{ marginTop:"50px" }}>
        {loading ? (
                 <div className="center">
                   <CircularProgress size={30} />{" "}

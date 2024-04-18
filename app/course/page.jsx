@@ -46,14 +46,12 @@ function Events() {
   return (
     <main style={{ backgroundColor: "#fff" }}>
       <Navbar />
-
-      <br />
     
-      <Container>
+      <Container style={{ marginTop:"100px" }}>
         <Grid container spacing={3}>
         {fullScreen? (
        
-        <FilterDialog />
+        <FilterDialog  />
      
       ):(
         <Grid item xs={2}>
