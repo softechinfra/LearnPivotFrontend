@@ -12,6 +12,7 @@ import Loading from '../Components/Loading/Loading';
 import ServiceCom from '../Components/ITStartup/ServiceOverview/ServiceCom';
 import PageHeadCom from '../Components/ITStartup/Common/PageHeader/PageHeadCom';
 import AboutArea from '../Components/ITStartup/About/AboutArea';
+import FunFactsTwo from '../Components/ITStartup/About/FunFactsTwo';
 
 function MyAbout() {  
   // const {state, dispatch} = useContext(MainContext)
@@ -46,11 +47,15 @@ function MyAbout() {
       />
 
       <AboutArea />
+      <FunFactsTwo />
+
       <ServiceCom />
 
         <Box >
           <Suspense fallback={<Loading />}>
             <FaqCom />
+{/* <SubscribeStyleThree /> */}
+
             <FeedBackCom />
           <Suspense fallback={<Loading />}>
 
