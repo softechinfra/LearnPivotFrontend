@@ -7,52 +7,53 @@ const feedbackData = [
     {
       rating: 5,
       quote:
-        "As a student, I believe interaction with educators is key in learning. Real innovations and a positive learning experience are the heart of successful education. No fake promises.",
-      image: "/images/cryptocurrency-home/user1.jpg",
+        "As a student, interaction with educators is vital for learning. Real innovations and a positive learning experience are crucial for successful education. No fake promises.",
+      image: "/images/MyImage/ReviewUser/femaleChild1.jpg",
       name: "Emily Johnson",
       role: "Student",
     },
     {
       rating: 5,
       quote:
-        "As a parent, I believe interaction with educators is key in my child's education. Real innovations and a positive learning experience are the heart of successful education. No fake promises.",
-      image: "/images/cryptocurrency-home/user2.jpg",
+        "As a parent, interaction with educators is crucial for my child's education. Real innovations and a positive learning experience are essential for successful education. No fake promises.",
+      image: "/images/MyImage/ReviewUser/malePar1.jpg",
       name: "Oliver Smith",
       role: "Parent",
     },
     {
       rating: 5,
       quote:
-        "As a student, I believe interaction with educators is key in learning. Real innovations and a positive learning experience are the heart of successful education. No fake promises.",
-      image: "/images/cryptocurrency-home/user3.jpg",
-      name: "Sophia Brown",
+        "As a student, interaction with educators is vital for learning. Real innovations and a positive learning experience are crucial for successful education. No fake promises.",
+      image: "/images/MyImage/ReviewUser/maleChild1.jpg",
+      name: "Samuel Brown",
       role: "Student",
     },
     {
       rating: 5,
       quote:
-        "As a parent, I believe interaction with educators is key in my child's education. Real innovations and a positive learning experience are the heart of successful education. No fake promises.",
-      image: "/images/cryptocurrency-home/user1.jpg",
+        "As a parent, interaction with educators is crucial for my child's education. Real innovations and a positive learning experience are essential for successful education. No fake promises.",
+      image: "/images/MyImage/ReviewUser/femalePar1.jpg",
       name: "William Taylor",
       role: "Parent",
     },
     {
       rating: 5,
       quote:
-        "As a student, I believe interaction with educators is key in learning. Real innovations and a positive learning experience are the heart of successful education. No fake promises.",
-      image: "/images/cryptocurrency-home/user2.jpg",
-      name: "Ella Wilson",
+        "As a student, interaction with educators is vital for learning. Real innovations and a positive learning experience are crucial for successful education. No fake promises.",
+      image: "/images/MyImage/ReviewUser/maleChild2.jpg",
+      name: "Ethan Wilson",
       role: "Student",
     },
     {
       rating: 5,
       quote:
-        "As a parent, I believe interaction with educators is key in my child's education. Real innovations and a positive learning experience are the heart of successful education. No fake promises.",
-      image: "/images/cryptocurrency-home/user3.jpg",
-      name: "Jack Brown",
+        "As a parent, interaction with educators is crucial for my child's education. Real innovations and a positive learning experience are essential for successful education. No fake promises.",
+      image: "/images/MyImage/ReviewUser/femalePar2.jpg",
+      name: "Emma Brown",
       role: "Parent",
     },
   ];
+  
   
   
 
@@ -62,8 +63,8 @@ const FeedBackCom = () => {
       <div className="unique-feedback-area pt-100">
         <div className="container">
           <div className="section-title with-linear-gradient-text">
-            <span className="sub-title">CREATING FEEDBACK</span>
-            <h2>These People Have Already Invested In Our Cryptocurrency</h2>
+            <span className="sub-title">VALUABLE FEEDBACK</span>
+            <h2>These Wonderfull People have already Enrolled with us</h2>
           </div>
 
           <Swiper
@@ -113,7 +114,7 @@ const FeedBackCom = () => {
                   </div>
                   <div className="quote">
                     <Image
-                      src="/images/cryptocurrency-home/quote.png"
+                      src="/images/MyImage/ReviewUser/quote.png"
                       alt="image"
                       width={118}
                       height={86}

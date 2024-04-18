@@ -1,27 +1,16 @@
 "use client";
-// import MainContext from './Components/Context/MainContext';
 import React, { Fragment, useEffect } from 'react'
-import "./pageStyle.css";
 import { useState,Suspense  } from "react";
 // import {DARKMODE} from "./Components/Context/types"
-import Enquiry from "./Components/Enquiry/Enquiry";
-import Footer, {NewFooter} from "./Components/Footer/Footer";
 import {Grid, TextField, Typography,Box,Button,IconButton,InputAdornment, Container,Tabs,Tab} from '@mui/material';
-import Link from 'next/link';
-import { FcBusinessman,FcBusinesswoman,} from "react-icons/fc";
-import {authService} from "./services/index"
-import Loading from "./Components/Loading/Loading";
-import Hpage1 from './Components/PublicPage/HomePage/Hpage1';
-import HeroSec from './Components/PublicPage/HomePage/HeroSec';
+import Navbar from '../Components/ITStartup/Common/Navbar/Navbar';
+import FaqCom from '../Components/ITStartup/Faq/FaqCom';
+import FeedBackCom from '../Components/ITStartup/Feedback/FeedBackCom';
+import Enquiry from '../Components/Enquiry/Enquiry';
+import Footer from '../Components/Footer/Footer';
+import Loading from '../Components/Loading/Loading';
 
-import Navbar from './Components/ITStartup/Common/Navbar/Navbar';
-import Banner from './Components/ITStartup/BannerCom/Banner';
-import ServiceCom from './Components/ITStartup/ServiceOverview/ServiceCom';
-import FeedBackCom from './Components/ITStartup/Feedback/FeedBackCom';
-import FaqCom from './Components/ITStartup/Faq/FaqCom';
-
-
-function MyApp() {  
+function MyFaq() {  
   // const {state, dispatch} = useContext(MainContext)
   const [value, setValue] = React.useState(0);
   const [hero,setHero] = useState({btn:"Show Gallery",link:"/about/gallery",text:"Bring out the best in you.",bgImg:"https://res.cloudinary.com/oasismanors/image/upload/v1706128914/Oasis2_clq4l3.webp"})
@@ -46,8 +35,6 @@ function MyApp() {
     <Fragment>
       <Navbar />
       <Suspense fallback={<Loading />}>
-        <Banner />
-        <ServiceCom />
         <Box >
           <Suspense fallback={<Loading />}>
             <FaqCom />
@@ -77,4 +64,4 @@ export function TopAbstract() {
 
 
  
-export default MyApp
+export default MyFaq

@@ -9,7 +9,7 @@ export const menus = [
       link: "/about/",
       submenu: [
         {
-          label: "About Us",
+          label: "About",
           link: "/about/",
         },         
         {
