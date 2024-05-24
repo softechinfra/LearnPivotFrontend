@@ -26,14 +26,12 @@ export class MyCourseService {
       .then((res) => res.data);
   };
 
-  buyStepOne = async ( data) => {
+
+  buyStepOne = async (data) => {
     return this.instance
-      .post(`/api/v1/publicMaster/buyCourse/addBuyCourse`,data, {
-        headers: getAuthorizationHeader(),
-      })
+      .post(`/api/v1/publicMaster/buyCourse/addBuyCourse`, data)
       .then((res) => res.data);
   };
-
 
   add = async (id, data) => {
     return this.instance
