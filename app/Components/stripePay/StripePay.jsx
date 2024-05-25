@@ -18,6 +18,7 @@ const stripePromise = loadStripe("pk_test_qblFNYngBkEdjEZ16jxxoWSM");
 export default function StripePay({submittedId}) {
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  const [buyCourseId, setBuyCourseId] = useState("");
 
   useEffect(() => {
     async function fetchAllData() {
@@ -30,6 +31,7 @@ export default function StripePay({submittedId}) {
         if(response.variant === "success"){
           setLoading(false)
           setClientSecret(response.clientSecret);
+          setBuyCourseId(response.buyCourseId)
 console.log({clientSecret})
         }else {
             console.log(response); setLoading(false)
@@ -50,7 +52,7 @@ console.log({clientSecret})
     <div className="App" style={{marginLeft:"40px"}}>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
-          <CheckoutForm />
+          <CheckoutForm buyCourseId={buyCourseId}/>
         </Elements>
       )}
     </div>
