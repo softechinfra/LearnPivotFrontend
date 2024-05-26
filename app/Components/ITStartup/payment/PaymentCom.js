@@ -2,7 +2,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const PaymentCom = () => {
+const PaymentCom = ({data}) => {
+  console.log(data)
   const isSuccess = 10 === 100;
   const paymentDetails = {
     amount: "$200",
