@@ -1,15 +1,16 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { formatDateToShortMonth } from "@/app/utils/dateFormat";
 
 const PaymentCom = ({data}) => {
   console.log(data)
-  const isSuccess = 10 === 100;
+  const isSuccess = data.status=="succeeded"?true:false;
   const paymentDetails = {
-    amount: "$200",
-    refNo: "$200",
-    paymentDate: "25/05/2024",
-    reason: isSuccess ? "All Good." : "Invalid Order Id."
+    amount: data.amount,
+    refNo: data.refNo,
+    paymentDate: formatDateToShortMonth(data.paymentDate),
+    reason: isSuccess ? "All Good." : "data.status"
   };
 
   return (

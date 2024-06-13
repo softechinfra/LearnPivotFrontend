@@ -23,7 +23,7 @@ export default function StripePay({submittedId}) {
   useEffect(() => {
     async function fetchAllData() {
         setLoading(true)
-        let response = await myCourseService.paymentIntent(
+        let response = await myCourseService.getPaymentIntentApi(
             { items: [{ id: submittedId }] }
           );
       
@@ -32,13 +32,13 @@ export default function StripePay({submittedId}) {
           setLoading(false)
           setClientSecret(response.clientSecret);
           setBuyCourseId(response.buyCourseId)
-console.log({clientSecret})
         }else {
             console.log(response); setLoading(false)
         }
     }
         fetchAllData()
   }, []);
+  console.log({clientSecret,buyCourseId})
 
   const appearance = {
     theme: 'stripe',

@@ -54,7 +54,7 @@ export class MyCourseService {
       })
       .then((res) => res.data);
   };
-  paymentIntent = async ( data) => {
+  getPaymentIntentApi = async ( data) => {
     return this.instance
       .post(`/api/v1/publicMaster/stripePayment/stripePay`, data, {
         
