@@ -1,20 +1,22 @@
 "use client";
 import React, { Fragment, useEffect } from 'react'
 import { useState,Suspense  } from "react";
-// import {DARKMODE} from "./Components/Context/types"
-
 import Navbar from '../../../Components/ITStartup/Common/Navbar/Navbar';
 import Footer from '../../../Components/Footer/Footer';
 import Loading from '../../../Components/Loading/Loading';
 import PaymentCom from '../../../Components/ITStartup/payment/PaymentCom';
 import { myCourseService } from '@/app/services';
 
-
 function MyPayment({params}) {  
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
 
+
+
+
   useEffect(() => {
+  
+
     // Getting date from Voucher in URL
     async function getPaymentDetails() {
       setLoading(true)
