@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
-import { TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails, IconButton, InputAdornment, CircularProgress, Stack, Checkbox, FormControlLabel } from '@mui/material';
+import {
+    TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails,
+    IconButton, InputAdornment, CircularProgress, Stack, Checkbox, FormControlLabel, Paper
+} from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import { FcNoIdea, FcOk, FcExpand } from "react-icons/fc";
 import { MdDeleteForever } from "react-icons/md";
@@ -24,46 +27,44 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     const [filledSeat, setFilledSeats] = useState("");
     const [showRemaining, setShowRemaining] = useState(false);
     const [url, setUrl] = useState("");
-
     const [PAccordion, setPAccordion] = useState(false);
-    const allClass = [
-        { label: "4", id: "4" },
-         { label: "5", id: "5" },
-        ];
-    const allTestType = [
-        { label: "Initial Test", id: "initialTest" },
-         { label: "After Course", id: "afterCourseTest" },
-        ];
+    const [loadingDoc, setLoadingDoc] = useState(false);
+
+    const [schedule, setSchedule] = useState([{ date: todayDate(), startTime: "", endTime: "", seats: 0, filled: false }]);
+
+    const allClass = [{ label: "4", id: "4" }, { label: "5", id: "5" }];
+    const allTestType = [{ label: "FSCE", id: "fsce" }, { label: "CSSE", id: "csse" }];
     const allDuration = [
         { label: "30 Minutes", id: "30minutes" },
-         { label: "1 Hours", id: "1hours" },
-         { label: "2 Hours", id: "2hours" },
-         { label: "3 Hours", id: "3hours" },
-        ];
-    
-    const [loadingDoc, setLoadingDoc] = useState(false);
+        { label: "1 Hour", id: "1hour" },
+        { label: "1 Hour 30 Minutes", id: "1hour30minutes" },
+        { label: "2 Hours", id: "2hours" },
+        { label: "2 Hours 30 Minutes", id: "2hours30minutes" },
+        { label: "3 Hours", id: "3hours" }
+    ];
+
     function convertToSlug(text) {
         return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
-      }
-    const onTitleChange = (e) => {
-        setMockTestTitle(e)
-        let link = convertToSlug(e)
-        setMockTestLink(link)
     }
-  
+
+    const onTitleChange = (e) => {
+        setMockTestTitle(e.target.value);
+        setMockTestLink(convertToSlug(e.target.value));
+    };
+
     useEffect(() => {
         async function getOneData() {
             try {
-                let res = await mockTestService.getOne(props.id);
+                const res = await mockTestService.getOne(props.id);
                 if (res.variant === "success") {
-                    const { _id, isPublished,startDate,endDate,
-                        mockTestTitle,mockTestLink,shortDescription,
-                        testClass,testType,duration,url,fullDescription,totalSeat,filledSeat,showRemaining,
-                         } = res.data;
+                    const {
+                        _id, isPublished, startDate, endDate, mockTestTitle, mockTestLink, shortDescription,
+                        testClass, testType, duration, url, fullDescription, totalSeat, filledSeat, showRemaining
+                    } = res.data;
                     props.setId(_id);
                     setIsPublished(isPublished);
-                    setStartDate(startDate);               
-                    setEndDate(endDate);               
+                    setStartDate(startDate);
+                    setEndDate(endDate);
                     setMockTestTitle(mockTestTitle);
                     setMockTestLink(mockTestLink);
                     setShortDescription(shortDescription);
@@ -85,6 +86,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 snackRef.current.handleSnack({ fullDescription: "Failed to fetch data.", variant: "error" });
             }
         }
+
         if (props.id) {
             getOneData();
         }
@@ -107,34 +109,22 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         setShowRemaining(false);
         setUrl("");
         setPAccordion(true);
+        setSchedule([{ date: todayDate(), startTime: "", endTime: "", seats: 0, filled: false }]);
     };
-    
 
     useImperativeHandle(ref, () => ({
         handleSubmit: async () => {
             try {
-                let myMockTestData = {
-                    _id: props.id,
-                    startDate,
-                    endDate,
-                    mockTestTitle,
-                    mockTestLink,
-                    shortDescription,
-                    testClass,
-                    testType,
-                    duration,
-                    fullDescription,
-                    totalSeat,filledSeat,showRemaining,
-                    url,
-                    isPublished
+                const myMockTestData = {
+                    _id: props.id, startDate, endDate, mockTestTitle, mockTestLink, shortDescription,
+                    testClass, testType, duration, fullDescription, totalSeat, filledSeat, showRemaining,
+                    url, isPublished, schedule
                 };
-                let response = await mockTestService.add(props.id, myMockTestData);
-                              
+                const response = await mockTestService.add(props.id, myMockTestData);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
-                } else {              
-
+                } else {
                     snackRef.current.handleSnack(response);
                 }
             } catch (error) {
@@ -144,28 +134,24 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         },
         handleClear: () => handleClear()
     }));
-    const imgUpload  = async (e) => {
-        setLoadingDoc(true);
-        let url = await useImgUpload(e);
-        if (url) {
-          setUrl(url);
-          setLoadingDoc(false);
-        } else {
-          snackRef.current.handleSnack({
-            message: "Image Not Selected",
-            info: "warning",
-          });
-          setLoadingDoc(false);
-        }
-      };
 
+    const imgUpload = async (e) => {
+        setLoadingDoc(true);
+        const url = await useImgUpload(e);
+        if (url) {
+            setUrl(url);
+            setLoadingDoc(false);
+        } else {
+            snackRef.current.handleSnack({ message: "Image Not Selected", info: "warning" });
+            setLoadingDoc(false);
+        }
+    };
 
     const handleDelete = async () => {
         try {
-            let yes = window.confirm(`Do you really want to permanently delete ${mockTestTitle}?`);
+            const yes = window.confirm(`Do you really want to permanently delete ${mockTestTitle}?`);
             if (yes) {
-                let response = await mockTestService.delete(`api/v1/publicMaster/mockTest/addMockTest/deleteOne/${props.id}`);
-             console.log(response)
+                const response = await mockTestService.delete(`api/v1/publicMaster/mockTest/addMockTest/deleteOne/${props.id}`);
                 if (response.variant === "success") {
                     snackRef.current.handleSnack(response);
                     handleClear();
@@ -179,15 +165,27 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         }
     };
 
-    const deleteImage = () => {
-        // Your delete image logic here
-        setUrl(""); // Clear the URL to remove the image from display
-    };
+    const deleteImage = () => setUrl("");
 
     const showImage = () => {
         if (url) {
-            window.open(url, '_blank'); // Open the image URL in a new tab
+            window.open(url, '_blank');
         }
+    };
+
+    const handleScheduleChange = (index, field, value) => {
+        const updatedSchedule = [...schedule];
+        updatedSchedule[index][field] = value;
+        setSchedule(updatedSchedule);
+    };
+
+    const addScheduleEntry = () => {
+        setSchedule([...schedule, { date: todayDate(), startTime: "", endTime: "", seats: 0, filled: false }]);
+    };
+
+    const removeScheduleEntry = (index) => {
+        const updatedSchedule = schedule.filter((_, i) => i !== index);
+        setSchedule(updatedSchedule);
     };
 
     return (
@@ -201,154 +199,206 @@ const AddMockEntryArea = forwardRef((props, ref) => {
             </Grid>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6}>
-                    <TextField fullWidth label="MockTest Title" value={mockTestTitle} onChange={(e) => onTitleChange(e.target.value)} inputProps={{ minLength: "2", maxLength: "30" }} placeholder='MockTest Title' variant="standard" />
-                    <Typography variant="subtitle2" gutterBottom>
-                    Link- {mockTestLink}
-      </Typography>                    
-                </Grid>
-                <Grid item xs={12} md={2}>
-                    <TextField focused type='date' value={startDate} onChange={(e) => setStartDate(e.target.value)} fullWidth label="Start Date :" variant="standard" />
-                </Grid>
-                <Grid item xs={12} md={2}>
-                    <TextField focused type='date' value={endDate} onChange={(e) => setEndDate(e.target.value)} fullWidth label="End Date :" variant="standard" />
-                </Grid>
-          
-                <Grid item xs={12} md={12}>
-                    <TextField fullWidth label="Short Description" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} inputProps={{ minLength: "2", maxLength: "100" }} placeholder='Short Description' variant="standard" />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                    <Autocomplete
-                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
-                        options={allClass}
-                        value={testClass}
-                        onChange={(e, v) => {
-                            setTestClass(v);
-                        }}
-                        renderOption={(props, option) => {
-                            return (
-                                <li {...props} key={option.id}>
-                                    {option.label}
-                                </li>
-                            );
-                        }}
-                        renderInput={(params) => <TextField {...params} label="Class" variant="standard" />}
+                    <TextField
+                        fullWidth
+                        label="MockTest Title"
+                        value={mockTestTitle}
+                        onChange={onTitleChange}
+                        inputProps={{ minLength: "2", maxLength: "30" }}
+                        placeholder='MockTest Title'
+                        variant="standard"
+                        required={true}
                     />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                    <Autocomplete
-                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
-                        options={allTestType}
-                        value={testType}
-                        onChange={(e, v) => {
-                            setTestType(v);
-                        }}
-                        renderOption={(props, option) => {
-                            return (
-                                <li {...props} key={option.id}>
-                                    {option.label}
-                                </li>
-                            );
-                        }}
-                        renderInput={(params) => <TextField {...params} label="Test Type" variant="standard" />}
-                    />
-                </Grid>
-                <Grid item xs={12} md={3}>
-                    <Autocomplete
-                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
-                        options={allDuration}
-                        value={duration}
-                        onChange={(e, v) => {
-                            setDuration(v);
-                        }}
-                        renderOption={(props, option) => {
-                            return (
-                                <li {...props} key={option.id}>
-                                    {option.label}
-                                </li>
-                            );
-                        }}
-                        renderInput={(params) => <TextField {...params} label="Duration" variant="standard" />}
-                    />
-                </Grid>
-                <br/>
-                <Grid item xs={12} md={4}>
-                {  !url?   (<TextField
-                label="Document (If Any)"
-                size="small"
-                disabled={loadingDoc}
-                helperText="Only Image Files are allowed"
-                inputProps={{ accept: "image/*" }}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="start">
-                            {loadingDoc && <CircularProgress size={25} />}{" "}
-                        </InputAdornment>
-                    ),
-                }}
-                onChange={(e) => imgUpload(e.target.files[0])}
-                type="file"
-                focused
-                fullWidth
-            />):
-             (
-                <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="success"onClick={showImage}>Show Image
-                </Button>
-                <Button variant="outlined" color="error"onClick={deleteImage}>Delete Image
-                </Button>
-              </Stack>
-               
-            )}
-        </Grid>
-            </Grid>
-            <br/> <br/>
-            <Accordion expanded={PAccordion} onClick={() => setPAccordion(!PAccordion)}>
-                <AccordionSummary
-                    expandIcon={<IconButton > <FcExpand /> </IconButton>}
-                    aria-controls="ProspectInformation"
-                    id="ProspectInformation"
-                >
-                    <Typography>Additional Optional Information</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField label="Full Description" value={fullDescription} inputProps={{ maxLength: "4000" }} onChange={(e) => setFullDescription(e.target.value)} placeholder="Write the Long Description about the MockTest" fullWidth multiline rows={4} variant="outlined" />
-                        </Grid>
-                     <Grid item xs={12} md={4}>
-                    <TextField 
-                    label="Total Seat" variant="filled"
-                     color="success" focused 
-                     type="Number"
-                     value={totalSeat}
-                     onChange={(e) => setTotalSeat(e.target.value)}
-                     />                   
-                </Grid>
-                     <Grid item xs={12} md={4}>
-                    <TextField 
-                    label="Filled Seats" variant="filled"
-                     color="success" focused 
-                     type="Number"
-                     value={filledSeat}
-                     onChange={(e) => setFilledSeats(e.target.value)}
-                     />                   
-                </Grid>
-                     <Grid item xs={12} md={4}>
-                     <FormControlLabel control={
-                           <Checkbox
-                           checked={showRemaining}
-                           onChange={() => setShowRemaining(!showRemaining)}
-                           inputProps={{ 'aria-label': 'controlled' }}
-                         />               
-                     } label={`Show Remaining:  ${totalSeat-filledSeat}   Seats`} />
-                  
-                </Grid>
+                    <Typography variant="subtitle2" gutterBottom>Link- {mockTestLink}</Typography>
+</Grid>
+<Grid item xs={12} md={4}>
+{!url ? (
+<TextField
+label="Thumbnail Image"
+size="small"
+required={true}
+disabled={loadingDoc}
+helperText="Only Image Files are allowed"
+inputProps={{ accept: "image/*" }}
+InputProps={{
+endAdornment: (
+<InputAdornment position="start">
+{loadingDoc && <CircularProgress size={25} />}{" "}
+</InputAdornment>
+),
+}}
+onChange={(e) => imgUpload(e.target.files[0])}
+type="file"
+focused
+fullWidth
+/>
+) : (
+<Stack direction="row" spacing={2}>
+<Button variant="contained" color="success" onClick={showImage}>Show Image</Button>
+<Button variant="outlined" color="error" onClick={deleteImage}>Delete Image</Button>
+</Stack>
+)}
+</Grid>
+<Grid item xs={12} md={12}>
+<TextField
+fullWidth
+label="Short Description"
+value={shortDescription}
+onChange={(e) => setShortDescription(e.target.value)}
+inputProps={{ minLength: "2", maxLength: "100" }}
+placeholder='Short Description'
+variant="standard"
+/>
+</Grid>
+<Grid item xs={12} md={3}>
+<Autocomplete
+isOptionEqualToValue={(option, value) => option?.id === value?.id}
+options={allClass}
+value={testClass}
+onChange={(e, v) => setTestClass(v)}
+renderOption={(props, option) => (
+<li {...props} key={option.id}>{option.label}</li>
+)}
+renderInput={(params) => <TextField {...params} label="Class" variant="standard" />}
+/>
+</Grid>
+<Grid item xs={12} md={3}>
+<Autocomplete
+isOptionEqualToValue={(option, value) => option?.id === value?.id}
+options={allTestType}
+value={testType}
+onChange={(e, v) => setTestType(v)}
+renderOption={(props, option) => (
+<li {...props} key={option.id}>{option.label}</li>
+)}
+renderInput={(params) => <TextField {...params} label="Test Type" variant="standard" />}
+/>
+</Grid>
+<Grid item xs={12} md={3}>
+<Autocomplete
+isOptionEqualToValue={(option, value) => option?.id === value?.id}
+options={allDuration}
+value={duration}
+onChange={(e, v) => setDuration(v)}
+renderOption={(props, option) => (
+<li {...props} key={option.id}>{option.label}</li>
+)}
+renderInput={(params) => <TextField {...params} label="Duration" variant="standard" />}
+/>
+</Grid>
+</Grid>
+<div style={{ margin: '45px' }}></div>
+        
+        {schedule.map((entry, index) => (
+            <Paper variant="outlined" style={{ padding: '15px', marginBottom: '10px', borderRadius: '10px' }} key={index}>
+                <Typography variant="subtitle1" style={{ marginBottom: '10px' }}>Batch {index + 1}</Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} md={3}>
+                        <TextField
+                            label="Date"
+                            type="date"
+                            value={entry.date}
+                            onChange={(e) => handleScheduleChange(index, 'date', e.target.value)}
+                            fullWidth
+                            variant="standard"
+                            InputLabelProps={{ shrink: true }}
+                        />
                     </Grid>
-                </AccordionDetails>
-            </Accordion>
-            <MySnackbar ref={snackRef} />
-        </main>
-    );
+                    <Grid item xs={12} md={2}>
+                        <TextField
+                            label="Start Time"
+                            type="time"
+                            value={entry.startTime}
+                            onChange={(e) => handleScheduleChange(index, 'startTime', e.target.value)}
+                            fullWidth
+                            variant="standard"
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                        <TextField
+                            label="End Time"
+                            type="time"
+                            value={entry.endTime}
+                            onChange={(e) => handleScheduleChange(index, 'endTime', e.target.value)}
+                            fullWidth
+                            variant="standard"
+                            InputLabelProps={{ shrink: true }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                        <TextField
+                            label="Seats"
+                            type="number"
+                            value={entry.seats}
+                            onChange={(e) => handleScheduleChange(index, 'seats', e.target.value)}
+                            fullWidth
+                            variant="standard"
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={2}>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={entry.filled}
+                                    onChange={(e) => handleScheduleChange(index, 'filled', e.target.checked)}
+                                />
+                            }
+                            label="Filled"
+                        />
+                    </Grid>
+                    {schedule.length > 1 && (
+                        <Grid item xs={12} md={1}>
+                            <Button variant="outlined" color="error" onClick={() => removeScheduleEntry(index)}>Delete</Button>
+                        </Grid>
+                    )}
+                </Grid>
+            </Paper>
+        ))}
+        
+        <Grid item xs={12}>
+            <Button
+                variant="outlined"
+                color="primary"
+                onClick={addScheduleEntry}
+                disabled={!schedule[schedule.length - 1].date || !schedule[schedule.length - 1].startTime || !schedule[schedule.length - 1].endTime || !schedule[schedule.length - 1].seats}
+            >
+                Add Schedule Entry
+            </Button>
+        </Grid>
+        
+        <br /> <br />
+        <Accordion expanded={PAccordion} onClick={() => setPAccordion(!PAccordion)}>
+            <AccordionSummary
+                expandIcon={<IconButton><FcExpand /></IconButton>}
+                aria-controls="ProspectInformation"
+                id="ProspectInformation"
+            >
+                <Typography>Additional Optional Information</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                            label="Full Description"
+                            value={fullDescription}
+                            inputProps={{ maxLength: "4000" }}
+                            onChange={(e) => setFullDescription(e.target.value)}
+                            placeholder="Write the Long Description about the MockTest"
+                            fullWidth
+                            multiline
+                            rows={4}
+                            variant="outlined"
+                        />
+                    </Grid>
+                </Grid>
+            </AccordionDetails>
+        </Accordion>
+        <MySnackbar ref={snackRef} />
+    </main>
+);
 });
 
 export default AddMockEntryArea;
+
+
