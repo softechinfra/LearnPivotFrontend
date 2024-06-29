@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useRef, forwardRef, useImperativeHandle, useEffect } from 'react';
 import {
     TextField, Grid, ButtonGroup, Button, Typography, Accordion, AccordionSummary, AccordionDetails,
     IconButton, InputAdornment, CircularProgress, Stack, Checkbox, FormControlLabel, Paper
@@ -14,8 +14,6 @@ import { useImgUpload } from "@/app/hooks/auth/useImgUpload";
 const AddMockEntryArea = forwardRef((props, ref) => {
     const snackRef = useRef();
     const [isPublished, setIsPublished] = useState(false);
-    const [startDate, setStartDate] = useState(todayDate());
-    const [endDate, setEndDate] = useState("");
     const [mockTestTitle, setMockTestTitle] = useState("");
     const [mockTestLink, setMockTestLink] = useState("");
     const [shortDescription, setShortDescription] = useState("");
@@ -24,13 +22,10 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     const [duration, setDuration] = useState(null);
     const [fullDescription, setFullDescription] = useState("");
     const [totalSeat, setTotalSeat] = useState("");
-    const [filledSeat, setFilledSeats] = useState("");
-    const [showRemaining, setShowRemaining] = useState(false);
     const [url, setUrl] = useState("");
-    const [PAccordion, setPAccordion] = useState(false);
     const [loadingDoc, setLoadingDoc] = useState(false);
-
-    const [schedule, setSchedule] = useState([{ date: todayDate(), startTime: "", endTime: "", seats: 0, filled: false }]);
+    const [batch, setBatch] = useState([{ date: todayDate(), startTime: "", endTime: "", totalSeat: 100, filled: false }]);
+    const [PAccordion, setPAccordion] = useState(false);
 
     const allClass = [{ label: "4", id: "4" }, { label: "5", id: "5" }];
     const allTestType = [{ label: "FSCE", id: "fsce" }, { label: "CSSE", id: "csse" }];
@@ -58,13 +53,10 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 const res = await mockTestService.getOne(props.id);
                 if (res.variant === "success") {
                     const {
-                        _id, isPublished, startDate, endDate, mockTestTitle, mockTestLink, shortDescription,
-                        testClass, testType, duration, url, fullDescription, totalSeat, filledSeat, showRemaining
+                        isPublished, mockTestTitle, mockTestLink, shortDescription,
+                        testClass, testType, duration, url, fullDescription, totalSeat, batch
                     } = res.data;
-                    props.setId(_id);
                     setIsPublished(isPublished);
-                    setStartDate(startDate);
-                    setEndDate(endDate);
                     setMockTestTitle(mockTestTitle);
                     setMockTestLink(mockTestLink);
                     setShortDescription(shortDescription);
@@ -74,8 +66,10 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                     setUrl(url);
                     setFullDescription(fullDescription);
                     setTotalSeat(totalSeat);
-                    setFilledSeats(filledSeat);
-                    setShowRemaining(showRemaining);
+                    setBatch(batch.map(b => ({
+                        ...b,
+                        date: b.date.split('T')[0] // Ensure the date is in the correct format
+                    })));
                     setPAccordion(true);
                     snackRef.current.handleSnack(res);
                 } else {
@@ -86,17 +80,16 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                 snackRef.current.handleSnack({ fullDescription: "Failed to fetch data.", variant: "error" });
             }
         }
-
+    
         if (props.id) {
             getOneData();
         }
     }, [props.id]);
+    
 
     const handleClear = () => {
         props.setId("");
         setIsPublished(false);
-        setStartDate(todayDate());
-        setEndDate("");
         setMockTestTitle("");
         setMockTestLink("");
         setShortDescription("");
@@ -105,20 +98,18 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         setDuration(null);
         setFullDescription("");
         setTotalSeat("");
-        setFilledSeats("");
-        setShowRemaining(false);
         setUrl("");
+        setBatch([{ date: todayDate(), startTime: "", endTime: "", totalSeat: 0, filled: false }]);
         setPAccordion(true);
-        setSchedule([{ date: todayDate(), startTime: "", endTime: "", seats: 0, filled: false }]);
     };
 
     useImperativeHandle(ref, () => ({
         handleSubmit: async () => {
             try {
                 const myMockTestData = {
-                    _id: props.id, startDate, endDate, mockTestTitle, mockTestLink, shortDescription,
-                    testClass, testType, duration, fullDescription, totalSeat, filledSeat, showRemaining,
-                    url, isPublished, schedule
+                    _id: props.id, mockTestTitle, mockTestLink, shortDescription,
+                    testClass, testType, duration, fullDescription, totalSeat,
+                    url, isPublished, batch
                 };
                 const response = await mockTestService.add(props.id, myMockTestData);
                 if (response.variant === "success") {
@@ -172,21 +163,21 @@ const AddMockEntryArea = forwardRef((props, ref) => {
             window.open(url, '_blank');
         }
     };
-
-    const handleScheduleChange = (index, field, value) => {
-        const updatedSchedule = [...schedule];
-        updatedSchedule[index][field] = value;
-        setSchedule(updatedSchedule);
+    const handleBatchChange = (index, field, value) => {
+        const updatedBatch = [...batch];
+        updatedBatch[index][field] = value;
+        setBatch(updatedBatch);
     };
-
-    const addScheduleEntry = () => {
-        setSchedule([...schedule, { date: todayDate(), startTime: "", endTime: "", seats: 0, filled: false }]);
+    
+    const addBatchEntry = () => {
+        setBatch([...batch, { date: todayDate(), startTime: "", endTime: "", totalSeat: 0, filled: false }]);
     };
-
-    const removeScheduleEntry = (index) => {
-        const updatedSchedule = schedule.filter((_, i) => i !== index);
-        setSchedule(updatedSchedule);
+    
+    const removeBatchEntry = (index) => {
+        const updatedBatch = batch.filter((_, i) => i !== index);
+        setBatch(updatedBatch);
     };
+    
 
     return (
         <main style={{ background: "#fff", boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px", borderRadius: "10px", padding: 20 }}>
@@ -210,195 +201,193 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                         required={true}
                     />
                     <Typography variant="subtitle2" gutterBottom>Link- {mockTestLink}</Typography>
-</Grid>
-<Grid item xs={12} md={4}>
-{!url ? (
-<TextField
-label="Thumbnail Image"
-size="small"
-required={true}
-disabled={loadingDoc}
-helperText="Only Image Files are allowed"
-inputProps={{ accept: "image/*" }}
-InputProps={{
-endAdornment: (
-<InputAdornment position="start">
-{loadingDoc && <CircularProgress size={25} />}{" "}
-</InputAdornment>
-),
-}}
-onChange={(e) => imgUpload(e.target.files[0])}
-type="file"
-focused
-fullWidth
-/>
-) : (
-<Stack direction="row" spacing={2}>
-<Button variant="contained" color="success" onClick={showImage}>Show Image</Button>
-<Button variant="outlined" color="error" onClick={deleteImage}>Delete Image</Button>
-</Stack>
-)}
-</Grid>
-<Grid item xs={12} md={12}>
-<TextField
-fullWidth
-label="Short Description"
-value={shortDescription}
-onChange={(e) => setShortDescription(e.target.value)}
-inputProps={{ minLength: "2", maxLength: "100" }}
-placeholder='Short Description'
-variant="standard"
-/>
-</Grid>
-<Grid item xs={12} md={3}>
-<Autocomplete
-isOptionEqualToValue={(option, value) => option?.id === value?.id}
-options={allClass}
-value={testClass}
-onChange={(e, v) => setTestClass(v)}
-renderOption={(props, option) => (
-<li {...props} key={option.id}>{option.label}</li>
-)}
-renderInput={(params) => <TextField {...params} label="Class" variant="standard" />}
-/>
-</Grid>
-<Grid item xs={12} md={3}>
-<Autocomplete
-isOptionEqualToValue={(option, value) => option?.id === value?.id}
-options={allTestType}
-value={testType}
-onChange={(e, v) => setTestType(v)}
-renderOption={(props, option) => (
-<li {...props} key={option.id}>{option.label}</li>
-)}
-renderInput={(params) => <TextField {...params} label="Test Type" variant="standard" />}
-/>
-</Grid>
-<Grid item xs={12} md={3}>
-<Autocomplete
-isOptionEqualToValue={(option, value) => option?.id === value?.id}
-options={allDuration}
-value={duration}
-onChange={(e, v) => setDuration(v)}
-renderOption={(props, option) => (
-<li {...props} key={option.id}>{option.label}</li>
-)}
-renderInput={(params) => <TextField {...params} label="Duration" variant="standard" />}
-/>
-</Grid>
-</Grid>
-<div style={{ margin: '45px' }}></div>
-        
-        {schedule.map((entry, index) => (
-            <Paper variant="outlined" style={{ padding: '15px', marginBottom: '10px', borderRadius: '10px' }} key={index}>
-                <Typography variant="subtitle1" style={{ marginBottom: '10px' }}>Batch {index + 1}</Typography>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} md={3}>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                    {!url ? (
                         <TextField
-                            label="Date"
-                            type="date"
-                            value={entry.date}
-                            onChange={(e) => handleScheduleChange(index, 'date', e.target.value)}
+                            label="Thumbnail Image"
+                            size="small"
+                            required={true}
+                            disabled={loadingDoc}
+                            helperText="Only Image Files are allowed"
+                            inputProps={{ accept: "image/*" }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        {loadingDoc && <CircularProgress size={25} />}{" "}
+                                    </InputAdornment>
+                                ),
+                            }}
+                            onChange={(e) => imgUpload(e.target.files[0])}
+                            type="file"
+                            focused
                             fullWidth
-                            variant="standard"
-                            InputLabelProps={{ shrink: true }}
                         />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                        <TextField
-                            label="Start Time"
-                            type="time"
-                            value={entry.startTime}
-                            onChange={(e) => handleScheduleChange(index, 'startTime', e.target.value)}
-                            fullWidth
-                            variant="standard"
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                        <TextField
-                            label="End Time"
-                            type="time"
-                            value={entry.endTime}
-                            onChange={(e) => handleScheduleChange(index, 'endTime', e.target.value)}
-                            fullWidth
-                            variant="standard"
-                            InputLabelProps={{ shrink: true }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                        <TextField
-                            label="Seats"
-                            type="number"
-                            value={entry.seats}
-                            onChange={(e) => handleScheduleChange(index, 'seats', e.target.value)}
-                            fullWidth
-                            variant="standard"
-                        />
-                    </Grid>
-                    <Grid item xs={12} md={2}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={entry.filled}
-                                    onChange={(e) => handleScheduleChange(index, 'filled', e.target.checked)}
-                                />
-                            }
-                            label="Filled"
-                        />
-                    </Grid>
-                    {schedule.length > 1 && (
-                        <Grid item xs={12} md={1}>
-                            <Button variant="outlined" color="error" onClick={() => removeScheduleEntry(index)}>Delete</Button>
-                        </Grid>
+                    ) : (
+                        <Stack direction="row" spacing={2}>
+                            <Button variant="contained" color="success" onClick={showImage}>Show Image</Button>
+                            <Button variant="outlined" color="error" onClick={deleteImage}>Delete Image</Button>
+                        </Stack>
                     )}
                 </Grid>
-            </Paper>
-        ))}
-        
-        <Grid item xs={12}>
-            <Button
-                variant="outlined"
-                color="primary"
-                onClick={addScheduleEntry}
-                disabled={!schedule[schedule.length - 1].date || !schedule[schedule.length - 1].startTime || !schedule[schedule.length - 1].endTime || !schedule[schedule.length - 1].seats}
-            >
-                Add Schedule Entry
-            </Button>
-        </Grid>
-        
-        <br /> <br />
-        <Accordion expanded={PAccordion} onClick={() => setPAccordion(!PAccordion)}>
-            <AccordionSummary
-                expandIcon={<IconButton><FcExpand /></IconButton>}
-                aria-controls="ProspectInformation"
-                id="ProspectInformation"
-            >
-                <Typography>Additional Optional Information</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            label="Full Description"
-                            value={fullDescription}
-                            inputProps={{ maxLength: "4000" }}
-                            onChange={(e) => setFullDescription(e.target.value)}
-                            placeholder="Write the Long Description about the MockTest"
-                            fullWidth
-                            multiline
-                            rows={4}
-                            variant="outlined"
-                        />
-                    </Grid>
+                <Grid item xs={12} md={12}>
+                    <TextField
+                        fullWidth
+                        label="Short Description"
+                        value={shortDescription}
+                        onChange={(e) => setShortDescription(e.target.value)}
+                        inputProps={{ minLength: "2", maxLength: "100" }}
+                        placeholder='Short Description'
+                        variant="standard"
+                    />
                 </Grid>
-            </AccordionDetails>
-        </Accordion>
-        <MySnackbar ref={snackRef} />
-    </main>
-);
+                <Grid item xs={12} md={3}>
+                    <Autocomplete
+                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                        options={allClass}
+                        value={testClass}
+                        onChange={(e, v) => setTestClass(v)}
+                        renderOption={(props, option) => (
+                            <li {...props} key={option.id}>{option.label}</li>
+                        )}
+                        renderInput={(params) => <TextField {...params} label="Class" variant="standard" />}
+                    />
+                </Grid>
+                <Grid item xs={12} md={3}>
+                    <Autocomplete
+                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                        options={allTestType}
+                        value={testType}
+                        onChange={(e, v) => setTestType(v)}
+                        renderOption={(props, option) => (
+                            <li {...props} key={option.id}>{option.label}</li>
+                        )}
+                        renderInput={(params) => <TextField {...params} label="Test Type" variant="standard" />}
+                    />
+                </Grid>
+                <Grid item xs={12} md={3}>
+                    <Autocomplete
+                        isOptionEqualToValue={(option, value) => option?.id === value?.id}
+                        options={allDuration}
+                        value={duration}
+                        onChange={(e, v) => setDuration(v)}
+                        renderOption={(props, option) => (
+                            <li {...props} key={option.id}>{option.label}</li>
+                        )}
+                        renderInput={(params) => <TextField {...params} label="Duration" variant="standard" />}
+                    />
+                </Grid>
+            </Grid>
+            <div style={{ margin: '45px' }}></div>
+
+            {batch.map((entry, index) => (
+                <Paper variant="outlined" style={{ padding: '15px', marginBottom: '10px', borderRadius: '10px' }} key={index}>
+                    <Typography variant="subtitle1" style={{ marginBottom: '10px' }}>Batch {index + 1}</Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} md={3}>
+                            <TextField
+                                label="Date"
+                                type="date"
+                                value={entry.date}
+                                onChange={(e) => handleBatchChange(index, 'date', e.target.value)}
+                                fullWidth
+                                variant="standard"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                            <TextField
+                                label="Start Time"
+                                type="time"
+                                value={entry.startTime}
+                                onChange={(e) => handleBatchChange(index, 'startTime', e.target.value)}
+                                fullWidth
+                                variant="standard"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                            <TextField
+                                label="End Time"
+                                type="time"
+                                value={entry.endTime}
+                                onChange={(e) => handleBatchChange(index, 'endTime', e.target.value)}
+                                fullWidth
+                                variant="standard"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                            <TextField
+                                label="Total Seats"
+                                type="number"
+                                value={entry.totalSeat}
+                                onChange={(e) => handleBatchChange(index, 'totalSeat', e.target.value)}
+                                fullWidth
+                                variant="standard"
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={2}>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={entry.filled}
+                                        onChange={(e) => handleBatchChange(index, 'filled', e.target.checked)}
+                                    />
+                                }
+                                label="Filled"
+                            />
+                        </Grid>
+                        {batch.length > 1 && (
+                            <Grid item xs={12} md={1}>
+                                <Button variant="outlined" color="error" onClick={() => removeBatchEntry(index)}>Delete</Button>
+                            </Grid>
+                        )}
+                    </Grid>
+                </Paper>
+            ))}
+
+            <Grid item xs={12}>
+                <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={addBatchEntry}
+                    disabled={!batch[batch.length - 1].date || !batch[batch.length - 1].startTime || !batch[batch.length - 1].endTime || !batch[batch.length - 1].totalSeat}
+                >
+                    Add Batch Entry
+                </Button>
+            </Grid>
+
+            <br /> <br />
+            <Accordion expanded={PAccordion} onClick={() => setPAccordion(!PAccordion)}>
+                <AccordionSummary
+                    expandIcon={<IconButton><FcExpand /></IconButton>}
+                    aria-controls="ProspectInformation"
+                    id="ProspectInformation"
+                >
+                    <Typography>Additional Optional Information</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <TextField
+                                label="Full Description"
+                                value={fullDescription}
+                                inputProps={{ maxLength: "4000" }}
+                                onChange={(e) => setFullDescription(e.target.value)}
+                                placeholder="Write the Long Description about the MockTest"
+                                fullWidth
+                                multiline
+                                rows={4}
+                                variant="outlined"
+                            />
+                        </Grid>
+                    </Grid>
+                </AccordionDetails>
+            </Accordion>
+            <MySnackbar ref={snackRef} />
+        </main>
+    );
 });
 
 export default AddMockEntryArea;
-
-
