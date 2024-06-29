@@ -14,6 +14,8 @@ import { mockTestService, myCourseService } from "../services";
 import Loading from "../Components/Loading/Loading";
 import NoResult from "../Components/NoResult/NoResult";
 import Navbar from "../Components/ITStartup/Common/Navbar/Navbar";
+import MtFilterDialog from "../Components/PublicPage/MockTest/MtFilterDialog";
+import MtFilterComponent from "../Components/PublicPage/MockTest/MtFilterComponent";
 
 function Events() {
 
@@ -51,11 +53,11 @@ function Events() {
         <Grid container spacing={3}>
         {fullScreen? (
        
-        <FilterDialog  />
+        <MtFilterDialog  />
 
       ):(
         <Grid item xs={2}>
-        <FilterComponent />
+        <MtFilterComponent />
       </Grid>
       )}
           <Grid item xs={fullScreen ? 12 : 10}>

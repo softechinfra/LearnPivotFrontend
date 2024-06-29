@@ -1,7 +1,7 @@
 import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import React, { useState } from 'react';
 
-const FilterComponent = () => {
+const MtFilterComponent = () => {
   const [filterData, setFilterData] = useState([
     {
       title: "Class",
@@ -47,4 +47,4 @@ const FilterComponent = () => {
   );
 };
 
-export default FilterComponent;
+export default MtFilterComponent;

@@ -8,14 +8,14 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import FilterComponent from './FilterComponent';
+import FilterComponent from './MtFilterComponent';
 import { DialogActions, DialogContent } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FilterDialog() {
+export default function MtFilterDialog() {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

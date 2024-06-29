@@ -34,7 +34,7 @@ const OneMockTest = ({ data }) => {
             fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
           }}
         >
-          from {data.firstDate} @ {data.startTime} to {data.endTime}
+         Test Dates: {data.batch.map((b) => b.date).join(", ")}, etc..
         </Typography>
         <Typography
           color="#333"
@@ -69,8 +69,8 @@ const OneMockTest = ({ data }) => {
         </Typography>
         <br />
         <div style={{ display: "flex" }}>
-        <Link href={"/course/buy/" + data._id}>
-        <button className="viewBtn">Quick Buy</button></Link>
+        <Link href={"/mockTest/buy/" + data._id}>
+        <button className="viewBtn">Quick Book</button></Link>
           <span style={{ flexGrow: 0.1 }} />
           
         </div>

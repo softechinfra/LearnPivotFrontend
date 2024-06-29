@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
-import DateSelector from "./DateSelector";
+import DateSelector from "./MtDateSelector";
 const SmallOneMockTest = ({ data,totalAmount, selectedDates,setSelectedDates }) => {
 console.log({ data,totalAmount, selectedDates,setSelectedDates })
   return (
