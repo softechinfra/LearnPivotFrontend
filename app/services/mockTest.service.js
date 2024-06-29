@@ -19,6 +19,16 @@ export class MockTestService {
       })
       .then((res) => res.data);
   };
+
+  publicGetOne = async (id) => {
+    return this.instance
+      .get(`/api/v1/publicMaster/mockTest/getMockTest/publicGetOne/${id}`, {
+        headers: getAuthorizationHeader(),
+      })
+      .then((res) => res.data);
+  };
+
+
   add = async (id, data) => {
     return this.instance
       .post(`/api/v1/publicMaster/mockTest/addMockTest/${id}`, data, {

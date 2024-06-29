@@ -11,7 +11,7 @@ import {
   MenuItem
 } from "@mui/material";
 
-const DateSelector = ({ data,selectedDates,setSelectedDates }) => {
+const MtDateSelector = ({ data,selectedDates,setSelectedDates }) => {
   const [selectedBatches, setSelectedBatches] = useState([]);
   const [startDate, setStartDate] = useState("");
   const [availableDates, setAvailableDates] = useState([]);
@@ -131,4 +131,4 @@ const DateSelector = ({ data,selectedDates,setSelectedDates }) => {
   );
 };
 
-export default DateSelector;
+export default MtDateSelector;

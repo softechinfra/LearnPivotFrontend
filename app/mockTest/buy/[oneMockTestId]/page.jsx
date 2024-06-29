@@ -1,11 +1,11 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import BuyComponent from '../../../Components/PublicPage/BuyForm/BuyComponent';
 import { CircularProgress, Container } from '@mui/material';
 import NoResult from '@/app/Components/NoResult/NoResult';
-import { myCourseService } from "../../../services";
+import { mockTestService } from "../../../services";
 import Footer from '@/app/Components/Footer/Footer';
 import Navbar from "../../../Components/ITStartup/Common/Navbar/Navbar";
+import MtBuyComponent from '@/app/Components/PublicPage/MtBuyForm/MtBuyComponent';
 
 export default function OneClassBuy({ params }) {
   const [loading, setLoading] = useState(true);
@@ -20,7 +20,7 @@ export default function OneClassBuy({ params }) {
       setLoading(true)
       console.log("function got called")
     try{
-      let res = await myCourseService.publicGetOne(`${params.oneMockTestId}`);
+      let res = await mockTestService.publicGetOne(`${params.oneMockTestId}`);
       console.log({res,id:params.oneMockTestId})
     
       if (res.variant === "success") {
@@ -53,7 +53,7 @@ export default function OneClassBuy({ params }) {
                   <CircularProgress size={30} />{" "}
                 </div>
               ) : loading === false && data? (
-                <BuyComponent data ={data} />                
+                <MtBuyComponent data ={data} />                
               ) : <NoResult label="No Result Available" />}
     
     </Container>

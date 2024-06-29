@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
-import DateSelector from "./MtDateSelector";
+import MtDateSelector from "./MtDateSelector";
 const SmallOneMockTest = ({ data,totalAmount, selectedDates,setSelectedDates }) => {
 console.log({ data,totalAmount, selectedDates,setSelectedDates })
   return (
@@ -79,7 +79,11 @@ console.log({ data,totalAmount, selectedDates,setSelectedDates })
            <Typography variant="h4" gutterBottom>
            Proceed to pay Amount: € {totalAmount}
          </Typography>
-       ): ( <DateSelector data={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>)}
+       ): ( 
+        <>
+        </>
+      //  <MtDateSelector data={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
+       )}
       </Grid>
     </Grid>
   );
