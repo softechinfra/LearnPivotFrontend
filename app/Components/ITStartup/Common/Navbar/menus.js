@@ -25,7 +25,7 @@ export const menus = [
     },
      {
       label: "Mock Test",
-      link: "/mocktest/",
+      link: "/mockTest/",
     },
      {
       label: "Contact",

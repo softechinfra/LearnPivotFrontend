@@ -1,21 +1,21 @@
 "use client";
 import React, { Suspense, useEffect, useState } from "react";
-import "./mockTest.css";
+import "./classes.css";
 import { Container, Typography, Grid, Breadcrumbs, Divider, Tabs, Tab, TablePagination, CircularProgress } from "@mui/material";
 import Footer from "../Components/Footer/Footer";
 import { useRouter } from "next/navigation";
 import Enquiry from "@/app/Components/Enquiry/Enquiry";
+import OneMockTest from "../Components/PublicPage/MockTest/OneMockTest";
+import FilterComponent from "../Components/PublicPage/Classes/FilterComponent"; 
+import FilterDialog from "../Components/PublicPage/Classes/FilterDialog"; 
 import { Dialog, useMediaQuery, useTheme, Button, DialogActions, DialogContent } from "@mui/material";
 import Slide from '@mui/material/Slide';
 import { mockTestService, myCourseService } from "../services";
 import Loading from "../Components/Loading/Loading";
 import NoResult from "../Components/NoResult/NoResult";
-import MtFilterComponent from "../Components/PublicPage/MockTest/MtFilterComponent"
-import MtFilterDialog from "../Components/PublicPage/MockTest/MtFilterDialog"
-import OneMockTest from "../Components/PublicPage/MockTest/OneMockTest"
 import Navbar from "../Components/ITStartup/Common/Navbar/Navbar";
 
-function MockTest() {
+function Events() {
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -46,24 +46,25 @@ function MockTest() {
   return (
     <main style={{ backgroundColor: "#fff" }}>
       <Navbar />
-
-      <br />
     
-      <Container>
+      <Container style={{ marginTop:"100px" }}>
         <Grid container spacing={3}>
         {fullScreen? (
        
-        <MtFilterDialog />
-     
+        <FilterDialog  />
+
       ):(
         <Grid item xs={2}>
-        <MtFilterComponent />
+        <FilterComponent />
       </Grid>
       )}
           <Grid item xs={fullScreen ? 12 : 10}>
-
+      
+        {/* <Typography style={{marginBottom:"10px"}} variant="h3" component="h5" color="#000945">
+        Mock Test
+</Typography> */}
         {loading ? 
-        <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading Courses...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> :  
+        <div className="center" style={{flexDirection:"column"}}><CircularProgress size={30}/> <Typography color="slateblue" style={{fontFamily: 'Courgette'}} variant='h6' align='center'>Loading Classes...</Typography>  </div> : rows.length === 0 ? <NoResult label="No MyClass Available"/> :  
             rows &&
               rows.map((p, j) => (
                 <OneMockTest data={p} key={p._id} />
@@ -85,10 +86,9 @@ function MockTest() {
                 }}
               />
       </Container>
-      <Enquiry />
       <Footer />
     </main>
   );
 }
 
-export default MockTest;
+export default Events;

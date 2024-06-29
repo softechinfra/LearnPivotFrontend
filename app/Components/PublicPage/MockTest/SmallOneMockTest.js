@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
-import Link from "next/link";
-const OneMockTest = ({ data }) => {
-
+import DateSelector from "./DateSelector";
+const SmallOneMockTest = ({ data,totalAmount, selectedDates,setSelectedDates }) => {
+console.log({ data,totalAmount, selectedDates,setSelectedDates })
   return (
     <Grid container key={data._id} spacing={4}>
       <Grid item xs={12} md={4}>
         <img
           src={data.url}
           className="creativeImg"
-          alt={data.mockTestTitle}
+          alt={data.courseTitle}
+          style={{ width: '100%', height: '100%' }} 
         />
       </Grid>
       <Grid item xs={12} md={8}>
@@ -23,19 +24,19 @@ const OneMockTest = ({ data }) => {
             fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
           }}
         >
-         {data.mockTestTitle}
+         {data.courseTitle}
         </Typography>
         <Typography
-          color="#082952"
-          gutterBottom
-          sx={{
-            fontSize: { xs: "12px", md: "15px" },
-            fontWeight: 200,
-            fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
-          }}
-        >
-          from {data.firstDate} @ {data.startTime} to {data.endTime}
-        </Typography>
+  color="#082952"
+  gutterBottom
+  sx={{
+    fontSize: { xs: "12px", md: "15px" },
+    fontWeight: 200,
+    fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
+  }}
+>
+  Selected Date: {selectedDates.join(", ")}
+</Typography>
         <Typography
           color="#333"
           sx={{
@@ -44,17 +45,16 @@ const OneMockTest = ({ data }) => {
             fontSize: { xs: "11px", md: "14px" },
             lineHeight: "1.8rem",
           }}
-        >
-        {data.shortDescription}
+        >      
           <div style={{ display: "flex", marginTop: "10px" }}>
           <Chip
-                label={`Class: ${data.testClass?.label}`}
+                label={`Class: ${data.courseClass?.label}`}
                 color="primary"
                 variant="contained"
                 sx={{ marginRight: "8px" }}
               />
                 <Chip
-                label={`Type: ${data.testType?.label}`}
+                label={`Type: ${data.courseType?.label}`}
                 color="primary"
                 variant="contained"
                 sx={{ marginRight: "8px" }}
@@ -68,18 +68,21 @@ const OneMockTest = ({ data }) => {
           </div>
         </Typography>
         <br />
-        <div style={{ display: "flex" }}>
-        <Link href={"/course/buy/" + data._id}>
-        <button className="viewBtn">Quick Buy</button></Link>
-          <span style={{ flexGrow: 0.1 }} />
-          
-        </div>
+       
+      </Grid>
+     
+      <Grid item xs={12}>
+        <Divider sx={{ marginTop: "-20px", marginBottom:"5px" }} />
       </Grid>
       <Grid item xs={12}>
-        <Divider sx={{ marginTop: "-20px", marginBottom:"15px" }} />
+       {totalAmount? (
+           <Typography variant="h4" gutterBottom>
+           Proceed to pay Amount: € {totalAmount}
+         </Typography>
+       ): ( <DateSelector data={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>)}
       </Grid>
     </Grid>
   );
 };
 
-export default OneMockTest;
+export default SmallOneMockTest;

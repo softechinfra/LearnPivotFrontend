@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import FilterComponent from './MtFilterComponent';
+import FilterComponent from './FilterComponent';
 import { DialogActions, DialogContent } from '@mui/material';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
