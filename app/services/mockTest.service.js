@@ -23,7 +23,6 @@ export class MockTestService {
   publicGetOne = async (id) => {
     return this.instance
       .get(`/api/v1/publicMaster/mockTest/getMockTest/publicGetOne/${id}`, {
-        headers: getAuthorizationHeader(),
       })
       .then((res) => res.data);
   };
