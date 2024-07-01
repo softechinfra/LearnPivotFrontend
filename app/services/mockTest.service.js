@@ -27,6 +27,21 @@ export class MockTestService {
       .then((res) => res.data);
   };
 
+  buyMockStepOne = async (data) => {
+    return this.instance
+      .post(`/api/v1/publicMaster/buyCourse/addBuyCourse`, data)
+      .then((res) => res.data);
+  };
+  publicVerifyOnePayment = async (id ) => {
+    return this.instance
+      .get(`/api/v1/publicMaster/buyCourse/addBuyCourse/verifyPayment/${id}`, {        
+      })
+      .then((res) => res.data);
+  };
+
+
+
+
 
   add = async (id, data) => {
     return this.instance

@@ -4,7 +4,7 @@ import { Container, Grid, Typography, TextField, RadioGroup, FormControlLabel, R
 import { FcFeedback, FcApproval } from "react-icons/fc";
 import StripePay from "../../stripePay/StripePay";
 import MySnackbar from "../../MySnackbar/MySnackbar";
-import { myCourseService } from "@/app/services";
+import { mockTestService } from "@/app/services";
 import SmallOneMockTest from "../MockTest/SmallOneMockTest";
 import { set } from "mongoose";
 
@@ -31,7 +31,7 @@ const MtBuyComponent = ({data}) => {
 const handleEnquiry = async (e) => {
   e.preventDefault();
   const buyData = {
-    courseId: data._id,
+    mockTestId: data._id,
     selectedBatch,
     enquiryFor,
     firstName,
@@ -44,7 +44,7 @@ const handleEnquiry = async (e) => {
   };
 
   try {
-    let response = await myCourseService.buyStepOne(buyData);
+    let response = await mockTestService.buyMockStepOne(buyData);
     console.log('Buy data:', buyData);
     console.log('Response:', response);
 
