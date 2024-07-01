@@ -58,7 +58,7 @@ export default function MockCheckoutForm({buyMockId}) {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `http://localhost:3000/payment/verify/${buyMockId}`,
+        return_url: `http://localhost:3000/payment/verifyMock/${buyMockId}`,
       },
     });
 

@@ -32,7 +32,7 @@ export class MockTestService {
       .post(`/api/v1/publicMaster/buyMockTest/addBuyMock`, data)
       .then((res) => res.data);
   };
-  publicVerifyOnePayment = async (id ) => {
+  publicVerifyOneMockPayment = async (id ) => {
     return this.instance
       .get(`/api/v1/publicMaster/buyMockTest/addBuyMock/verifyPayment/${id}`, {        
       })
