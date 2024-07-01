@@ -6,6 +6,7 @@ import StripePay from "../../stripePay/StripePay";
 import MySnackbar from "../../MySnackbar/MySnackbar";
 import { myCourseService } from "@/app/services";
 import SmallOneMockTest from "../MockTest/SmallOneMockTest";
+import { set } from "mongoose";
 
 const MtBuyComponent = ({data}) => {
   const snackRef = useRef();
@@ -21,7 +22,7 @@ const MtBuyComponent = ({data}) => {
   const [marketing, setMarketing] = useState("");
   const [message, setMsg] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [selectedDates, setSelectedDates] = useState([]);
+  const [selectedBatch, setSelectedBatch] = useState([]);
   const [submittedId, setSubmittedId] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
  
@@ -31,7 +32,7 @@ const handleEnquiry = async (e) => {
   e.preventDefault();
   const buyData = {
     courseId: data._id,
-    selectedDates,
+    selectedBatch,
     enquiryFor,
     firstName,
     lastName,
@@ -62,6 +63,7 @@ const handleEnquiry = async (e) => {
 };
 
 
+
   const allMarketing = [
     "Web Search / Google", 
     "Friend or colleague Recommendation", 
@@ -73,13 +75,13 @@ const handleEnquiry = async (e) => {
   ];
 
   return (
-    <section style={{ backgroundColor: "#fff", marginBottom: "10px" }} id="enquiry">
-      <Container maxWidth="xl">
+    <section style={{ backgroundColor: "#fff", marginBottom: "10px", marginTop:"20px"  }} id="enquiry">
+      <Container maxWidth="xl" style={{ marginTop:"40px"  }}>
         <Grid container>
-          <Grid item xs={12} lg={6}>
-            <SmallOneMockTest data={data} totalAmount={totalAmount} selectedDates={selectedDates} setSelectedDates={setSelectedDates} />
+          <Grid style={{  paddingRight:"20px"}} item xs={12} lg={6}>
+            <SmallOneMockTest data={data} totalAmount={totalAmount} selectedBatch={selectedBatch} setSelectedBatch={setSelectedBatch} />
           </Grid>
-          <Grid item xs={12} lg={6}>
+          <Grid  item xs={12} lg={6}>
             {submitted ? (
               <StripePay submittedId={submittedId} />
             ) : (

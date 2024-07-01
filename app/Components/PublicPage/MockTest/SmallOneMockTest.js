@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { Divider, Grid, Typography, Chip, Button } from "@mui/material";
-import MtDateSelector from "./MtDateSelector";
-const SmallOneMockTest = ({ data,totalAmount, selectedDates,setSelectedDates }) => {
-console.log({ data,totalAmount, selectedDates,setSelectedDates })
+import MtBatchSelector from "./MtBatchSelector";
+const SmallOneMockTest = ({ data,totalAmount, selectedBatch,setSelectedBatch }) => {
+console.log({ data,totalAmount, selectedBatch,setSelectedBatch })
   return (
     <Grid container key={data._id} spacing={4}>
       <Grid item xs={12} md={4}>
         <img
           src={data.url}
           className="creativeImg"
-          alt={data.courseTitle}
+          alt={data.mockTestTitle}
           style={{ width: '100%', height: '100%' }} 
         />
       </Grid>
@@ -24,7 +24,7 @@ console.log({ data,totalAmount, selectedDates,setSelectedDates })
             fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
           }}
         >
-         {data.courseTitle}
+         {data.mockTestTitle}
         </Typography>
         <Typography
   color="#082952"
@@ -35,7 +35,9 @@ console.log({ data,totalAmount, selectedDates,setSelectedDates })
     fontFamily: "Adequate, Helvetica Neue, Helvetica, sans-serif",
   }}
 >
-  Selected Date: {selectedDates.join(", ")}
+  Selected Batch: {selectedBatch
+    .map((batch) => `${batch.date} (${batch.startTime} - ${batch.endTime})`)
+    .join(", ")}
 </Typography>
         <Typography
           color="#333"
@@ -48,13 +50,13 @@ console.log({ data,totalAmount, selectedDates,setSelectedDates })
         >      
           <div style={{ display: "flex", marginTop: "10px" }}>
           <Chip
-                label={`Class: ${data.courseClass?.label}`}
+                label={`Class: ${data.testClass?.label}`}
                 color="primary"
                 variant="contained"
                 sx={{ marginRight: "8px" }}
               />
                 <Chip
-                label={`Type: ${data.courseType?.label}`}
+                label={`Type: ${data.testType?.label}`}
                 color="primary"
                 variant="contained"
                 sx={{ marginRight: "8px" }}
@@ -81,8 +83,9 @@ console.log({ data,totalAmount, selectedDates,setSelectedDates })
          </Typography>
        ): ( 
         <>
+       <MtBatchSelector data={data} selectedBatch={selectedBatch} setSelectedBatch={setSelectedBatch}/>
+
         </>
-      //  <MtDateSelector data={data} selectedDates={selectedDates} setSelectedDates={setSelectedDates}/>
        )}
       </Grid>
     </Grid>

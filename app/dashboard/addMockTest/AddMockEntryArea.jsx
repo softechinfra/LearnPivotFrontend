@@ -24,7 +24,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     const [totalSeat, setTotalSeat] = useState("");
     const [url, setUrl] = useState("");
     const [loadingDoc, setLoadingDoc] = useState(false);
-    const [batch, setBatch] = useState([{ date: todayDate(), startTime: "", endTime: "", totalSeat: 100, filled: false }]);
+    const [batch, setBatch] = useState([{ date: todayDate(), startTime: "", endTime: "", totalSeat: 100,oneBatchprice:40, filled: false }]);
     const [PAccordion, setPAccordion] = useState(false);
 
     const allClass = [{ label: "4", id: "4" }, { label: "5", id: "5" }];
@@ -99,7 +99,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
         setFullDescription("");
         setTotalSeat("");
         setUrl("");
-        setBatch([{ date: todayDate(), startTime: "", endTime: "", totalSeat: 0, filled: false }]);
+        setBatch([{ date: todayDate(), startTime: "", endTime: "", totalSeat: 0,oneBatchprice:0, filled: false }]);
         setPAccordion(true);
     };
 
@@ -170,7 +170,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
     };
     
     const addBatchEntry = () => {
-        setBatch([...batch, { date: todayDate(), startTime: "", endTime: "", totalSeat: 0, filled: false }]);
+        setBatch([...batch, { date: todayDate(), startTime: "", endTime: "", totalSeat: 0,oneBatchprice:0, filled: false }]);
     };
     
     const removeBatchEntry = (index) => {
@@ -295,7 +295,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                                 InputLabelProps={{ shrink: true }}
                             />
                         </Grid>
-                        <Grid item xs={12} md={2}>
+                        <Grid item xs={6} md={2}>
                             <TextField
                                 label="Start Time"
                                 type="time"
@@ -306,7 +306,7 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                                 InputLabelProps={{ shrink: true }}
                             />
                         </Grid>
-                        <Grid item xs={12} md={2}>
+                        <Grid item xs={6} md={2}>
                             <TextField
                                 label="End Time"
                                 type="time"
@@ -317,12 +317,22 @@ const AddMockEntryArea = forwardRef((props, ref) => {
                                 InputLabelProps={{ shrink: true }}
                             />
                         </Grid>
-                        <Grid item xs={12} md={2}>
+                        <Grid item xs={6} md={1}>
                             <TextField
                                 label="Total Seats"
                                 type="number"
                                 value={entry.totalSeat}
                                 onChange={(e) => handleBatchChange(index, 'totalSeat', e.target.value)}
+                                fullWidth
+                                variant="standard"
+                            />
+                        </Grid>
+                        <Grid item xs={6} md={2}>
+                            <TextField
+                                label="One Batch Price"
+                                type="number"
+                                value={entry.oneBatchprice}
+                                onChange={(e) => handleBatchChange(index, 'oneBatchprice', e.target.value)}
                                 fullWidth
                                 variant="standard"
                             />
