@@ -2,11 +2,12 @@
 import { useEffect, useState, useRef } from "react";
 import { Container, Grid, Typography, TextField, RadioGroup, FormControlLabel, Radio, MenuItem, Fab, Alert, FormControl, InputLabel, Select } from '@mui/material/';
 import { FcFeedback, FcApproval } from "react-icons/fc";
-import StripePay from "../../stripePay/StripePay";
+import StripePay from "../../courseStripePay/StripePay";
 import MySnackbar from "../../MySnackbar/MySnackbar";
 import { mockTestService } from "@/app/services";
 import SmallOneMockTest from "../MockTest/SmallOneMockTest";
 import { set } from "mongoose";
+import MockStripePay from "../../mockStripePay/MockStripePay";
 
 const MtBuyComponent = ({data}) => {
   const snackRef = useRef();
@@ -28,7 +29,7 @@ const MtBuyComponent = ({data}) => {
  
 // myCourse.service.js
 
-const handleEnquiry = async (e) => {
+const handleMoEnquiry = async (e) => {
   e.preventDefault();
   const buyData = {
     mockTestId: data._id,
@@ -45,7 +46,7 @@ const handleEnquiry = async (e) => {
 
   try {
     let response = await mockTestService.buyMockStepOne(buyData);
-    console.log('Buy data:', buyData);
+    console.log('Buy mo data:', buyData);
     console.log('Response:', response);
 
     if (response.variant === "success") {
@@ -83,9 +84,9 @@ const handleEnquiry = async (e) => {
           </Grid>
           <Grid  item xs={12} lg={6}>
             {submitted ? (
-              <StripePay submittedId={submittedId} />
+              <MockStripePay submittedId={submittedId} />
             ) : (
-              <form onSubmit={handleEnquiry} id="enquiryForm" style={{ marginLeft: "40px" }}>
+              <form onSubmit={handleMoEnquiry} id="enquiryForm" style={{ marginLeft: "40px" }}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} md={6}>
                     <TextField fullWidth value={firstName} required onChange={e => setFName(e.target.value)} label="First Name" placeholder="First Name..." variant="outlined" />

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { Container, Grid, Typography, TextField, RadioGroup, FormControlLabel, Radio, MenuItem, Fab, Alert, FormControl, InputLabel, Select } from '@mui/material/';
 import { FcFeedback, FcApproval } from "react-icons/fc";
 import SmallOneClass from "../Classes/SmallOneClass";
-import StripePay from "../../stripePay/StripePay";
+import StripePay from "../../courseStripePay/StripePay";
 import MySnackbar from "../../MySnackbar/MySnackbar";
 import { myCourseService } from "@/app/services";
 

@@ -29,15 +29,29 @@ export class MockTestService {
 
   buyMockStepOne = async (data) => {
     return this.instance
-      .post(`/api/v1/publicMaster/buyCourse/addBuyCourse`, data)
+      .post(`/api/v1/publicMaster/buyMockTest/addBuyMock`, data)
       .then((res) => res.data);
   };
   publicVerifyOnePayment = async (id ) => {
     return this.instance
-      .get(`/api/v1/publicMaster/buyCourse/addBuyCourse/verifyPayment/${id}`, {        
+      .get(`/api/v1/publicMaster/buyMockTest/addBuyMock/verifyPayment/${id}`, {        
       })
       .then((res) => res.data);
   };
+  getPaymentIntentApi = async ( data) => {
+    return this.instance
+      .post(`/api/v1/publicMaster/stripePayment/stripePay/forMockTest`, data, {
+        
+      })
+      .then((res) => res.data);
+  };
+
+
+
+
+
+
+
 
 
 
